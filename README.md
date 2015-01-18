@@ -1,10 +1,15 @@
-# Data Visualization
-Elliot Cohen, PhD  
+# Data Visualization 
 Quantitative Methods in the Social Sciences (QMSS)  
 Institute for Social and Economic Research and Policy (ISERP)  
 Columbia University
-
 ****
+## Instructor
+Elliot Cohen, Ph.D.   
+[Earth Institute](http://www.earth.columbia.edu/articles/view/58) | [Sustainable Engineering Lab](http://sel.columbia.edu/about/) | [QMSS](http://qmss.columbia.edu/faculty-and-staff/)  
+**email** elliot.cohen@columbia.edu  
+**phone** 212.854.7993  
+**office** Mudd 134F 
+
 ## Course Description   
 This course offers a rigorous introduction to data visualization from theory to implementation. Drawing on a combination of lectures, readings, discussions and coding, we will translate the timeless concepts of Minard, Playfair, Tufte and Wilkinson to new and diverse fields of study. Students will receive a coding crash-course in R, JavaScript, CSS, HTML and D3. The goal is not to become computer scientists, but to build the requisite foundation for modern implementation of exploratory and explanatory data visualizations. Students will have the opportunity to work in small teams to create interactive data visualizations worthy of their portfolios. The final deliverable will be a research-driven data visualization with accompanying prose in the form of a conference paper submission. A working knowledge of R from at least one previous class is highly recommended.  
 
@@ -14,7 +19,7 @@ This course offers a rigorous introduction to data visualization from theory to 
 * Edward R. Tufte. 2001. [The visual display of quantitative 	information.](http://www.amazon.com/The-Visual-Display-Quantitative-Information/dp/0961392142) Cheshire, Conn.: Graphics Press, c2001.
 * Leland Wilkinson. 2005. [The grammar of graphics](http://link.springer.com/book/10.1007/0-387-28695-0). New York: 	Springer, 2005.
 * Hadley Wickham. 2009. [ggplot2: elegant graphics for data analysis](http://www.bioinformaticslaboratory.nl/twikidata/pub/Education/ComputinginR/ggplot2-book.pdf)
-* Norman Matloff. 2011. [The art of R programming tour of statistical 	software design.](http://www.amazon.com/The-Art-Programming-Statistical-Software/dp/1593273843/ref=pd_sim_b_2?ie=UTF8&refRID=1T2KB926VAHCZJPH02K0) San Francisco : No Starch Press, c2011.
+* Norman Matloff. 2011. [The art of R programming](http://www.amazon.com/The-Art-Programming-Statistical-Software/dp/1593273843/ref=pd_sim_b_2?ie=UTF8&refRID=1T2KB926VAHCZJPH02K0). San Francisco : No Starch Press, c2011.
 * Scott Murray. 2013. [Interactive data visualization for the web.](http://www.amazon.com/gp/product/1449339735/ref=ox_sc_act_title_4?ie=UTF8&psc=1&smid=AUSV0VS9I8UVB) 	Sebastopol, CA: O'Reilly Media, 2013.
 
 ## Learning Objectives
