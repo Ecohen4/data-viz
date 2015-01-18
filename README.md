@@ -1,16 +1,30 @@
-# Data Visualization 
-Quantitative Methods in the Social Sciences (QMSS)  
-Institute for Social and Economic Research and Policy (ISERP)  
-Columbia University
+# Data Visualization
+	Spring 2015 | QMSS G4063 | MW 1:10pm-2:25pm | 424 Pupin Laboratories  
+	Quantitative Methods in the Social Sciences (QMSS)  
+	Graduate School of Arts and Sciences (GSAS) 
+	Columbia University
 
 ## Instructor
-Elliot Cohen, PhD | [Earth Institute](http://www.earth.columbia.edu/articles/view/58) | [Sustainable Engineering Lab](http://sel.columbia.edu/about/) | [QMSS](http://qmss.columbia.edu/faculty-and-staff/)  
-email: elliot.cohen@columbia.edu  
-phone: 212.854.7993  
-office: Mudd 134F
+Elliot Cohen, Ph.D.  
+[QMSS](http://qmss.columbia.edu/faculty-and-staff/) | [Earth Institute](http://www.earth.columbia.edu/articles/view/58) | [Sustainable Engineering Lab](http://sel.columbia.edu/about/)  
+elliot.cohen@columbia.edu | 212.854.7993 | Mudd 134F
 
 ## Course Description   
 This course offers a rigorous introduction to data visualization from theory to implementation. Drawing on a combination of lectures, readings, discussions and coding, we will translate the timeless concepts of Minard, Playfair, Tufte and Wilkinson to new and diverse fields of study. Students will receive a coding crash-course in R, JavaScript, CSS, HTML and D3. The goal is not to become computer scientists, but to build the requisite foundation for modern implementation of exploratory and explanatory data visualizations. Students will have the opportunity to work in small teams to create interactive data visualizations worthy of their portfolios. The final deliverable will be a research-driven data visualization with accompanying prose in the form of a conference paper submission. A working knowledge of R from at least one previous class is highly recommended.  
+
+## Deliverables
+- **Quizzes (30%)** 
+Quizzes are essential for assessing student learning and pedagogical efficacy. There will be 4 quizzes in total; students may pick their best three to count towards their final grade.
+- **Homework (30%)**
+Students will complete at least three assignments and submit them to the course repository as pull requests. All submissions must follow a "*Year-Month-Day-YourName-AssignmentName.FileExtension*" naming convention. Assignments will serve as progress indicators on key concepts, methods and techniques.
+- **Semester Project (30%)**
+Students will have the opportunity to work in small teams to create data visualizations worthy of their portfolios. The final deliverable will be a well-articulated, research-driven data visualization and accompanying prose in the form of a conference paper submission. Students will have considerable leeway in choosing a project topic and finding an appropriate conference or forum for submission.
+- **Class Participation (10%)**
+	- Attendance
+	- Being awake, attentive and respectful
+	- Being helpful to peers and the class as a whole
+	- Contributing to group work and peer code reviews
+
 
 ## Required Reading
 
@@ -26,8 +40,12 @@ This course offers a rigorous introduction to data visualization from theory to 
 
 * [Tufte's Rules](http://www.sealthreinhold.com/tuftes-rules/rule_four.php). Above all else, show the data.
 * Grammar of Graphics. Wilkinson's theory and Wickham's implementation.
+* Meet your computer
+	* command line
+	* text editors
+	* file paths 
 * Working with data in `R` 
-	* Basic training	
+	* [Basic training](http://ecohen4.github.io/data-viz/r/R-tutorial.html)	
 	* Data analysis with `plyr`
 	* Data visualization with `ggplot`
 	* Scripting, debugging and writing functions
@@ -36,8 +54,8 @@ This course offers a rigorous introduction to data visualization from theory to 
 	* `HTML`, `CSS`, `JavaScript`
 	* Interactive visualization with `D3` 
 * Version control and collaboration with `github`
-	* [Github Help](https://help.github.com/articles/set-up-git/)
 	* [Don't get scared, get started!](http://readwrite.com/2013/09/30/understanding-github-a-journey-for-beginners-part-1)
+	* [Github Help](https://help.github.com/articles/set-up-git/)
 	* [Git intro for readers](http://skli.se/2012/09/22/introduction-to-git/)
 	- [Git intro for visual and auditory learners](https://www.youtube.com/watch?v=LXoWxrTdXkM)
 	- [Git workflow for beginners](http://skli.se/2012/10/07/git-workflow-beginner/)
@@ -45,10 +63,9 @@ This course offers a rigorous introduction to data visualization from theory to 
 	- [Sharing and Collaborating](https://www.youtube.com/watch?v=ifAEho6BmH0&list=PLg7s6cbtAD17uAwaZwiykDci_q3te3CTY)
 
 
-## Get Started!
+## Get Started Now!
 * Install [R](http://www.r-project.org/) and [RStudio](http://www.rstudio.com/products/rstudio/download/)
 * Read about [RMarkdown](http://rmarkdown.rstudio.com/)
-* Compute 2+2
 * Install [git](http://git-scm.com/download)
 * Create a [github](https://github.com/) account if you don't already have one
 * Fork the class repo. Your assignments will be submitted as pull requests! 
@@ -57,3 +74,26 @@ This course offers a rigorous introduction to data visualization from theory to 
     	cd data-viz
     	git remote add upstream https://github.com/ecohen4/data-viz.git
 
+## Submit Assignments 
+Your assignments will be submitted as pull requests to the class repository on github! Suppose you saved changes on your own `gh-pages` branch and would like to submit a ‘clean’ pull request with only your files and the commits you want. This is pretty easy.
+
+### Option 1: Basic way with file checkouts (losing history):
+	git checkout upstream/gh-pages #you will be on a ‘detached HEAD’  
+	git checkout -b hw1 #checkout a new branch called 'hw1'  
+	git checkout <branch> <folder/filename> #pluck a folder/file from another branch but stay on the current branch (in this case 'hw1').  
+	git add <folder/filename>
+	git commit -m "add only the right files on new clean branch"
+	git push -u hw1 #push commits to a new branch called hw1.
+
+Your new `hw1` branch now has a copy of the folder/file(s) your plucked from elsewhere. Your working tree is still on the 'hw1' branch and you can continue to work on the files and commit+push further changes as frequently as you like.
+
+### Option 2: Advanced way with Rebase (history re-written)
+ 
+Rebasing rewrites history of a branch, in a really clever way. Each commit becomes a new commit, on top of a new beginning point. This is probably the most common way of making a clean pull request.
+	
+	git checkout gh-pages
+	git checkout -b hw1
+	git fetch upstream
+	git rebase -i origin/gh-pages
+	
+At this point you’re given a list, where you can pick, squash, or remove commits from your branch. Remember, a branch is just a collection of commits. If, for example, you only want to include the last few commits, simply delete all the others and allow rebase to continue. You should now have a branch that contains only the commits you want.
