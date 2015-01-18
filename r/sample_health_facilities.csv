@@ -1,0 +1,51 @@
+"lga","lga_id","state","zone","c_section_yn","num_nurses_fulltime","gps","num_lab_techs_fulltime","management","num_doctors_fulltime"
+"Barkin-Ladi",91,"Plateau","North-Central",FALSE,0,"9.57723376 8.98908176 1285.699951171875 5.0",1,"public",0
+"Anaocha",49,"Anambra","Southeast",FALSE,2,"6.07903635 7.00366347 276.1000061035156 5.0",NA,"public",NA
+"Batsari",96,"Katsina","Northwest",FALSE,1,"12.91273864 7.31050997 472.3999938964844 5.0",1,"public",0
+"Orlu",611,"Imo","Southeast",FALSE,0,"5.768364071846008 7.061988115310669 241.0 4.0",0,"public",0
+"Guma",258,"Benue","North-Central",FALSE,0,"7.71806025 8.74342196 147.89999389648438 5.0",0,"public",0
+"Ayamelum",76,"Anambra","Southeast",FALSE,0,"6.481826305389404 6.938955187797546 78.0 6.0",1,"public",1
+"Gamawa",232,"Bauchi","Northeast",FALSE,0,"12.27000784 10.52387339 382.6000061035156 5.0",0,"public",0
+"Kosofe",441,"Lagos","Southwest",TRUE,1,"6.60113991 3.41806628 35.29999923706055 5.0",0,NA,1
+"Bekwara",101,"Cross River","South-South",FALSE,3,"6.6513848304748535 8.869051337242126 151.0 4.0",2,"public",0
+"Gurara",261,"Niger","North-Central",FALSE,0,"9.38993463 7.07370386 531.2000122070313 5.0",0,"public",0
+"Ise/Orun",359,"Ekiti","Southwest",FALSE,2,"7.46085228 5.4184795 390.29998779296875 5.0",0,NA,1
+"Qua'an-Pan",647,"Plateau","North-Central",FALSE,NA,"8.94172905 9.20143198 359.29998779296875 5.0",1,"public",NA
+"Rijau",652,"Niger","North-Central",FALSE,0,"11.266361474990845 4.951384663581848 284.0 4.0",0,"public",0
+"Ofu",561,"Kogi","North-Central",FALSE,1,"7.411426305770874 6.908286809921265 158.0 4.0",1,NA,0
+"Ezinihitte",218,"Imo","Southeast",TRUE,7,"5.49070932 7.28365219 165.3000030517578 5.0",1,NA,0
+"Shagamu",671,"Ogun","Southwest",FALSE,0,"6.69276612 3.49483379 92.4000015258789 5.0",0,"public",0
+"Ihiala",312,"Anambra","Southeast",TRUE,2,"5.88475837 6.89508114 110.30000305175781 5.0",0,NA,1
+"Daura",152,"Katsina","Northwest",FALSE,0,"13.00102093 8.27167124 496.8999938964844 5.0",0,"public",0
+"Ndokwa-West",523,"Delta","South-South",TRUE,8,"5.70480295 6.43165459 34.099998474121094 5.0",1,NA,2
+"Surulere",694,"Lagos","Southwest",TRUE,3,"6.49775137 3.35969109 42.400001525878906 5.0",2,NA,3
+"Maradun",488,"Zamfara","Northwest",FALSE,0,"12.763087749481201 6.25272810459137 364.0 4.0",0,"public",0
+"kaduna South",396,"Kaduna","Northwest",FALSE,5,"10.50716994 7.39845258 633.4000244140625 5.0",0,NA,0
+"Sakaba",664,"Kebbi","Northwest",FALSE,0,"11.24467988 5.46029306 360.20001220703125 5.0",0,"public",0
+"Kusada",452,"Katsina","Northwest",FALSE,0,"12.47016898 7.95337405 572.0 5.0",0,"public",0
+"Aliero",43,"Kebbi","Northwest",FALSE,0,"12.29758604 4.47558756 278.6000061035156 5.0",0,NA,0
+"Shelleng",676,"Adamawa","Northeast",FALSE,2,"9.884562492370605 12.023136019706726 219.0 4.0",NA,"public",1
+"Ekwusigo",191,"Anambra","Southeast",TRUE,0,"5.95802932 6.84972263 148.0 5.0",0,NA,1
+"Umuahia North",728,"Abia","Southeast",TRUE,NA,"5.5224549 7.49361609 175.1999969482422 5.0",41,"public",308
+"Donga",161,"Taraba","Northeast",FALSE,0,"7.71964926 10.04862459 171.5 5.0",2,NA,0
+"Ogoja",569,"Cross River","South-South",FALSE,0,"6.477068066596985 8.580247163772583 66.0 4.0",0,"public",0
+"Ika South",324,"Delta","South-South",FALSE,1,"6.247004270553589 6.134732365608215 178.0 4.0",0,"public",0
+"Ehime-Mbano",183,"Imo","Southeast",FALSE,1,"5.662475824356079 7.232480049133301 164.0 4.0",0,NA,0
+"Damban",142,"Bauchi","Northeast",FALSE,0,"11.62666896 10.71852345 439.8999938964844 8.0",0,"public",0
+"Mushin",516,"Lagos","Southwest",FALSE,0,"6.52714249 3.34915425 43.5 5.0",0,"public",0
+"Odukpani",559,"Cross River","South-South",FALSE,0,"5.494038462638855 7.967378497123718 38.0 4.0",0,NA,0
+"Lau",466,"Taraba","Northeast",TRUE,0,"9.255343079566956 11.618358492851257 200.0 4.0",0,NA,1
+"Madobi",473,"Kano","Northwest",FALSE,0,"11.86611734 8.47710532 457.29998779296875 5.0",0,"public",0
+"Ingawa",349,"Katsina","Northwest",FALSE,0,"12.64289639 8.04767857 534.0999755859375 5.0",0,"public",0
+"Faskari",223,"Katsina","Northwest",FALSE,0,"11.79038088 7.27816887 601.5 5.0",0,"public",0
+"Ogba/Egbema/Ndoni",562,"Rivers","South-South",FALSE,2,"5.36041084 6.67822917 30.399999618530273 5.0",0,NA,2
+"Warri South",746,"Delta","South-South",FALSE,0,"5.5714229 5.70460127 38.400001525878906 5.0",0,"public",0
+"Mani",487,"Katsina","Northwest",FALSE,NA,"12.78637886 8.07116658 546.7999877929688 5.0",2,"public",NA
+"Remo North",651,"Ogun","Southwest",TRUE,0,"6.98168426 3.68639208 123.19999694824219 5.0",1,NA,2
+"Ijebu North",316,"Ogun","Southwest",FALSE,0,"6.97047814 3.81543107 102.19999694824219 5.0",0,"public",0
+"Wushishi",753,"Niger","North-Central",NA,0,"9.621309041976929 5.989190340042114 110.0 3.0",0,"public",0
+"Atakunmosa West",67,"Osun","Southwest",FALSE,0,"7.52274164 4.62185659 407.20001220703125 5.0",0,"public",0
+"Babura",79,"Jigawa","Northwest",FALSE,0,"12.50424354 8.78580438 416.6000061035156 5.0",0,"public",0
+"Uhunmwonde",722,"Edo","South-South",FALSE,0,"6.679955720901489 6.085991263389587 306.0 4.0",0,"public",0
+"Ifelodun",304,"Osun","Southwest",TRUE,6,"7.91940107 4.65994516 421.70001220703125 5.0",1,NA,1
+"Ughelli South",720,"Delta","South-South",FALSE,1,"5.37297057 5.91941726 25.200000762939453 5.0",0,"public",0
