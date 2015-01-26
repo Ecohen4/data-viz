@@ -541,7 +541,7 @@ The Nigerian Government has committed $1.2 billion USD to achieving the United N
 
 Using this rich dataset, we will assess a few key development statistics, previously unknowable.
 
-1. Go to this [link](http://bit.ly/1fj3sjD) to retrieve general metadata for Local Government Areas (LGAs) of Nigeria. LGAs are akin to counties in the U.S.
+1. Go to this [link](https://github.com/Ecohen4/data-viz/blob/master/r/lgas.csv) to retrieve general metadata for Local Government Areas (LGAs) of Nigeria. LGAs are akin to counties in the U.S.
 2. Next, download the full [NMIS dataset](http://nmis.mdgs.gov.ng/download), and grab the [large] .csv file called "Health_Mopup_and_Baseline_NMIS_Facility.csv". This contains every health facility in Nigeria.
 3. Produce a new `data.frame` with the following properties:
     + From the NMIS Health Facilities Inventory, select all facilities located in the Southern zones of Nigeria.
