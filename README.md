@@ -46,10 +46,11 @@ Students will have the opportunity to work in small teams to create data visuali
 	* text editors
 	* file paths 
 * Working with data in `R` 
-	* [Basic training](http://ecohen4.github.io/data-viz/r/R-tutorial.html)	
+	* [Basic training](http://ecohen4.github.io/data-viz/r/R-tutorial.html)
 	* Data analysis with `plyr`
 	* Data visualization with `ggplot`
 	* Scripting, debugging and writing functions
+	* Reproducible research and dynamic output with [Rmarkdown](http://rmarkdown.rstudio.com/RMarkdownReferenceGuide.pdf)
 * Communicating & sharing your results in the browser
 	* github.io
 	* `HTML`, `CSS`, `JavaScript`
