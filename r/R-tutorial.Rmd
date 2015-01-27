@@ -434,7 +434,7 @@ Putting it all together, you may find it useful to write a short function to do 
 check<-function(data){
   NAs<-sum(is.na(data))
   print(paste("NAs:", NAs)) # count NA's
-  if (NAs>0) data1[which(is.na(data)), ] # Show NA's, if any.
+  if (NAs>0) data[which(is.na(data)), ] # Show NA's, if any.
   cc<-complete.cases(data)  # logical for each case (row)
   print(paste("Complete Cases:", all(cc)))  # Given a set of logical values, are all TRUE?
   }

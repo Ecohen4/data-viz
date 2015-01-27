@@ -430,7 +430,7 @@ summary(data$Temp)</code></pre>
     NAs &lt;- sum(is.na(data))
     print(paste(&quot;NAs:&quot;, NAs))  # count NA's
     if (NAs &gt; 0) 
-        data1[which(is.na(data)), ]  # Show NA's, if any.
+        data[which(is.na(data)), ]  # Show NA's, if any.
     cc &lt;- complete.cases(data)  # logical for each case (row)
     print(paste(&quot;Complete Cases:&quot;, all(cc)))  # Given a set of logical values, are all TRUE?
 }</code></pre>
