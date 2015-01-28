@@ -1,5 +1,11 @@
+# Set directory
+setwd("~/data-viz/r")
+
 # Load packages
-library(plyr)
+if (!require(plyr)) install.packages("plyr")
+        library(plyr)
+if (!require(ggplot2)) install.packages("ggplot2")
+        library(ggplot2)
 
 # Read data
 lgas <- read.csv("lgas.csv")
