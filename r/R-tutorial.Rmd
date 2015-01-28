@@ -87,7 +87,7 @@ getwd()
   
 Set the working directory
 ```
-setwd("~/github/qmssviz-FORK/labs/tutorial/_posts/")
+setwd("~/github/data-viz/r")
 ```
 
 ## Libraries
@@ -138,7 +138,7 @@ As with any R function, I suggest reading the help file, which shows exactly how
 ?read.table
 ```
 As you will see from the *help* file, there is a special case of `read.table()` tailored specifically to csv files.  The only difference between the two functions is the default values.  `read.csv()` expects a header row and a comma (",") as the character seperator whereas `read.table()` expects no header and a blank space (" ") as the character seperator. Default values can easily be changed to meet your specific needs by supplying a different value when calling the function.
-```{r csv, cache=TRUE}
+```{r csv}
 # Nigeria facility inventory
 file<-"sample_health_facilities.csv"
 sample_data <- read.csv(file) # read the .csv file
@@ -251,6 +251,7 @@ class(data$Temp)
 ```
 
 The core class definitions in R include:
+
   1. numeric  
   2. integer  
   3. complex  
@@ -261,10 +262,10 @@ The core class definitions in R include:
   6. expression  
   8. factor  
     - factor is a generic data type used as an alternative to any of the above. Useful when keeping track of a limited set of recurring values within a vector of a `data.frame`.  
-    - Beware of challenges with factor => integer/numeric conversions.  
+    - Beware of factor! Handy for character strings and categorical variables, but integer/numeric conversions may produce unexpected results.
     - For additional information on working with factors in your data: [More information on Factors](http://www.statmethods.net/input/datatypes.html)  
 
-A note: `NA` (_Not Available_) is a internal value in R, and can be of any type. `NA` indicates a missing value.  More on this later.  
+**Note**: `NA` (_Not Available_) is a internal value, and can be of any type. `NA` indicates a missing value.  More on this later.  
 
 Before proceeding, let's delve more into dataframes, as they are a central concept in R.
 
@@ -434,7 +435,7 @@ Putting it all together, you may find it useful to write a short function to do 
 check<-function(data){
   NAs<-sum(is.na(data))
   print(paste("NAs:", NAs)) # count NA's
-  if (NAs>0) data1[which(is.na(data)), ] # Show NA's, if any.
+  if (NAs>0) data[which(is.na(data)), ] # Show NA's, if any.
   cc<-complete.cases(data)  # logical for each case (row)
   print(paste("Complete Cases:", all(cc)))  # Given a set of logical values, are all TRUE?
   }
@@ -541,7 +542,7 @@ The Nigerian Government has committed $1.2 billion USD to achieving the United N
 
 Using this rich dataset, we will assess a few key development statistics, previously unknowable.
 
-1. Go to this [link](http://bit.ly/1fj3sjD) to retrieve general metadata for Local Government Areas (LGAs) of Nigeria. LGAs are akin to counties in the U.S.
+1. Go to this [link](https://github.com/Ecohen4/data-viz/blob/master/r/lgas.csv) to retrieve general metadata for Local Government Areas (LGAs) of Nigeria. LGAs are akin to counties in the U.S.
 2. Next, download the full [NMIS dataset](http://nmis.mdgs.gov.ng/download), and grab the [large] .csv file called "Health_Mopup_and_Baseline_NMIS_Facility.csv". This contains every health facility in Nigeria.
 3. Produce a new `data.frame` with the following properties:
     + From the NMIS Health Facilities Inventory, select all facilities located in the Southern zones of Nigeria.
