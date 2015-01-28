@@ -87,7 +87,7 @@ getwd()
   
 Set the working directory
 ```
-setwd("~/github/qmssviz-FORK/labs/tutorial/_posts/")
+setwd("~/github/data-viz/r")
 ```
 
 ## Libraries
@@ -251,6 +251,7 @@ class(data$Temp)
 ```
 
 The core class definitions in R include:
+
   1. numeric  
   2. integer  
   3. complex  
@@ -261,10 +262,10 @@ The core class definitions in R include:
   6. expression  
   8. factor  
     - factor is a generic data type used as an alternative to any of the above. Useful when keeping track of a limited set of recurring values within a vector of a `data.frame`.  
-    - Beware of challenges with factor => integer/numeric conversions.  
+    - Beware of factor! Handy for character strings and categorical variables, but integer/numeric conversions may produce unexpected results.
     - For additional information on working with factors in your data: [More information on Factors](http://www.statmethods.net/input/datatypes.html)  
 
-A note: `NA` (_Not Available_) is a internal value in R, and can be of any type. `NA` indicates a missing value.  More on this later.  
+**Note**: `NA` (_Not Available_) is a internal value, and can be of any type. `NA` indicates a missing value.  More on this later.  
 
 Before proceeding, let's delve more into dataframes, as they are a central concept in R.
 
