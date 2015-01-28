@@ -138,7 +138,7 @@ As with any R function, I suggest reading the help file, which shows exactly how
 ?read.table
 ```
 As you will see from the *help* file, there is a special case of `read.table()` tailored specifically to csv files.  The only difference between the two functions is the default values.  `read.csv()` expects a header row and a comma (",") as the character seperator whereas `read.table()` expects no header and a blank space (" ") as the character seperator. Default values can easily be changed to meet your specific needs by supplying a different value when calling the function.
-```{r csv, cache=TRUE}
+```{r csv}
 # Nigeria facility inventory
 file<-"sample_health_facilities.csv"
 sample_data <- read.csv(file) # read the .csv file
