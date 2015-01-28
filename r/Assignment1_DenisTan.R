@@ -30,3 +30,19 @@ df2 <- transform(df2, per_area_doctors = num_doctors_fulltime/area_sq_km)
 # Sort in descending order of population
 df2 <- arrange(df2, desc(pop_2006))
 write.csv(df2, "healtcare_workers_by_state.csv")
+
+# Visualize
+# Absolute variables
+ggplot(data = df2, aes(x = state)) +
+        geom_point(data = df2, aes(y = num_nurses_fulltime), colour = 'blue', size = 3) +
+        geom_point(data = df2, aes(y = num_doctors_fulltime), colour = 'red', size = 3)
+        
+# Relative variables (per population)       
+ggplot(data = df2, aes(x = state)) +        
+        geom_point(data = df2, aes(y = per_capita_nurses), colour = 'blue', size = 3) + 
+        geom_point(data = df2, aes(y = per_capita_doctors), colour = 'red', size = 3)
+
+# Relative variables (per area)       
+ggplot(data = df2, aes(x = state)) +        
+        geom_point(data = df2, aes(y = per_area_nurses), colour = 'blue', size = 3) + 
+        geom_point(data = df2, aes(y = per_area_doctors), colour = 'red', size = 3)
