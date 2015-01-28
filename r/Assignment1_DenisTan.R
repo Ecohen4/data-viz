@@ -16,10 +16,10 @@ write.csv(df, "southern_facilities_with_meta_data.csv")
 df2 <- aggregate(cbind(num_nurses_fulltime, num_doctors_fulltime, pop_2006, area_sq_km) ~ state, df, sum, na.rm = TRUE)
 
 # Create 4 new variables
-df2 <- transform(df, per_capita_nurses = num_nurses_fulltime/pop_2006)
-df2 <- transform(df, per_area_nurses = num_nurses_fulltime/area_sq_km)
-df2 <- transform(df, per_capita_doctors = num_doctors_fulltime/pop_2006)
-df2 <- transform(df, per_area_doctors = num_doctors_fulltime/area_sq_km)
+df2 <- transform(df2, per_capita_nurses = num_nurses_fulltime/pop_2006)
+df2 <- transform(df2, per_area_nurses = num_nurses_fulltime/area_sq_km)
+df2 <- transform(df2, per_capita_doctors = num_doctors_fulltime/pop_2006)
+df2 <- transform(df2, per_area_doctors = num_doctors_fulltime/area_sq_km)
 
 # Sort in descending order of population
 df2 <- arrange(df2, desc(pop_2006))
