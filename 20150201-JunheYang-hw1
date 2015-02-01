@@ -1,0 +1,20 @@
+<table border=1>
+<tr> <th>  </th> <th> state </th> <th> StateArea </th> <th> Statepop </th> <th> TotNo </th> <th> Nopercapita </th> <th> Noperkm2 </th>  </tr>
+  <tr> <td align="right"> 12 </td> <td> Lagos </td> <td align="right"> 3479.72 </td> <td align="right"> 9013534.00 </td> <td align="right"> 2823.00 </td> <td align="right"> 0.00 </td> <td align="right"> 0.81 </td> </tr>
+  <tr> <td align="right"> 16 </td> <td> Oyo </td> <td align="right"> 27900.30 </td> <td align="right"> 5591589.00 </td> <td align="right"> 1649.00 </td> <td align="right"> 0.00 </td> <td align="right"> 0.06 </td> </tr>
+  <tr> <td align="right"> 17 </td> <td> Rivers </td> <td align="right"> 10105.27 </td> <td align="right"> 5010351.00 </td> <td align="right"> 1117.00 </td> <td align="right"> 0.00 </td> <td align="right"> 0.11 </td> </tr>
+  <tr> <td align="right"> 3 </td> <td> Anambra </td> <td align="right"> 4762.18 </td> <td align="right"> 4182032.00 </td> <td align="right"> 1454.00 </td> <td align="right"> 0.00 </td> <td align="right"> 0.31 </td> </tr>
+  <tr> <td align="right"> 6 </td> <td> Delta </td> <td align="right"> 17105.60 </td> <td align="right"> 4098391.00 </td> <td align="right"> 650.00 </td> <td align="right"> 0.00 </td> <td align="right"> 0.04 </td> </tr>
+  <tr> <td align="right"> 11 </td> <td> Imo </td> <td align="right"> 5049.31 </td> <td align="right"> 3835652.00 </td> <td align="right"> 1749.00 </td> <td align="right"> 0.00 </td> <td align="right"> 0.35 </td> </tr>
+  <tr> <td align="right"> 2 </td> <td> Akwa Ibom </td> <td align="right"> 6514.81 </td> <td align="right"> 3791977.00 </td> <td align="right"> 588.00 </td> <td align="right"> 0.00 </td> <td align="right"> 0.09 </td> </tr>
+  <tr> <td align="right"> 14 </td> <td> Ondo </td> <td align="right"> 15031.60 </td> <td align="right"> 3441024.00 </td> <td align="right"> 667.00 </td> <td align="right"> 0.00 </td> <td align="right"> 0.04 </td> </tr>
+  <tr> <td align="right"> 15 </td> <td> Osun </td> <td align="right"> 8595.12 </td> <td align="right"> 3423535.00 </td> <td align="right"> 815.00 </td> <td align="right"> 0.00 </td> <td align="right"> 0.09 </td> </tr>
+  <tr> <td align="right"> 13 </td> <td> Ogun </td> <td align="right"> 14153.86 </td> <td align="right"> 3377422.00 </td> <td align="right"> 1963.00 </td> <td align="right"> 0.00 </td> <td align="right"> 0.14 </td> </tr>
+  <tr> <td align="right"> 10 </td> <td> Enugu </td> <td align="right"> 6766.38 </td> <td align="right"> 3108524.00 </td> <td align="right"> 891.00 </td> <td align="right"> 0.00 </td> <td align="right"> 0.13 </td> </tr>
+  <tr> <td align="right"> 8 </td> <td> Edo </td> <td align="right"> 16833.36 </td> <td align="right"> 2965976.00 </td> <td align="right"> 900.00 </td> <td align="right"> 0.00 </td> <td align="right"> 0.05 </td> </tr>
+  <tr> <td align="right"> 5 </td> <td> Cross River </td> <td align="right"> 20936.87 </td> <td align="right"> 2856581.00 </td> <td align="right"> 387.00 </td> <td align="right"> 0.00 </td> <td align="right"> 0.02 </td> </tr>
+  <tr> <td align="right"> 1 </td> <td> Abia </td> <td align="right"> 4093.65 </td> <td align="right"> 2488632.00 </td> <td align="right"> 619.00 </td> <td align="right"> 0.00 </td> <td align="right"> 0.15 </td> </tr>
+  <tr> <td align="right"> 9 </td> <td> Ekiti </td> <td align="right"> 5801.50 </td> <td align="right"> 2384212.00 </td> <td align="right"> 630.00 </td> <td align="right"> 0.00 </td> <td align="right"> 0.11 </td> </tr>
+  <tr> <td align="right"> 7 </td> <td> Ebonyi </td> <td align="right"> 6342.01 </td> <td align="right"> 2173501.00 </td> <td align="right"> 417.00 </td> <td align="right"> 0.00 </td> <td align="right"> 0.07 </td> </tr>
+  <tr> <td align="right"> 4 </td> <td> Bayelsa </td> <td align="right"> 9006.98 </td> <td align="right"> 1626066.00 </td> <td align="right"> 254.00 </td> <td align="right"> 0.00 </td> <td align="right"> 0.03 </td> </tr>
+   </table>
