@@ -46,7 +46,7 @@
 - Feb. 04 (W): Meet your computer. Git and `github` tutorial.
 - Feb. 09 (M): Guest Lecture Michael Malecki - `Data Maps`.
 - Feb. 11 (W): Guest Lecture Swupnil Sahai - `Tableau`.
-- Feb. 16 (M): Time Series: The Climate Hockey Stick (IPCC). WSJ and NYT Business Section graphics. 
+- Feb. 16 (M): Time Series: The Climate Hockey Stick (IPCC). WSJ and NYT Business Section graphics. [gapminder](http://www.gapminder.org/) 
 - Feb. 18 (W): Handling time series in `R` with date() and POSIX() objects. In-class assignment: Handling geophysical time series -- example from [wind energy analysis](http://ecohen4.github.io/ECREEE/#visually-inspect-the-data-with-respect-to-time).
 - Feb. 23 (M): Narrative Graphics of Space and Time (Minard's narrative of Napoleon Failed Conquest of Russia). NYT Ebola Graphics. 
 - Feb. 25 (W): In-class assignment: Re-Create Minard's Napolean Conquest in `R`.
