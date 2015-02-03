@@ -1,0 +1,95 @@
+---
+title: "R Tutorial Mini-Assignment"
+author: "Elliot Cohen"
+date: "September 25, 2014"
+output: html_document
+---
+```{r RMD-global-options, include=FALSE}
+## set R Markdown options. 
+## Markdown defines the layout and format of the resulting document. 
+## It is not R code, but allows you to hide/supress R code and output.
+options(width=100)
+# opts_chunk$set(warning=TRUE, message=FALSE , tidy=TRUE)
+```
+
+Now that we've practiced handling a few small datasets, let's try something **BIGGER**.
+
+### Problem Statement
+The Nigerian Government has committed $1.2 billion USD to achieving the United Nations Millennium Development Goals. Matching grants are given to Local Government Areas (LGAs) for approved projects and programmes geared towards reducing poverty and improving education and health. To promote the use of data in the local planning process, a rigorous, geo-referenced, baseline facility inventory was conducted for the entire country. The objective was to collect data for all of Nigeria's health, education and water facilities. The result is this online portal, the [Nigeria MDG Information System](http://nmis.mdgs.gov.ng/about) (NMIS). 
+
+Using this rich dataset, we will assess a few key development statistics, previously unknowable.
+
+1. Go to this [link](http://bit.ly/1fj3sjD) to retrieve general metadata for Local Government Areas (LGAs) of Nigeria. LGAs are akin to counties in the U.S.
+2. From the NMIS website, download the full [NMIS dataset](http://nmis.mdgs.gov.ng/download), and grab the [large] .csv file called "Health_Mopup_and_Baseline_NMIS_Facility.csv". This contains every health facility in Nigeria.
+3. Produce a new `data.frame` with the following properties:
+    + From the NMIS Health Facilities Inventory, select all facilities located in the Southern zones of Nigeria.
+    + Incorporate LGA metadata into this new dataframe [containing facilities located in Southern Nigeria].
+3. Calculate the total number of full time nurses and doctors for all health facilities in each state. Compute per capita and per square area values, as well.
+    + Sort the resulting dataset by state population, in descending order.
+    + Show the results!  
+
+### Read-in the data from .csv
+```{r import-data}
+setwd("~/github/data-viz/r/") # set to directory containing data files
+lgas<-read.csv("lgas.csv")
+str(lgas)
+dim(lgas)
+
+facilities<-read.csv("Health_Mopup_and_Baseline_NMIS_Facility.csv")
+str(facilities)
+dim(facilities)
+```
+
+### From the Health Facilities Inventory, select all facilities located in the Southern zones of Nigeria. 
+```{r subset}
+# First identify which lgas are located in a Southern zone.
+# What are the zone classifications for Nigeria?
+levels(lgas$zone)
+# Grab lgas located in Southern zones only, e.g. a zone containing the regular expression "South". 
+# This includes South-South, Southwest, and Southeast.
+row<-grep("South", lgas$zone)
+Slgas<-lgas[row, ]
+
+# subset the facilities data, accordingly
+df<-merge(Slgas, facilities, by="unique_lga", sort=TRUE, all.x=TRUE)
+```
+
+### Calculate the total number of full time nurses and doctors for all health facilities, by state.   
+```{r stats}
+library(plyr)
+library(reshape2)
+library(ggplot2)
+# summarize by state
+states<-ddply(df, .(state), numcolwise(sum), na.rm=TRUE)
+
+# keep only the desired information (columns)
+# e.g. remove calculated values that are not actually numeric, and thus not additive, such as longitude or latitude. These columns should have been factor or character string objects to start with...
+states<-subset(states, select=c("state", "pop_2006", "area_sq_km", "num_nurses_fulltime", "num_nursemidwives_fulltime", "num_doctors_fulltime"))
+
+# Population in Millions
+states$pop_2006<-states$pop_2006/10^6
+
+# total number of healthcare professionals, by state (in descending order of state population)
+states[order(-states$pop_2006), -3]
+
+# number of healthcare professionals per 1 million people
+percap<-cbind(states$state, states[,4:6]/(states$pop_2006))
+names(percap)[1]<-"state"
+percap[,2:4]<-round(percap[,2:4], digits=2)
+print(percap)
+
+# number of healthcare professionals per 100 sq. kilometers
+persqkm<-cbind(states$state, states[,4:6]/(states$area_sq_km)*100)
+names(persqkm)[1]<-"state"
+persqkm[,2:4]<-round(persqkm[,2:4], digits=2)
+print(persqkm)
+```
+Tufte always says that the best way to show a small data set with precision is with a table!
+
+### Check!
+But wait... are our population totals correct? Are all LGAs represented in the facilities data set such that aggregating LGA populations will yield accurate state totals?
+```{r pop}
+check<-levels(Slgas$lga)
+compare<-levels(df$lga)
+all(check %in% compare) # are all unique LGAs in a Southern Zone contained in the health facilities inventory?
+```
