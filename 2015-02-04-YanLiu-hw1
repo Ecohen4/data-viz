@@ -1,0 +1,307 @@
+hw1
+yl3174
+
+Wednesday, February 04, 2015
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
+
+When you click the Knit button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+###################################
+# R Basic Training Assignment
+###################################
+# 3 Produce a new data.frame with the following properties:
+# From the NMIS Health Facilities Inventory, select all facilities located in the Southern zones of Nigeria.
+# Incorporate LGA metadata into this new dataframe.
+setwd("D:/Columbia/Subject/spring2015/4063-Data Visualization/hw1")
+file <- "Health_Mopup_and_Baseline_NMIS_Facility.csv"
+NMIS <- read.csv(file)  # read the .csv file
+LGAS <- read.csv("lgas.csv")
+test <- c("South")
+LGAS_south <- subset(LGAS,grepl(paste(test, collapse= "|"),LGAS$zone))
+LGAS_south2 <- LGAS_south$unique_lga
+NMIS_south <- subset(NMIS, unique_lga %in% LGAS_south2)
+NMIS_LGAS = merge(NMIS_south,LGAS, by = 'unique_lga')
+
+# 4 Calculate the total number of full time nurses and doctors for all health facilities, by state.
+totnum_nur_doc <- aggregate(as.numeric(NMIS_LGAS$num_nurses_fulltime)+as.numeric(NMIS_LGAS$num_doctors_fulltime), by=list(state = NMIS_LGAS$state),FUN=sum, na.rm = T )
+# Compute per capita and per area values, as well.
+state_subset =  NMIS_LGAS[!duplicated(NMIS_LGAS[,c('state')]),]
+totnum_capita <- aggregate(as.numeric(state_subset$pop_2006), by=list(state = state_subset$state),FUN=sum, na.rm = T )
+totnum_area <- aggregate(as.numeric(state_subset$area_sq_km), by=list(state = state_subset$state),FUN=sum, na.rm = T )
+state_subset$nurdoc_capita <- (totnum_nur_doc$x)/(totnum_capita$x)
+state_subset$nurdoc_area <- (totnum_nur_doc$x)/(totnum_area$x)
+# Sort the resulting dataset by state population, in descending order.
+sort_data <- state_subset[order(state_subset$pop_2006, decreasing=T),]
+# Show the results!
+sort_data
+##                  unique_lga                  facility_name
+## 6301            lagos_agege                      Iloro PHC
+## 936          anambra_aguata          Primary Health Centre
+## 4333        ekiti_ado_ekiti               MOTHER AND CHILD
+## 10632     rivers_abua_odual                    Health Post
+## 3740          edo_akoko_edo                UGBOSHI AFE PHC
+## 7311    ogun_abeokuta_north      Irewunmi. Maternity. Home
+## 5331        imo_aboh_mbaise             New life maternity
+## 1666          bayelsa_brass            Diema Health Centre
+## 8197  ondo_akoko_north_east    ekanile basic.health centre
+## 3270       ebonyi_abakaliki        EPHUENYIM HEALTH CENTRE
+## 1890        cross_river_abi      ABE ENYI USOR HEALTH POST
+## 558          akwa_ibom_abak      HEALTH CENTRE AFAHA OBONG
+## 9650             oyo_afijio                     PHC Fiditi
+## 4691           enugu_aninri          BECON HOSPITAL; NENWE
+## 1            abia_aba_north                    Osusu 1 PHC
+## 2664    delta_aniocha_north Ezi Primary Health Care Centre
+## 8778   osun_atakunmosa_east                  HEALTH CENTRE
+##             facility_type_display maternal_health_delivery_services
+## 6301        Primary Health Center                              TRUE
+## 936         Primary Health Center                              TRUE
+## 4333          Specialist Hospital                              TRUE
+## 10632                 Health Post                             FALSE
+## 3740  Primary Health Centre (PHC)                              TRUE
+## 7311        Primary Health Center                              TRUE
+## 5331        Primary Health Center                              TRUE
+## 1666  Primary Health Centre (PHC)                              TRUE
+## 8197        Primary Health Center                             FALSE
+## 3270  Primary Health Centre (PHC)                              TRUE
+## 1890                  Health Post                              TRUE
+## 558                        Clinic                              TRUE
+## 9650        Primary Health Center                              TRUE
+## 4691  Primary Health Centre (PHC)                              TRUE
+## 1     Primary Health Centre (PHC)                              TRUE
+## 2664        Primary Health Center                              TRUE
+## 8778        Primary Health Center                             FALSE
+##       emergency_transport skilled_birth_attendant num_chews_fulltime
+## 6301                 TRUE                    TRUE                  1
+## 936                 FALSE                   FALSE                  2
+## 4333                 TRUE                    TRUE                  8
+## 10632                TRUE                   FALSE                  2
+## 3740                 TRUE                   FALSE                  1
+## 7311                FALSE                    TRUE                  0
+## 5331                 TRUE                    TRUE                  0
+## 1666                FALSE                    TRUE                  4
+## 8197                FALSE                   FALSE                  0
+## 3270                 TRUE                    TRUE                  5
+## 1890                FALSE                   FALSE                  1
+## 558                  TRUE                    TRUE                  4
+## 9650                 TRUE                    TRUE                  2
+## 4691                 TRUE                    TRUE                  2
+## 1                    TRUE                    TRUE                  2
+## 2664                FALSE                   FALSE                  1
+## 8778                FALSE                   FALSE                  2
+##       phcn_electricity c_section_yn child_health_measles_immun_calc
+## 6301              TRUE        FALSE                            TRUE
+## 936               TRUE        FALSE                            TRUE
+## 4333              TRUE         TRUE                            TRUE
+## 10632             TRUE        FALSE                            TRUE
+## 3740              TRUE        FALSE                            TRUE
+## 7311              <NA>        FALSE                            <NA>
+## 5331              <NA>        FALSE                            <NA>
+## 1666             FALSE        FALSE                            TRUE
+## 8197              TRUE        FALSE                           FALSE
+## 3270             FALSE        FALSE                            TRUE
+## 1890              TRUE        FALSE                            TRUE
+## 558               TRUE        FALSE                            TRUE
+## 9650              TRUE        FALSE                            TRUE
+## 4691              TRUE         TRUE                            TRUE
+## 1                FALSE        FALSE                            TRUE
+## 2664             FALSE         TRUE                           FALSE
+## 8778             FALSE        FALSE                           FALSE
+##       num_nurses_fulltime num_nursemidwives_fulltime num_doctors_fulltime
+## 6301                    0                          2                    1
+## 936                     0                          0                    0
+## 4333                    1                          4                    3
+## 10632                   0                          0                    0
+## 3740                    1                          0                    0
+## 7311                    1                          1                    1
+## 5331                    3                          1                    1
+## 1666                    0                          2                    0
+## 8197                    0                          0                    0
+## 3270                    3                          2                    2
+## 1890                    0                          0                    0
+## 558                     0                          7                    0
+## 9650                    1                          0                    0
+## 4691                    7                          2                    1
+## 1                       2                          1                    0
+## 2664                    0                          0                    0
+## 8778                    0                          0                    0
+##       date_of_survey facility_id         community
+## 6301      2012-09-08       JEMJW             Iloro
+## 936       2012-07-31       FJVHV         Ezinifite
+## 4333      2014-04-28       HLINT               ADO
+## 10632     2014-02-26       HPCKS             Emesu
+## 3740      2014-04-26       HZUFS       UGBOSHI AFE
+## 7311      2012-05-26       DZEQY Aiyetoro. Garrage
+## 5331      2012-06-16       TEFMS      Egbelu/umuhu
+## 1666      2014-04-25       HGPHL             Diema
+## 8197      2011-06-07       DXSGQ           Ekanile
+## 3270      2014-04-17       HNDOM  Ndiegu Okpuitumo
+## 1890      2012-07-12       YATZP         Igonigoni
+## 558       2012-08-24       BLDTS             IKWEK
+## 9650      2012-08-24       RKHEU        Oju Igbale
+## 4691      2014-05-15       HEAGR  AMORJI COMMUNITY
+## 1         2014-04-25       HJLNO             Osusu
+## 2664      2012-09-06       POQKC               Ezi
+## 8778      2011-06-08       FVYMR        Oke Agbede
+##                           ward management improved_water_supply
+## 6301                         A     public                  TRUE
+## 936                          2     public                 FALSE
+## 4333            ADEBAYO WARD 5    private                  TRUE
+## 10632                        5     public                  TRUE
+## 3740               AIYEGUNLE 7     public                 FALSE
+## 7311                      Sabo       <NA>                  <NA>
+## 5331                 Enyiogugu       <NA>                  <NA>
+## 1666                         6     public                 FALSE
+## 8197                      Ekan     public                  TRUE
+## 3270  Ndiegu Okpuitumo ward 11     public                  TRUE
+## 1890      Afafanyi / Igonigoni     public                  TRUE
+## 558              AFAHA OBONG 2     public                  TRUE
+## 9650                        05     public                  TRUE
+## 4691              NENWE WARD 1    private                 FALSE
+## 1                      Osusu 1     public                 FALSE
+## 2664                        10     public                 FALSE
+## 8778                     Iwara     public                 FALSE
+##       improved_sanitation vaccines_fridge_freezer antenatal_care_yn
+## 6301                 TRUE                   FALSE              TRUE
+## 936                  TRUE                   FALSE              TRUE
+## 4333                 TRUE                    TRUE              TRUE
+## 10632               FALSE                   FALSE             FALSE
+## 3740                 TRUE                   FALSE              TRUE
+## 7311                FALSE                    <NA>              TRUE
+## 5331                FALSE                    <NA>              TRUE
+## 1666                FALSE                   FALSE              TRUE
+## 8197                 TRUE                   FALSE              TRUE
+## 3270                FALSE                   FALSE              TRUE
+## 1890                FALSE                   FALSE              TRUE
+## 558                  TRUE                   FALSE              TRUE
+## 9650                FALSE                   FALSE              TRUE
+## 4691                 TRUE                    TRUE              TRUE
+## 1                    TRUE                   FALSE              TRUE
+## 2664                 TRUE                   FALSE              TRUE
+## 8778                FALSE                   FALSE              TRUE
+##       family_planning_yn malaria_treatment_artemisinin sector
+## 6301                TRUE                          TRUE health
+## 936                FALSE                          TRUE health
+## 4333                TRUE                          TRUE health
+## 10632              FALSE                          TRUE health
+## 3740                TRUE                          TRUE health
+## 7311                TRUE                         FALSE health
+## 5331               FALSE                          TRUE health
+## 1666                TRUE                          TRUE health
+## 8197                TRUE                          TRUE health
+## 3270                TRUE                          TRUE health
+## 1890                TRUE                         FALSE health
+## 558                 TRUE                          TRUE health
+## 9650                TRUE                          TRUE health
+## 4691                TRUE                          TRUE health
+## 1                   TRUE                          TRUE health
+## 2664                TRUE                          TRUE health
+## 8778               FALSE                          TRUE health
+##        formhub_photo_id                                            gps
+## 6301  1347100082958.jpg                 6.61146018 3.32272123 56.5 5.0
+## 936   1343725167914.jpg  5.970650911331177 7.061510682106018 265.0 4.0
+## 4333  1396704123823.jpg                7.64920627 5.22489637 434.5 5.0
+## 10632 1393416364646.jpg    4.91761595 6.57724264 36.20000076293945 5.0
+## 3740  1397564136976.jpg   7.40143128 6.05631265 391.79998779296875 5.0
+## 7311  1338053341522.jpg                7.16357237 3.31569916 102.5 5.0
+## 5331  1339857177205.jpg   5.46896907 7.17090859 139.60000610351563 5.0
+## 1666  1398264349446.jpg   4.30370879 6.33248474 30.700000762939453 5.0
+## 8197  1307455823776.jpg 7.503179311752319 5.759931206703186 475.0 16.0
+## 3270  1397574579176.jpg    6.25012327 8.33462313 60.20000076293945 5.0
+## 1890  1342088046014.jpg                   5.872014 7.97066707 54.0 5.0
+## 558   1345814599784.jpg    5.029946565628052 7.74910032749176 80.0 4.0
+## 9650  1345808745799.jpg   7.71854263 3.91384488 292.29998779296875 5.0
+## 4691  1397215162745.jpg   6.125185000000001 7.525611666666666 82.3 4.4
+## 1     1398255577907.jpg   5.118330717086792 7.351291179656982 78.0 4.0
+## 2664  1346966023010.jpg   6.40438867 6.56592276 237.60000610351563 5.0
+## 8778  1307551465409.jpg  7.558947801589966 4.714540243148804 410.0 4.0
+##                                  survey_id       latitude.x
+## 6301  6158e240-1ab1-478a-a6de-c948a4778b7d       6.61146018
+## 936   a9fc7c82-3504-4bcd-b3a0-80362e3fcfd9 5.97065091133118
+## 4333  d5f20c4e-159a-45e2-86b4-c659d1f2d6ac       7.64920627
+## 10632 39dbdcfa-dd85-46fb-9c5e-97fbe7cbd1b3       4.91761595
+## 3740  c581e442-937d-4cbf-a65d-6d09b868bca1       7.40143128
+## 7311  48ace292-186b-4cdc-b1ed-3d9e53a77800       7.16357237
+## 5331  a4579db8-20b4-4d4a-90c9-2d300cdb635f       5.46896907
+## 1666  57432def-1c66-4e41-ae1c-c6e9a6baf455       4.30370879
+## 8197      176f92f3cfdcce05904f3ef5feb74982 7.50317931175232
+## 3270  03107869-b1ab-4d05-af8d-f17df842ef2d       6.25012327
+## 1890  b1084366-6591-40d2-bc34-89f12b12e339         5.872014
+## 558   987bbaae-a905-44ff-abee-9c8213813403 5.02994656562805
+## 9650  502abad0-cf75-4d99-ac91-d800fdb491ff       7.71854263
+## 4691  6d99c316-7575-4fe6-ba2e-6afb9741bef3         6.125185
+## 1     c57691f1-066f-4a76-a119-0c308c7494cb 5.11833071708679
+## 2664  7d6e4e24-235c-4a0e-954b-354982ec85d6       6.40438867
+## 8778      c177791e5db21ea69e40f69b2cfd671f 7.55894780158997
+##            longitude.x lga_id pop_2006              lga       state
+## 6301        3.32272123     21   459939            Agege       Lagos
+## 936   7.06151068210602     22   370172           Aguata     Anambra
+## 4333        5.22489637     13   308621        Ado-Ekiti       Ekiti
+## 10632       6.57724264     11   282988       Abua Odual      Rivers
+## 3740        6.05631265     32   262110        Akoko-Edo         Edo
+## 7311        3.31569916      7   201329   Abeokuta North        Ogun
+## 5331        7.17090859     10   195652      Aboh Mbaise         Imo
+## 1666        6.33248474    125   185049            Brass     Bayelsa
+## 8197  5.75993120670319     33   175409 Akoko North East        Ondo
+## 3270        8.33462313      4   151723        Abakaliki      Ebonyi
+## 1890        7.97066707      9   144802              Abi Cross River
+## 558   7.74910032749176      3   139090             Abak   Akwa Ibom
+## 9650        3.91384488     15   134173           Afijio         Oyo
+## 4691  7.52561166666667     51   133723           Aninri       Enugu
+## 1     7.35129117965698      5   107488        Aba North        Abia
+## 2664        6.56592276     52   104711    Aniocha North       Delta
+## 8778   4.7145402431488     66    76197  Atakunmosa East        Osun
+##              zone area_sq_km surveying_effort pop_density_2006 longitude.y
+## 6301    Southwest   11.21456           Others       41012.6765    3.316003
+## 936     Southeast  195.10257           Others        1897.3199    7.088043
+## 4333    Southwest  293.65130           Others        1050.9778    5.279975
+## 10632 South-South  704.33812           Others         401.7786    6.562096
+## 3740  South-South 1371.71971              148         191.0813    6.134196
+## 7311    Southwest  808.83149           Others         248.9134    3.173588
+## 5331    Southeast  184.48387           Others        1060.5372    7.252248
+## 1666  South-South 1404.36932              113         131.7666    6.291201
+## 8197    Southwest  372.53996              113         470.8461    5.818427
+## 3270    Southeast  584.05517           Others         259.7751    8.219882
+## 1890  South-South  281.77282           Others         513.8963    8.026689
+## 558   South-South  189.98456           Others         732.1121    7.772279
+## 9650    Southwest  722.69367           Others         185.6568    3.901255
+## 4691    Southeast  363.62077              113         367.7540    7.604210
+## 1       Southeast   22.77506           Others        4719.5483    7.371644
+## 2664  South-South  406.45486           Others         257.6202    6.481297
+## 8778    Southwest  238.26502              113         319.7994    4.788111
+##       latitude.y senatorial_district                       TA_names
+## 6301    6.623580          Lagos West             Toviho John Rotimi
+## 936     5.988621     Anambra Central  Okpalaosimiri Azubuike Nnamdi
+## 4333    7.610426       Ekiti Central     Olatunbosun Taiwo Franklin
+## 10632   4.838540         Rivers West                  Bamson Roland
+## 3740    7.362893           Edo North               Godwin Ebhodaghe
+## 7311    7.223005        Ogun Central       Sunmola Temitope Adedoja
+## 5331    5.432616              Owerri           Nwabugwu E. Nkemjika
+## 1666    4.445769        Bayelsa East             Adukeh Idoimo John
+## 8197    7.538636          Ondo North      Olamilosoye Kehinde Peace
+## 3270    6.258681        Ebonyi North             Obasi Arisi Ikenna
+## 1890    5.893088 Cross-River Central                   Oloko Thomas
+## 558     5.019887         Ikot Ekpene                    Jesse Akpan
+## 9650    7.742118         Oyo Central        Mustapha Monsur Adebayo
+## 4691    6.050104          Enugu West      Nwonye Chibueze Alexander
+## 1       5.106900          Abia South Anichukwueze Anthony Nkemdirim
+## 2664    6.362813         Delta North          Ogbolu Chidi McDonald
+## 8778    7.462652           Osun East       Adeyefa Adedayo Adeyinka
+##       nurdoc_capita nurdoc_area
+## 6301     0.07857564 3222.597190
+## 936      0.05144635   97.610194
+## 4333     0.02736366   28.758599
+## 10632    0.04914696   19.746198
+## 3740     0.05743009   10.973816
+## 7311     0.12234700   30.453809
+## 5331     0.12247766  129.892115
+## 1666     0.02618766    3.450659
+## 8197     0.06890752   32.444842
+## 3270     0.06691800   17.383632
+## 1890     0.10329277   53.081769
+## 558      0.06282982   45.998474
+## 9650     0.17946234   33.318405
+## 4691     0.11256104   41.394775
+## 1        0.11375223  536.859153
+## 2664     0.14998424   38.638977
+## 8778     0.23549484   75.311098
