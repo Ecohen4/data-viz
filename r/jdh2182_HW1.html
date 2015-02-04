@@ -58,11 +58,69 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 </div>
 
 
-<pre class="r"><code>data &lt;- read.csv(&quot;Health_Mopup_and_Baseline_NMIS_Facility.csv&quot;)
-meta &lt;- read.csv(&quot;lgas.csv&quot;)
-mdata &lt;- merge(data,meta,by=&quot;unique_lga&quot;)
+<hr />
+<div id="assignment" class="section level3">
+<h3>Assignment</h3>
+<p>The Nigerian Government has committed $1.2 billion USD to achieving the United Nations Millennium Development Goals. Matching grants are given to Local Government Areas (LGAs) for approved projects and programmes geared towards reducing poverty and improving education and health. To promote the use of data in the local planning process, a rigorous, geo-referenced, baseline facility inventory was conducted for the entire country. The objective was to collect data for all of Nigeria’s health, education and water facilities. The result is this online portal, the <a href="http://nmis.mdgs.gov.ng/about">Nigeria MDG Information System</a> (NMIS).</p>
+<p>Using this rich dataset, we will assess a few key development statistics, previously unknowable.</p>
+<ol style="list-style-type: decimal">
+<li>Go to this <a href="http://bit.ly/1fj3sjD">link</a> to retrieve general metadata for Local Government Areas (LGAs) of Nigeria. LGAs are akin to counties in the U.S.</li>
+<li>Next, download the full <a href="http://nmis.mdgs.gov.ng/download">NMIS dataset</a>, and grab the [large] .csv file called “Health_Mopup_and_Baseline_NMIS_Facility.csv”. This contains every health facility in Nigeria.</li>
+<li>Produce a new <code>data.frame</code> with the following properties:
+<ul>
+<li>From the NMIS Health Facilities Inventory, select all facilities located in the Southern zones of Nigeria.</li>
+<li>Incorporate LGA metadata into this new dataframe.</li>
+</ul></li>
+<li>Calculate the total number of full time nurses and doctors for all health facilities, by state. Compute per capita and per area values, as well.
+<ul>
+<li>Sort the resulting dataset by state population, in descending order.</li>
+<li>Show the results!</li>
+</ul></li>
+</ol>
+<pre class="r"><code>library(plyr)
 
-sdata &lt;- mdata[mdata$zone %in% c(&quot;South-South&quot;, &quot;Southeast&quot;, &quot;Southwest&quot;),]</code></pre>
+data &lt;- read.csv(&quot;Health_Mopup_and_Baseline_NMIS_Facility.csv&quot;)
+meta &lt;- read.csv(&quot;lgas.csv&quot;)
+mdata &lt;- merge(data,meta[,c(&quot;unique_lga&quot;,&quot;state&quot;,&quot;zone&quot;)],by=&quot;unique_lga&quot;)
+
+southdata &lt;- mdata[mdata$zone %in% c(&quot;South-South&quot;, &quot;Southeast&quot;, &quot;Southwest&quot;),]
+southmdata &lt;- meta[meta$zone %in% c(&quot;South-South&quot;, &quot;Southeast&quot;, &quot;Southwest&quot;),]
+
+summarysouthdata &lt;- ddply(na.omit(southdata),&quot;state&quot;,summarise,
+                          tot_nur = sum(num_nurses_fulltime),
+                          tot_doc = sum(num_doctors_fulltime))
+
+summarysouthmeta &lt;- ddply(southmdata,&quot;state&quot;,summarise,
+                          area = sum(area_sq_km),
+                          pop = sum(pop_2006))
+
+sumstats &lt;- merge(summarysouthdata,summarysouthmeta)
+
+sumstats$nur_per_sq_km &lt;- round(sumstats$tot_nur / sumstats$area,7)
+sumstats$nur_per_capita &lt;- round(sumstats$tot_nur / sumstats$pop,7)
+sumstats$doc_per_sq_km &lt;- round(sumstats$tot_doc / sumstats$area,7)
+sumstats$doc_per_capita &lt;- round(sumstats$tot_doc / sumstats$pop,7)
+
+sumstats[order(-sumstats$pop),]</code></pre>
+<pre><code>##          state tot_nur tot_doc      area     pop nur_per_sq_km nur_per_capita doc_per_sq_km doc_per_capita
+## 12       Lagos    1362    1461  3479.717 9013534     0.3914112      0.0001511     0.4198617      0.0001621
+## 16         Oyo    1040     650 27900.302 5591589     0.0372756      0.0001860     0.0232972      0.0001162
+## 17      Rivers     714     403 10363.981 5185400     0.0688924      0.0001377     0.0388847      0.0000777
+## 3      Anambra    1122     452  4762.182 4182032     0.2356063      0.0002683     0.0949145      0.0001081
+## 6        Delta     399     251 17105.597 4098391     0.0233257      0.0000974     0.0146736      0.0000612
+## 11         Imo    1283     466  5136.055 3934899     0.2498026      0.0003261     0.0907311      0.0001184
+## 2    Akwa Ibom     437     151  6720.579 3920208     0.0650242      0.0001115     0.0224683      0.0000385
+## 13        Ogun    1327     636 16873.168 3728098     0.0786456      0.0003559     0.0376930      0.0001706
+## 14        Ondo     444     223 15031.599 3441024     0.0295378      0.0001290     0.0148354      0.0000648
+## 15        Osun     570     245  8595.119 3423535     0.0663167      0.0001665     0.0285045      0.0000716
+## 10       Enugu     625     266  7561.111 3257298     0.0826598      0.0001919     0.0351800      0.0000817
+## 8          Edo     602     298 19596.676 3218332     0.0307195      0.0001871     0.0152067      0.0000926
+## 5  Cross River     250     137 20936.867 2856581     0.0119407      0.0000875     0.0065435      0.0000480
+## 1         Abia     486     133  4857.434 2833999     0.1000528      0.0001715     0.0273807      0.0000469
+## 9        Ekiti     449     181  5801.502 2384212     0.0773938      0.0001883     0.0311988      0.0000759
+## 7       Ebonyi     292     125  6342.013 2173501     0.0460422      0.0001343     0.0197098      0.0000575
+## 4      Bayelsa     166      88  9368.015 1703358     0.0177199      0.0000975     0.0093937      0.0000517</code></pre>
+</div>
 
 
 </div>
