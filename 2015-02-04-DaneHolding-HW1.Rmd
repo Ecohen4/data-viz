@@ -4,7 +4,7 @@
 ###Wednesday 2015-02-04
 
 ```{r, results="asis"}
-setwd("C:/Users/Dane/Desktop/QMSS4063")
+setwd("/Users/holdind/github/data-viz/r"")
 library("plyr")
 
 #import Nigerian lgas data
