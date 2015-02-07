@@ -4,7 +4,7 @@
 ###Wednesday 2015-02-04
 
 ```{r, results="asis"}
-setwd("/Users/holdind/github/data-viz/r"")
+setwd("/Users/holdind/github/data-viz/r")
 library("plyr")
 
 #import Nigerian lgas data
