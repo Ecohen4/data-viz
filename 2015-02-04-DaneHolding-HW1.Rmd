@@ -1,11 +1,22 @@
+---
+title: "Homework 1"
+author: "Dane Holding"
+date: "Saturday, February 07, 2015"
+output: html_document
+---
+
 #Assignment 1
 ###Dane Holding
 ###dah2166
 ###Wednesday 2015-02-04
 
 ```{r, results="asis"}
-setwd("C:/Users/Dane/Desktop/QMSS4063")
 library("plyr")
+library("ggplot2")
+library("rmarkdown")
+library("knitr")
+
+setwd("C:/Users/Dane/Desktop/QMSS4063")
 
 #import Nigerian lgas data
 file <- "lgas.csv"
