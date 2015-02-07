@@ -3,8 +3,8 @@
 ###dah2166
 ###Wednesday 2015-02-04
 
-```{r, echo=FALSE, results="asis"}
-setwd("C:/Users/Dane/Desktop/QMSS4063/Assignment1")
+```{r, results="asis"}
+setwd("C:/Users/Dane/Desktop/QMSS4063")
 library("plyr")
 
 #import Nigerian lgas data
