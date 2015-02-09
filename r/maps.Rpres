@@ -10,6 +10,9 @@ Some links
 - [Cartogram](http://i.imgur.com/JHUmTCb.png)
 - [Multivariate points](http://project.wnyc.org/mta-unlimited/#11/40.7248/-73.9627)
 - [Multivariate polygons](http://www.nytimes.com/2014/08/16/upshot/mapping-migration-in-the-united-states-since-1900.html)
+- some possibly outdated [map notes](https://sites.google.com/site/malecki/map-notes)
+- [stream ish graph of us migration](http://www.nytimes.com/interactive/2014/08/13/upshot/where-people-in-each-state-were-born.html?abt=0002&abg=0#New_Jersey)
+- D3 Bostock [Let’s make a map!](http://bost.ocks.org/mike/map/)
 
 I/O (I)
 ========================================================
@@ -80,6 +83,9 @@ More on projections
 ```{r}
 ## But we have a better local one: EPSG:2263
 ## See http://gothos.info/2011/04/common-map-projection-definitions/
+## See also http://xkcd.com/977/ !
+## And google Gall-Peters West Wing.
+## http://www.jasondavies.com/maps/transition/ 
 boroughs <- spTransform(boroughs, CRS("+init=epsg:2263"))
 
 nyc <- fortify(boroughs)
@@ -105,5 +111,5 @@ coords <- coordinates(crashSp)
 crashes$long <- coords[,"LONGITUDE"]
 crashes$lat <- coords[,'LATITUDE']
                   
-map + geom_point(data=crashes, aes(x=long,y=lat,group=1))
+map + geom_point(data=crashes, aes(x=long,y=lat,group=1), alpha=0.2)
 ```
