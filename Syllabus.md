@@ -48,16 +48,16 @@
 - Feb. 11 (W): Guest Lecture Swupnil Sahai - `Tableau`.
 - Feb. 16 (M): Time Series: The Climate Hockey Stick (IPCC). WSJ and NYT Business Section graphics. [gapminder](http://www.gapminder.org/) 
 - Feb. 18 (W): Handling time series in `R` with date() and POSIX() objects. In-class assignment: Handling geophysical time series -- example from [wind energy analysis](http://ecohen4.github.io/ECREEE/#visually-inspect-the-data-with-respect-to-time).
-- Feb. 23 (M): Narrative Graphics of Space and Time (Minard's narrative of Napoleon Failed Conquest of Russia). NYT Ebola Graphics. 
+- Feb. 23 (M): Narrative Graphics of Space and Time (Minard's narrative of Napoleon Failed Conquest of Russia). NYT Ebola Graphics. Reading due today: Tufte chapters 4-9. Wilkinson chapters 4-7 (you can skim ch. 5).
 - Feb. 25 (W): In-class assignment: Re-Create Minard's Napolean Conquest in `R`.
 - Mar. 2 (M): Split-Apply-Combine with Hadley's `plyr`. Reshaping data with `reshape2`. Creating the expected data structure for `ggplot`, and `d3`.
 - Mar. 4 (W): Scripting, debugging and writing functions in `R`. 
 - Mar. 9 (M): Colors! Semantically resonant colors. Color pallettes. HEX.
-- Mar. 11 (W): Cartography with `Data Maps`, `rMaps`, `Maps` or other `R` libraries.
-- Mar. 16 (M): Mid-term Quiz
-- Mar. 18: SPRING BREAK
-- Mar. 23: SPRING BREAK
-- Mar. 25: TBD based on mid-term progress assessment.
+- Mar. 11 (W): Mid-term Quiz
+- Mar. 16 (M): SPRING BREAK
+- Mar. 18 (W): SPRING BREAK
+- Mar. 23: Cartography with `Data Maps`, `rMaps`, `Maps` or other `R` libraries.
+- Mar. 25: TBD based on mid-term progress assessment. 
 - Mar. 30
 - Apr. 1
 - Apr. 6
