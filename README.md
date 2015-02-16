@@ -1,12 +1,12 @@
 # Data Visualization
-	Spring 2015 | QMSS G4063 | MW 1:10pm-2:25pm | 424 Pupin Laboratories  
+	Spring 2015 | QMSS G4063 | MW 1:10pm-2:25pm | 313 Fayerweather  
 	Quantitative Methods in the Social Sciences (QMSS)  
 	Graduate School of Arts and Sciences (GSAS) 
 	Columbia University
 
 ## Instructor
-Elliot Cohen, Ph.D.  
-**affiliations**  [QMSS](http://qmss.columbia.edu/faculty-and-staff/) | [Earth Institute](http://www.earth.columbia.edu/articles/view/58) | [Sustainable Engineering Lab](http://sel.columbia.edu/about/)  
+`Elliot Cohen, Ph.D.`  
+**affiliation**  [QMSS](http://qmss.columbia.edu/faculty-and-staff/) | [Earth Institute](http://www.earth.columbia.edu/articles/view/58) | [Sustainable Engineering Lab](http://sel.columbia.edu/about/)  
 **contact**  elliot.cohen@columbia.edu | 212.854.7993  
 **office hours**  Wednesdays 2:30-3:30pm IAB 270C
 
