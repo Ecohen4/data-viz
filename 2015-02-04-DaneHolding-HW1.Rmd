@@ -5,11 +5,6 @@ date: "Saturday, February 07, 2015"
 output: html_document
 ---
 
-#Assignment 1
-###Dane Holding
-###dah2166
-###Wednesday 2015-02-04
-
 ```{r, results="asis"}
 library("plyr")
 library("ggplot2")
