@@ -1,0 +1,185 @@
+---
+title: "HW1"
+author: "Alice_emily_baird"
+date: "4 February 2015"
+output: html_document
+---
+
+Following the instructions for the assignment below I have knitted a html which shows the filtering proccess I followed. 
+
+
+```{r import-data}
+
+
+health_data <- read.csv("Health_Mopup_and_Baseline_NMIS_Facility.csv")
+
+lgas_data <- read.csv("lgas.csv")
+str(health_data)
+names(health_data)
+```
+
+```{r subset}
+
+# only facilities with a latitude below 8, therefore more southern in their location
+southern_facilities <- subset(health_data, latitude < 8)
+```
+
+```{r subset 2}
+#only southern facilities of lgas
+lgas_southern <- subset(lgas_data, zone == c("Southeast", "Southwest", "South-South"))
+
+```
+
+
+```{r remove NAs}
+#remove NA's from data or replace with 0 
+sum(is.na(lgas_southern))
+lgas_clean<-na.omit(lgas_southern)
+
+sum(is.na(southern_facilities))
+
+
+
+
+```
+
+```{r merge-with-lga-metadata}
+#
+lgas_data<-read.csv("lgas.csv")
+dim(lgas_data)
+dim(southern_facilities)
+
+final_df<- merge(lgas_data, southern_facilities, by="unique_lga")
+```
+
+```{r clean up /replace again NA}
+
+sum(is.na(final_df))
+6603
+
+final_df$num_nurses_fulltime[final_df$num_nurses_fulltime == NA] <- 0
+final_df$num_doctors_fulltime[final_df$num_doctors_fulltime == NA] <- 0
+
+final_df_clean<-na.omit(final_df)
+
+
+final_df_clean$surveying_effort <- NULL
+final_df_clean$latitude.x <- NULL
+final_df_clean$surveying_effort <- NULL
+final_df_clean$senatorial_district <- NULL
+final_df_clean$longitude.y <- NULL
+final_df_clean$gps <- NULL
+final_df_clean$TA_names <- NULL
+final_df_clean$maternal_health_delivery_services <- NULL
+final_df_clean$emergency_transport <- NULL
+final_df_clean$child_health_measles_immun_calc <- NULL
+final_df_clean$c_section_yn <- NULL
+final_df_clean$skilled_birth_attendant <- NULL
+final_df_clean$num_nursemidwives_fulltime <- NULL
+final_df_clean$num_chews_fulltime <- NULL
+final_df_clean$facility_id <- NULL
+final_df_clean$improved_water_supply <- NULL
+final_df_clean$vaccines_fridge_freezer <- NULL
+final_df_clean$formhub_photo_id <- NULL
+final_df_clean$survey_id <- NULL
+final_df_clean$sector <- NULL
+final_df_clean$phcn_electricity <- NULL
+final_df_clean$community <- NULL
+final_df_clean$ward <- NULL
+final_df_clean$management <- NULL
+final_df_clean$improved_sanitation<-NULL
+final_df_clean$antenatal_care_yn <-NULL
+final_df_clean$malaria_treatment_artemisinin <-NULL
+final_df_clean$lga_id <-NULL
+final_df_clean$family_planning_yn <-NULL
+final_df_clean$pop_density_2006 <- NULL
+final_df_clean$longitude.x <- NULL
+final_df_clean$facility_name <- NULL
+final_df_clean$facility_type_display <- NULL
+final_df_clean$latitude.y <-NULL
+
+```
+
+
+```{r create new sum for total drs and nurses}
+
+# create new column for total drs and nurses 
+final_df_clean$ft_staff <- final_df_clean$num_doctors_fulltime + final_df_clean$num_nurses_fulltime
+
+````
+
+
+```{r new data frame for unique id and ft_staff}
+#FT staff and state
+final_vars<- c("unique_lga", "ft_staff")
+subset_vars <- final_df_clean[final_vars]
+```
+
+```{r new dataframe less state information}
+
+
+aggregate_vals<- aggregate(subset_vars$ft_staff, by=list(unique_lga=subset_vars$unique_lga), FUN=sum)
+
+```
+
+
+```{r merge new dataframe removing uneeded values}
+
+final_data <- merge(final_df_clean, aggregate_vals, by="unique_lga")
+
+colnames(final_data)[colnames(final_data)=="x"] <- "ft_staff"
+
+final2 <- subset(final_data, zone %in% c("South-South", "Southeast", "Southwest"))
+
+#remove unneeded data
+final2$num_doctors_fulltime<-NULL
+final2$num_nurses_fulltime<-NULL
+
+
+```
+
+```{r just needed variable states}
+
+summary(final2)
+names(final2)
+
+
+#amount of staff per 1000 people for each 
+final2$ft_staff_per1000 <- (final2$ft_staff.1/final2$pop_2006)*10000
+final2$ft_staff <- NULL
+
+#amount of staff per 100 square kilometers
+final2$ft_staff_per10km<- (final2$ft_staff.1/final2$area_sq_km)*100
+```
+
+```{r order data}
+
+# order data in state population order 
+ordered_data <- final2[order(-final2$pop_2006),]
+
+
+```
+
+
+```{r clean - loose copies}
+
+
+
+
+#tried using aggregate function but got very lost with it. I'm aware this would be what is needed now. final_data_2<- aggregate(ordered_data$state, by=list("state"), FUN=sum)
+
+
+```
+
+```{r knit data}
+
+#final table with variables by state containing all variables
+knitr::kable(ordered_data)
+
+
+
+
+
+
+
+

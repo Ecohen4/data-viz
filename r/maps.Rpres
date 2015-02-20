@@ -1,0 +1,115 @@
+maps with data
+========================================================
+author: Michael Malecki
+date: 2015-02-09
+
+Some links
+========================================================
+
+- [Simple choropleth]()
+- [Cartogram](http://i.imgur.com/JHUmTCb.png)
+- [Multivariate points](http://project.wnyc.org/mta-unlimited/#11/40.7248/-73.9627)
+- [Multivariate polygons](http://www.nytimes.com/2014/08/16/upshot/mapping-migration-in-the-united-states-since-1900.html)
+- some possibly outdated [map notes](https://sites.google.com/site/malecki/map-notes)
+- [stream ish graph of us migration](http://www.nytimes.com/interactive/2014/08/13/upshot/where-people-in-each-state-were-born.html?abt=0002&abg=0#New_Jersey)
+- D3 Bostock [Let’s make a map!](http://bost.ocks.org/mike/map/)
+
+I/O (I)
+========================================================
+
+- esri shapefiles (.shp)
+- projections
+- geojson/topojson
+- geocoded points
+- lat/long in streams or otherwise
+
+I/O (O)
+==============================
+
+- pdf
+- png
+- json
+- js+json
+
+Relevant R tools
+========================================================
+
+```{r, echo=TRUE}
+library(ggplot2)
+library(ggthemes)
+library(sp)
+library(rgdal)
+library(spatstat)
+library(maptools)
+library(rMaps)
+```
+
+Let's make a map already
+=====================================
+
+```{r}
+map <- Leaflet$new()
+## Notice these are often transposed :( 
+map$setView(c(40.72,-73.94), zoom = 11)
+map$tileLayer(provider = 'Stamen.TonerLite')
+map
+## providers
+## http://leaflet-extras.github.io/leaflet-providers/preview/
+```
+
+How about with ggplot2?
+================================
+We use `fortify()` for ggplot
+
+```{r}
+## borough polygons for fun
+boroughs <- readOGR('nyc.json', 'OGRGeoJSON')
+(originalProj <- boroughs@proj4string)
+## no need to reproject, but we can; this is USA-standard
+boroughs <- spTransform(boroughs, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=23 +lon_0=-96"))
+
+nyc <- fortify(boroughs)
+str(boroughs, max.level = 2)
+map <- ggplot(data=nyc, aes(x=long, y=lat, group=id))
+map + geom_polygon(color='#00000044', fill="#0000cc55") +
+    coord_equal() + theme_minimal()
+
+```
+
+
+More on projections
+=================================
+
+```{r}
+## But we have a better local one: EPSG:2263
+## See http://gothos.info/2011/04/common-map-projection-definitions/
+## See also http://xkcd.com/977/ !
+## And google Gall-Peters West Wing.
+## http://www.jasondavies.com/maps/transition/ 
+boroughs <- spTransform(boroughs, CRS("+init=epsg:2263"))
+
+nyc <- fortify(boroughs)
+str(boroughs, max.level = 2)
+map <- ggplot(data=nyc, aes(x=long, y=lat, group=id))
+map + geom_polygon(color='#00000044', fill="#0000cc55") +
+    coord_equal() + theme_minimal()
+
+```
+
+Using some data
+================================
+```{r}
+## TODO: grab directly from
+## https://data.cityofnewyork.us/NYC-BigApps/NYPD-Motor-Vehicle-Collisions/h9gi-nx95
+crashes <- read.csv('2015crashes.csv')
+keep <- complete.cases(crashes[,c("LONGITUDE", "LATITUDE")])
+crashes <- subset(crashes, keep)
+crashSp <- SpatialPoints(crashes[,c('LONGITUDE','LATITUDE')],
+                           proj4string=CRS("+proj=longlat +datum=WGS84"))
+crashSp <- spTransform(crashSp, CRS("+init=epsg:2263"))
+coords <- coordinates(crashSp)
+crashes$long <- coords[,"LONGITUDE"]
+crashes$lat <- coords[,'LATITUDE']
+                  
+map + geom_point(data=crashes, aes(x=long,y=lat,group=1), alpha=0.2)
+```
