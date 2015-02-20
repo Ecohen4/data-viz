@@ -1,0 +1,96 @@
+---
+title: "2015-02-05-XuetingWu-Assignment1"
+author: "Xueting Wu"
+date: "February 04, 2015"
+output: html_document
+---
+
+**1.Go to this link to retrieve general metadata for Local Government Areas (LGAs) of Nigeria. LGAs are akin to counties in the U.S.**
+```{r}
+setwd("/Users/xuetingwu/data-viz/r")
+#By forking the upstream repository, the general metadata for LGAs is already on the local drive. So just assign a name "data1" to the .csv
+data1 <- read.csv("/Users/xuetingwu/data-viz/r/lgas.csv")
+```
+Explore the data a little bit to get familiar with it:
+
+(1)How is the data organized? 
+```{r}
+head(data1)  # first 6 observations of the dataset.
+str(data1)  # a more programming-oriented sense including the class of each element
+```
+(2)How big is the data?
+```{r}
+dim(data1) # the dimension of the dataset
+```
+(3)How complete is the data?
+```{r}
+sum(is.na(data1))  #count the number of NAs in the LGAs dataset
+```
+
+
+**2. Next, download the full NMIS dataset, and grab the [large] .csv file called “Health_Mopup_and_Baseline_NMIS_Facility.csv”. This contains every health facility in Nigeria.**
+
+```{r}
+data2 <- read.csv("/Users/xuetingwu/data-viz/r/nmis_dataset/Health_Mopup_and_Baseline_NMIS_Facility.csv") # import the data
+# get a general idea about the data
+head(data2)
+str(data2)
+dim(data2)
+```
+
+**3. Produce a new data.frame with the following properties:**
+
+(1)From the NMIS Health Facilities Inventory, select all facilities located in the Southern zones of Nigeria.
+```{r}
+table(data1$zone)
+southz <- subset(data1,zone %in% c("South-South","Southeast","Southwest")) # select the southern zone from LGAs metadata
+dim(southz)
+122+95+137 # check the subsetting process
+fsouthz <- subset(data2, unique_lga %in% southz$unique_lga) # select facilities located in the Southern zones of Nigeria according to "unique_lga" in dataset "southz"
+```
+
+(2)Incorporate LGA metadata into this new dataframe.
+```{r}
+m <- merge(southz, fsouthz, by="unique_lga") 
+dim(fsouthz)-dim(m)  # check the merging process and the result is as expected
+```
+check the operation of building the new data.frame using another approach:
+```{r}
+data3 <- merge(data1, data2, by="unique_lga")
+dim(data2)-dim(data3)  # check the merging process. Considering the number of rows was reduced by 948, there are 948 observations in data2 whose unique_lga don't match any of the unique_lga in data1 possibily due to typing errors.
+m2 <- subset(data3,zone =="South-South"| zone=="Southeast"| zone=="Southwest")  # select facilities in the southern zone from the new dataset
+dim(m)-dim(m2)  # compare the two data.frames which are supposed to be equal
+```
+
+**4. Calculate the total number of full time nurses and doctors for all health facilities, by state. Compute per capita and per area values, as well.**
+
+(1)Sort the resulting dataset by state population, in descending order.
+```{r}
+library(plyr)
+# to get rid of NAs without having to remove the whole observation
+data3$num_nurses_fulltime[is.na(data3$num_nurses_fulltime)]=0
+data3$num_nursemidwives_fulltime[is.na(data3$num_nursemidwives_fulltime)]=0
+data3$num_doctors_fulltime[is.na(data3$num_doctors_fulltime)]=0
+data3$fultotal <- data3$num_nurses_fulltime + data3$num_nursemidwives_fulltime+data3$num_doctors_fulltime  #nursemidwives are also counted as fulltime nurses
+which(colnames(data3)=="fultotal")
+Fulltime_Total<-aggregate(data3[43],list(data3$state),sum)
+which(colnames(data1)=="pop_2006")
+State_Pop <- aggregate(data1[3], list(data1$state), sum)
+which(colnames(data1)=="area_sq_km")
+State_Area_Sq_Km <- aggregate(data1[7], list(data1$state), sum)
+Newdata1 <- merge(Fulltime_Total, State_Pop, by= "Group.1" )
+Newdata2 <- merge(Newdata1, State_Area_Sq_Km, by= "Group.1" )
+names(Newdata2)[1] <- "state"
+Newdata3 <- transform(Newdata2, new = fultotal / pop_2006)
+Newdata2$per_capita <- Newdata2$fultotal/Newdata2$pop_2006
+Newdata2$per_area_unit <- Newdata2$fultotal/Newdata2$area_sq_km
+Newdata_Sorted <- arrange(Newdata2, desc(pop_2006))
+```
+  (2)Show the results!
+```{r}
+print(Newdata_Sorted)
+library(ggplot2)
+ggplot(Newdata_Sorted, aes(x=state, y=per_capita))+geom_point()
+ggplot(Newdata_Sorted, aes(x=state, y=per_area_unit))+geom_point()
+ggplot(Newdata_Sorted, aes(x=per_capita, y=per_area_unit, colours=state))+geom_point() 
+```
