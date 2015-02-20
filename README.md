@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+# data-viz
+=======
 # Data Visualization
 	Spring 2015 | QMSS G4063 | MW 1:10pm-2:25pm | 313 Fayerweather  
 	Quantitative Methods in the Social Sciences (QMSS)  
@@ -99,3 +102,4 @@ Rebasing rewrites history of a branch, in a really clever way. Each commit becom
 	git rebase -i origin/gh-pages
 	
 At this point you’re given a list, where you can pick, squash, or remove commits from your branch. Remember, a branch is just a collection of commits. If, for example, you only want to include the last few commits, simply delete all the others and allow rebase to continue. You should now have a branch that contains only the commits you want.
+>>>>>>> FETCH_HEAD
