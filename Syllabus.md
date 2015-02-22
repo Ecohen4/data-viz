@@ -48,7 +48,7 @@
 - Feb. 11 (W): Guest Lecture Swupnil Sahai - `Tableau`.
 - Feb. 16 (M): Time Series: The Climate Hockey Stick (IPCC). WSJ and NYT Business Section graphics. [gapminder](http://www.gapminder.org/) 
 - Feb. 18 (W): Handling time series in `R` with date() and POSIX() objects. In-class assignment: Handling geophysical time series -- example from [wind energy analysis](http://ecohen4.github.io/ECREEE/#visually-inspect-the-data-with-respect-to-time).
-- Feb. 23 (M): Narrative Graphics of Space and Time (Minard's narrative of Napoleon Failed Conquest of Russia). NYT Ebola Graphics. Reading due today: Tufte chapters 4-9. Wilkinson chapters 4-7 (you can skim ch. 5).
+- Feb. 23 (M): Narrative Graphics of Space and Time. Minard's narrative of Napoleon's Failed Conquest of Russia. NYT Ebola Graphics. Ornithology and botany field guides. Reading due today: Tufte chapters 4-9. Wilkinson chapters 4-7 (you can skim ch. 5).
 - Feb. 25 (W): In-class assignment: Re-Create Minard's Napolean Conquest in `R`.
 - Mar. 2 (M): Split-Apply-Combine with Hadley's `plyr`. Reshaping data with `reshape2`. Creating the expected data structure for `ggplot`, and `d3`.
 - Mar. 4 (W): Scripting, debugging and writing functions in `R`. 
