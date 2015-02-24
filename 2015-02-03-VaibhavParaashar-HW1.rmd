@@ -1,0 +1,99 @@
+---
+title: "Assignment 1 -- Nigeria Healthcare"
+author: "vrp2113"
+date: "Tuesday, February 03, 2015"
+output: html_document
+---
+```{r, echo=FALSE}
+setwd("C:/Users/Vaibhav/Documents/GitHub/data-viz/")
+if(!require(plyr)) install.packages("plyr")
+library(plyr)
+if(!require(ggplot2)) install.packages("ggplot2")
+library(ggplot2)
+```
+1. Go to this link to retrieve general metadata for Local Government Areas (LGAs) of Nigeria. LGAs are akin to counties in the U.S.
+&
+2. Next, download the full NMIS dataset, and grab the [large] .csv file called “Health_Mopup_and_Baseline_NMIS_Facility.csv”. This contains every health facility in Nigeria.
+
+```{r, echo=FALSE}
+#Data downloaded into the working directory
+lga<-read.csv("lgas.csv", header=TRUE)
+nmis<-read.csv("Health_Mopup_and_Baseline_NMIS_Facility.csv")
+```
+3. Produce a new data.frame with the following properties:
+| --> From the NMIS Health Facilities Inventory, select all facilities located in the Southern zones of Nigeria.
+| --> Incorporate LGA metadata into this new dataframe.
+
+```{r, echo=FALSE}
+#Splitting the LGS data frame into south and north data frames
+southLGA<-subset(lga, zone==c("Southeast","South-South","Southwest"))
+northLGA<-subset(lga, zone==c("North-Central","Northeast","Northwest"))
+
+#Determine the approximate latitude that divides the country into north and south
+northmin=min(northLGA$latitude)
+northmin
+southmax=max(southLGA$latitude)
+southmax
+
+#Using the approximate parting latitude from above (viz. 8), separate the NMIS data frame into 'south' data frame.
+southNMIS=subset(nmis, latitude<8)
+
+#Merge southLGA and southNMIS data frames to get a master data frame consisting of information for the whole of the South.
+south<-merge(southLGA, southNMIS, by="unique_lga")
+
+#Identify all the states from the south data frame.
+stateID<-unique(south$state)
+stateID
+
+#17 states are identified form above. 
+#Consolidate LGA-wise data into another data frame.
+#Note the use na.rm=TRUE . This is to ignore the missing data at some points in the data frame.
+cdata1 <- ddply(south, c("state", "lga"), summarise,
+               sumNurse=sum(num_nurses_fulltime, na.rm=TRUE),
+               sumMidwife=sum(num_nursemidwives_fulltime, na.rm=TRUE),
+               sumDoc=sum(num_doctors_fulltime, na.rm=TRUE),
+               area_sq_km=mean(area_sq_km, na.rm=TRUE),
+               population=mean(pop_2006, na.rm=TRUE))
+cdata1
+
+#Now from the above data frame, consolidate data into a state-wise data frame.
+cdata2 <- ddply(cdata1, "state", summarise,
+               totNurse=sum(sumNurse),
+               totMidwife=sum(sumMidwife),
+               totDoc=sum(sumDoc),
+               totArea=sum(area_sq_km),
+               totPop=sum(population),
+               nursePerCapita=totNurse/totPop,
+               midwifePerCapita=totMidwife/totPop,
+               docPerCapita=totDoc/totPop,
+               nursePerArea=totNurse/totArea,
+               midwifePerArea=totMidwife/totArea,
+               docPerArea=totDoc/totArea)
+```
+
+4. Calculate the total number of full time nurses and doctors for all health facilities, by state. Compute per capita and per area values, as well.
+| --> Sort the resulting dataset by state population, in descending order.
+| --> Show the results!
+    
+```{r, echo=FALSE}
+#Arrange the state-wise data frame in descending order and display the information.
+cdata3 <- cdata2[order(-cdata2$totPop),]
+cdata3
+
+#Plot the findings to provide a comparison across states.
+
+plot1 <- ggplot(cdata3, aes(x=cdata3$state))
+
+plot1+geom_bar(aes(y=cdata3$docPerArea), stat="identity", colour="green")+xlab("State")+ylab("Doctors Per Area")+ggtitle("Comparison of Doctors Per Area for different states")
+
+plot1+geom_bar(aes(y=cdata3$docPerCapita), stat="identity", colour="red")+xlab("State")+ylab("Doctors Per Capita")+ggtitle("Comparison of Doctors Per Capita for different states")
+
+plot1+geom_bar(aes(y=cdata3$nursePerArea), stat="identity", colour="blue")+xlab("State")+ylab("Nurses Per Area")+ggtitle("Comparison of Nurses Per Area for different states")
+
+plot1+geom_bar(aes(y=cdata3$nursePerCapita), stat="identity", colour="orange")+xlab("State")+ylab("Nurses Per Capita")+ggtitle("Comparison of Nurses Per Capita for different states")
+
+plot1+geom_bar(aes(y=cdata3$midwifePerArea), stat="identity", colour="cyan")+xlab("State")+ylab("Midwives Per Area")+ggtitle("Comparison of Midwives Per Area for different states")
+
+plot1+geom_bar(aes(y=cdata3$midwifePerCapita), stat="identity", colour="pink")+xlab("State")+ylab("Midwives Per Capita")+ggtitle("Comparison of Midwives Per Capita for different states")
+
+```
