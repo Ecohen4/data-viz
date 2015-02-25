@@ -69,8 +69,8 @@ Columbia University
 	- `git` to the next level (new): 
 		- Undo things with git [revert](https://www.atlassian.com/git/tutorials/undoing-changes/git-revert) and git [reset](https://www.atlassian.com/git/tutorials/undoing-changes/git-reset)
 		- Resolve merge conflicts with git [mergetool](http://git-scm.com/docs/git-mergetool) and from the [command line](https://help.github.com/articles/resolving-a-merge-conflict-from-the-command-line/) 
-- Mar. 02 (M): Peer code review of HW2. HW2 due today. Project status updates due today.
-- Mar. 04 (W): Scripting, debugging and writing functions in `R`. 
+- Mar. 02 (M): HW2 due today. Project status updates due today. In class: Scripting, debugging and writing functions in `R`.
+- Mar. 04 (W): Peer code review of HW2 (30min). Time to work on projects (45min). Elliot at conference in Portugal; Hueiyi will be there for questions.
 - Mar. 09 (M): Colors! Semantically resonant colors. Color pallettes. HEX.
 - Mar. 11 (W): Mid-term Quiz
 - Mar. 16 (M): SPRING BREAK
