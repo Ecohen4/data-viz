@@ -6,7 +6,7 @@
 
 ## Instructor
 `Elliot Cohen, Ph.D.`  
-**affiliation**  [QMSS](http://qmss.columbia.edu/faculty-and-staff/) | [Earth Institute](http://www.earth.columbia.edu/articles/view/58) | [Sustainable Engineering Lab](http://sel.columbia.edu/about/)  
+*affiliation*  [QMSS](http://qmss.columbia.edu/faculty-and-staff/) | [Earth Institute](http://www.earth.columbia.edu/articles/view/58) | [Sustainable Engineering Lab](http://sel.columbia.edu/about/)  
 **contact**  elliot.cohen@columbia.edu | 212.854.7993  
 **office hours**  Wednesdays 2:30-3:30pm IAB 270C
 
