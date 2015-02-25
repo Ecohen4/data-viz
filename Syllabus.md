@@ -1,9 +1,12 @@
 # Data Visualization
+	Quantitative Methods in the Social Sciences (QMSS)  
+	Graduate School of Arts and Sciences (GSAS)  
+	Columbia University
+
 ## Course Details
-Spring 2015 | QMSS G4063 | MW 1:10pm-2:25pm | 313 Fayerweather  
-Quantitative Methods in the Social Sciences (QMSS)  
-Graduate School of Arts and Sciences (GSAS)  
-Columbia University
+Course: QMSS G4063 Spring 2015  
+Lecture: MW 1:10pm-2:25pm at 313 Fayerweather  
+Office Hours: W 2:30pm-3:30pm at IAB 270C 
 
 ## Instructor
 Elliot Cohen, Ph.D.  
