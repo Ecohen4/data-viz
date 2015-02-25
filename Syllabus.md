@@ -1,11 +1,14 @@
 # Data Visualization
-	Spring 2015 | QMSS G4063 | MW 1:10pm-2:25pm | 313 Fayerweather  
-	Quantitative Methods in the Social Sciences (QMSS)  
-	Graduate School of Arts and Sciences (GSAS) 
-	Columbia University
+## Course Details
+Spring 2015 | QMSS G4063 | MW 1:10pm-2:25pm | 313 Fayerweather  
+Quantitative Methods in the Social Sciences (QMSS)  
+Graduate School of Arts and Sciences (GSAS)  
+Columbia University
 
 ## Instructor
-`Elliot Cohen, Ph.D.`  
+Elliot Cohen, Ph.D.  
+Lecturer in the Department of Statistics  
+Columbia University
 
 ## Learning Objectives
 ... and resources to help you get there  
@@ -48,16 +51,22 @@
 - Feb. 11 (W): Guest Lecture Swupnil Sahai - `Tableau`.
 - Feb. 16 (M): Time Series: The Climate Hockey Stick (IPCC). WSJ and NYT Business Section graphics. [gapminder](http://www.gapminder.org/) 
 - Feb. 18 (W): Handling time series in `R` with date() and POSIX() objects. In-class assignment: Handling geophysical time series -- example from [wind energy analysis](http://ecohen4.github.io/ECREEE/#visually-inspect-the-data-with-respect-to-time).
-- Feb. 23 (M): Narrative Graphics of Space and Time (Minard's narrative of Napoleon Failed Conquest of Russia). NYT Ebola Graphics. 
-- Feb. 25 (W): In-class assignment: Re-Create Minard's Napolean Conquest in `R`.
-- Mar. 2 (M): Split-Apply-Combine with Hadley's `plyr`. Reshaping data with `reshape2`. Creating the expected data structure for `ggplot`, and `d3`.
-- Mar. 4 (W): Scripting, debugging and writing functions in `R`. 
-- Mar. 9 (M): Colors! Semantically resonant colors. Color pallettes. HEX.
-- Mar. 11 (W): Cartography with `Data Maps`, `rMaps`, `Maps` or other `R` libraries.
-- Mar. 16 (M): Mid-term Quiz
-- Mar. 18: SPRING BREAK
-- Mar. 23: SPRING BREAK
-- Mar. 25: TBD based on mid-term progress assessment.
+- Feb. 23 (M):
+	- Quiz 2! 
+	- Quiz review.
+	- Project status updates. 
+	- Narrative Graphics of Space and Time: Minard's narrative of Napoleon's Failed Conquest of Russia. [NYT Ebola Graphics](http://www.informationisbeautiful.net/visualizations/the-microbescope/). Ornithology and botany field guides. 
+	- Reading due today: Tufte chapters 4-9. Wilkinson chapters 4-7 (you can skim ch. 5). 
+	- HW2 due Monday Mar. 2nd: Re-Create Minard's Napolean Conquest _or_ Ebola/contagion graphic in `R`.
+- Feb. 25 (W): Split-Apply-Combine with Hadley's `plyr`. Reshaping data with `reshape2`. Creating the expected data structure for `ggplot`, and `d3`.
+- Mar. 02 (M): Peer code review of HW2. 
+- Mar. 04 (W): Scripting, debugging and writing functions in `R`. 
+- Mar. 09 (M): Colors! Semantically resonant colors. Color pallettes. HEX.
+- Mar. 11 (W): Mid-term Quiz
+- Mar. 16 (M): SPRING BREAK
+- Mar. 18 (W): SPRING BREAK
+- Mar. 23: Cartography with `Data Maps`, `rMaps`, `Maps` or other `R` libraries.
+- Mar. 25: TBD based on mid-term progress assessment. 
 - Mar. 30
 - Apr. 1
 - Apr. 6

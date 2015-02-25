@@ -131,7 +131,7 @@ There are many different data formats available, each with its own purpose, virt
 You may also load data directly from other statistical packages including EpiInfo, Minitab, S-PLUS, SAS, SPSS, Stata and Systat. For a more complete description of data formats and their compatability with R, refer [here](http://cran.r-project.org/doc/manuals/r-release/R-data.html#Importing-from-other-statistical-systems). 
 
 ### .csv  
-First, let's read (e.g. import) a csv file. The most general and flexible way to read tabular data (e.g. comma seperated or tab seperated) is with the `read.table()` function. 
+First, let's read (e.g. import) a csv file. The most general and flexible way to read tabular data (e.g. comma separated or tab separated) is with the `read.table()` function. 
 
 As with any R function, I suggest reading the help file, which shows exactly how to use it, the required syntax, and a few reproducible examples. This is usually all you need to get started using a new function.
 ```
@@ -237,7 +237,7 @@ str(data)
 ```
 
 ## class
-Every element is R has a data type, also known as a `class`. Let's look at a few simple examples:
+Every element in R has a data type, also known as a `class`. Let's look at a few simple examples:
 ```{r class}
 class(1)
 class(TRUE)
@@ -309,7 +309,7 @@ names(data)
 
 To retrieve a particular column within a data.frame, we use the syntax: data.frame$column.  
 Alternatively, we use the syntax: data.frame[row number, column number]. 
-Again we can use the `head` function to show the first 6 records and supress the rest.
+Again we can use the `head` function to show the first 6 records and suppress the rest.
 ```{r head2}
 head(data$Temp)  # use head() to look at the first 6 records.
 head(data[, "Temp"])
@@ -405,7 +405,7 @@ range(data$Temp)
 ```
 Does that look right based on what we would expect for Delhi? 
 
-The -99 values could not possibly be real unless these temepratures were recorded at the top of Mt. Everest or in Antarctica in the dead of winter, which they were not. Let's remove them as erroenous.
+The -99 values could not possibly be real unless these temepratures were recorded at the top of Mt. Everest or in Antarctica in the dead of winter, which they were not. Let's remove them as erroneous.
 ```{r assign2}
 # assign NA to elements in the 'Temp' column with values equal to -99
 data$Temp[data$Temp==-99]<-NA
@@ -494,7 +494,7 @@ R supports SQL-like join functionality with `merge`. The `merge` function can me
 
 To illustrate join operations, let's create a simple example. Let's say we have two data.frames, the first, called 'icecream', contains each person's favorite flavor of icecream. The second, called 'color', contains each person's favorite color.  Here's what they  look like:
 ```{r ice-cream2}
-icecream<-data.frame(name=c("Joe", "Jonathan", "Elliot", "Vijay", "Candace"), icecream=c("vanilla", "chocalate", "coffee", "mint", "cherry"))
+icecream<-data.frame(name=c("Joe", "Jonathan", "Elliot", "Vijay", "Candace"), icecream=c("vanilla", "chocolate", "coffee", "mint", "cherry"))
 color<-data.frame(name=c("Joe", "Jonathan", "Elliot", "Vijay", "Candace"), color=c("red", "blue", "green", "orange", "purple"))
 
 icecream
@@ -514,7 +514,7 @@ cbind(icecream, color)
 Question: How is this different than `merge`?
 
 ## writing data
-Notice that the original data files that we imported at the beginning of this tutprial have not been changed, only manipulated in the R environment. If you open `Daily_Temperature_1995-2013_Delhi.txt`, it is the same as it was. If you want to save the changes we have made so far (e.g. removed missing data, added a Date attribute, etc..) you can write the current R object ('data) to an external file. This is like hitting the "save" button in Excel, but it is not done automatically in R; you have to do it expicitly.
+Notice that the original data files that we imported at the beginning of this tutorial have not been changed, only manipulated in the R environment. If you open `Daily_Temperature_1995-2013_Delhi.txt`, it is the same as it was. If you want to save the changes we have made so far (e.g. removed missing data, added a Date attribute, etc..) you can write the current R object ('data) to an external file. This is like hitting the "save" button in Excel, but it is not done automatically in R; you have to do it explicitly.
 
 To write a .csv, call the `write.csv` function and supply the name of the R object you wish to save ('data') and the desired filepath ("data.csv").
 ```
