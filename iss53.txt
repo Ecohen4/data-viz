@@ -1,3 +1,5 @@
 Houston, we have a problem.
 
 Don't worry, Tom Hanks will save the day!
+
+Now let's suppose both you and I try to fix is53 at the same time, in different branches. How will we handle the looming merge conflict?
