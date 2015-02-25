@@ -72,7 +72,7 @@ Students will have the opportunity to work in small teams to create data visuali
 * Create a [github](https://github.com/) account if you don't already have one
 * Fork the class repo. Your assignments will be submitted as pull requests! 
 
-    	git clone https://github.com/YOUR-NAME/qmssviz.git
+    	git clone https://github.com/YOUR-NAME/data-viz.git
     	cd data-viz
     	git remote add upstream https://github.com/ecohen4/data-viz.git
 
