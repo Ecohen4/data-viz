@@ -1,9 +1,12 @@
 # Data Visualization
+	Quantitative Methods in the Social Sciences (QMSS)  
+	Graduate School of Arts and Sciences (GSAS)  
+	Columbia University
+
 ## Course Details
-Spring 2015 | QMSS G4063 | MW 1:10pm-2:25pm | 313 Fayerweather  
-Quantitative Methods in the Social Sciences (QMSS)  
-Graduate School of Arts and Sciences (GSAS)  
-Columbia University
+Course: QMSS G4063 Spring 2015  
+Lecture: MW 1:10pm-2:25pm at 313 Fayerweather  
+Office Hours: W 2:30pm-3:30pm at IAB 270C 
 
 ## Instructor
 Elliot Cohen, Ph.D.  
@@ -66,8 +69,8 @@ Columbia University
 	- `git` to the next level (new): 
 		- Undo things with git [revert](https://www.atlassian.com/git/tutorials/undoing-changes/git-revert) and git [reset](https://www.atlassian.com/git/tutorials/undoing-changes/git-reset)
 		- Resolve merge conflicts with git [mergetool](http://git-scm.com/docs/git-mergetool) and from the [command line](https://help.github.com/articles/resolving-a-merge-conflict-from-the-command-line/) 
-- Mar. 02 (M): Peer code review of HW2. HW2 due today. Project status updates due today.
-- Mar. 04 (W): Scripting, debugging and writing functions in `R`. 
+- Mar. 02 (M): HW2 due today. Project status updates due today. In class: Scripting, debugging and writing functions in `R`.
+- Mar. 04 (W): Peer code review of HW2 (30min). Time to work on projects (45min). Elliot at conference in Portugal; Hueiyi will be available for questions.
 - Mar. 09 (M): Colors! Semantically resonant colors. Color pallettes. HEX.
 - Mar. 11 (W): Mid-term Quiz
 - Mar. 16 (M): SPRING BREAK

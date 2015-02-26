@@ -1,14 +1,18 @@
 # Data Visualization
-	Spring 2015 | QMSS G4063 | MW 1:10pm-2:25pm | 313 Fayerweather  
 	Quantitative Methods in the Social Sciences (QMSS)  
-	Graduate School of Arts and Sciences (GSAS) 
+	Graduate School of Arts and Sciences (GSAS)  
 	Columbia University
 
+## Course Details
+Course: QMSS G4063 Spring 2015  
+Lecture: MW 1:10pm-2:25pm at 313 Fayerweather  
+Office Hours: W 2:30pm-3:30pm at IAB 270C 
+
 ## Instructor
-`Elliot Cohen, Ph.D.`  
-**affiliation**  [QMSS](http://qmss.columbia.edu/faculty-and-staff/) | [Earth Institute](http://www.earth.columbia.edu/articles/view/58) | [Sustainable Engineering Lab](http://sel.columbia.edu/about/)  
-**contact**  elliot.cohen@columbia.edu | 212.854.7993  
-**office hours**  Wednesdays 2:30-3:30pm IAB 270C
+Elliot Cohen, Ph.D.  
+Lecturer in the Department of Statistics  
+Columbia University
+
 
 ## Course Description   
 This course offers a rigorous introduction to data visualization from theory to implementation. Drawing on a combination of lectures, readings, discussions and coding, we will translate the timeless concepts of Minard, Playfair, Tufte and Wilkinson to new and diverse fields of study. Students will receive a coding crash-course in R, JavaScript, CSS, HTML and D3. The goal is not to become computer scientists, but to build the requisite foundation for modern implementation of exploratory and explanatory data visualizations. Students will have the opportunity to work in small teams to create interactive data visualizations worthy of their portfolios. The final deliverable will be a research-driven data visualization with accompanying prose in the form of a conference paper submission. A working knowledge of R from at least one previous class is highly recommended.  
@@ -72,7 +76,7 @@ Students will have the opportunity to work in small teams to create data visuali
 * Create a [github](https://github.com/) account if you don't already have one
 * Fork the class repo. Your assignments will be submitted as pull requests! 
 
-    	git clone https://github.com/YOUR-NAME/qmssviz.git
+    	git clone https://github.com/YOUR-NAME/data-viz.git
     	cd data-viz
     	git remote add upstream https://github.com/ecohen4/data-viz.git
 
