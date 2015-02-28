@@ -1,0 +1,30 @@
+---
+title: "Reprise of THe  Microbe-scope"
+author: "vrp2113"
+date: "Thursday, February 26, 2015"
+output: html_document
+---
+```{r, echo=FALSE}
+#Set WD and load required libraries
+setwd("~/GitHub/data-viz/ebola")
+if(!require(plyr)) install.packages("plyr")
+library(plyr)
+if(!require(ggplot2)) install.packages("ggplot2")
+library(ggplot2)
+```
+
+```{r, echo=FALSE}
+#Read data and create required dataframe
+germs <- read.csv(file="Microbe-scope-bugs.csv", header=TRUE)
+
+#reassigning col name
+names(germs)[1]<-"germ"
+
+#First row of DF is a info note; not reqd data. Make a copy and delete.
+noteRow <- germs[1,]
+germs <- germs[-1,]
+
+notes <- grep(pattern="note", x=names(germs), ignore.case=TRUE)
+names(germs)[notes] # double check we got the right columns
+germs <- subset(germs, select = -notes) # apply filter.
+```
