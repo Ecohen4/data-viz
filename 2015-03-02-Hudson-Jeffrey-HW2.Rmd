@@ -5,7 +5,7 @@ date: "Monday, March 02, 2015"
 output: html_document
 ---
 
-## The Microbe-scope
+### The Microbe-scope
 ```{r fig.height=14, fig.width=19}
 rm(list=ls())
 setwd("C:/Users/Jeff.Bernard/Dropbox/QMSS/gitpages/data-viz/ebola")
