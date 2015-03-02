@@ -1,0 +1,67 @@
+---
+title: "2015-02-02-Xiaoyu_Guo-Assignment_1"
+author: "Xiaoyu Guo"
+date: "February 2, 2015"
+output: html_document
+---
+
+
+
+###Part One  
+1. Importing data
+```{r}
+library(rmarkdown)
+library(knitr)
+setwd("~/Documents/data-viz/hw1")
+file <- "Health_Mopup_and_Baseline_NMIS_Facility.csv"
+NMIS_Facility <- read.csv(file)
+file <- "lgas.csv"
+Lgas <- read.csv(file)
+```
+
+2. Merge to create new data frame
+```{r}
+total <- merge(NMIS_Facility,Lgas,by="unique_lga")
+```
+
+3. Select facilities located in the Southern Zone of Nigeria
+```{r}
+total_south <- subset(total, zone == 'South-South' | zone == 'Southeast' | zone == 'Southwest')
+```
+  
+###Part Two
+1. Create new variable for total number of full time nurses and doctors for all health facilities
+```{r}
+total_south$sumfultime <- total_south$num_nurses_fulltime + total_south$num_nursemidwives_fulltime + total_south$num_doctors_fulltime
+```
+
+2. Use Data.Table to aggregate by "state"
+```{r}
+library(data.table)
+library(plyr)
+Lgas_south <- subset(Lgas, zone == 'South-South' | zone == 'Southeast' | zone == 'Southwest')
+Lgas_south <- data.table(Lgas_south)
+state_pop_area <- as.data.frame(Lgas_south[, j=list(sum(pop_2006, na.rm = TRUE),sum(area_sq_km, na.rm = TRUE)),by = state])
+faclt_DT <- data.table(total_south)
+state_num <- as.data.frame(faclt_DT[, sum(sumfultime, na.rm = TRUE),by = state])
+state_data <- merge (state_pop_area,state_num,by="state")
+ByState <- rename(state_data, c("V1.x"="pop_2006", "V2"="area_sq_km", "V1.y"="num_fultime"))
+```
+
+3. Create per-capita and per-square variable
+```{r}
+ByState$num_percap <- ByState$num_fultime/ByState$pop_2006 
+ByState$num_persqkm <- ByState$num_fultime/ByState$area_sq_km
+```
+
+4. Sort by state population in descending order
+```{r}
+attach(ByState)
+Faclty_state <- ByState[order(-pop_2006),]
+detach(ByState)
+```
+
+5. Display result
+```{r echo=FALSE}
+Faclty_state
+```
