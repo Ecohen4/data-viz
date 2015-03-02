@@ -1,0 +1,30 @@
+---
+title: "20150228-NaijiaLiu-Assignment2"
+author: "Naijia Liu"
+date: "2015年2月25日"
+output: html_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+newdata <- d[2:41,]
+```
+
+You can also embed plots, for example:
+
+```{r}
+p <- qplot(average.basic.reproductive.rate, case.fatality.rate, data=d, color=primary.mode.of.transmission, main="THe Microbe-scope", xlim(c(0,17)), ylim(c(0,100)), xlab="Contaiousness", ylab="Deadliness")
+
+g<- ggplot(data=d, aes(x=average.basic.reproductive.rate, y=case.fatality.rate, group =primary.mode.of.transmission, colour=primary.mode.of.transmission)) +geom_point(size=6)
+> print(g)
+```
+
+contagion <- as.character(newdata$case.fatality.rate)
+library(stringr)
+> contagion <- str_replace_all(contagion, "%", "")
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
