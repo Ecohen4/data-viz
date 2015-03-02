@@ -6,11 +6,12 @@ output: html_document
 ---
 ```{r, echo=FALSE}
 #Set WD and load required libraries
-setwd("~/GitHub/data-viz/ebola")
+setwd("~/GitHub/QMSS/data-viz/ebola")
 if(!require(plyr)) install.packages("plyr")
 library(plyr)
 if(!require(ggplot2)) install.packages("ggplot2")
 library(ggplot2)
+library(scales)
 ```
 
 ```{r, echo=FALSE}
@@ -26,5 +27,30 @@ germs <- germs[-1,]
 
 notes <- grep(pattern="note", x=names(germs), ignore.case=TRUE)
 names(germs)[notes] # double check we got the right columns
-germs <- subset(germs, select = -notes) # apply filter.
+germs <- subset(germs, select = -notes) # apply filter
+
+# remove percent signs
+dropPct<-function(df, var)
+{
+  dropPct<-strsplit(as.character(df[[var]]), split="%")
+  df[[var]]<-as.numeric(dropPct)
+  return(df[[var]])
+}
+# remove % signs, leaving a numeric value.
+germs[["case.fatality.rate"]]<-dropPct(germs, "case.fatality.rate")
+germs[["average.basic.reproductive.rate"]]<-dropPct(germs, "average.basic.reproductive.rate")
+
+germs$case.fatality.rate
+germs$average.basic.reproductive.rate
+
+# Reference: http://www.cookbook-r.com/Graphs/Scatterplots_(ggplot2)/
+plot1 <- ggplot(germs, aes(x=average.basic.reproductive.rate,y=case.fatality.rate, color=primary.mode.of.transmission))
+
+plot2<-plot1+geom_rect(aes(ymin=1, ymax=20, xmin=-Inf, xmax=Inf),fill="grey",alpha = 0.01)+geom_rect(aes(ymin=50, ymax=100, xmin=-Inf, xmax=Inf),fill="grey",alpha = 0.01)+geom_point(size=2)+geom_text(aes(label=germ))+scale_x_continuous(limits=c(0,17),breaks=0:17,name="CONTAGIOUSNESS")+scale_y_continuous(breaks=c(0,0.1,1,10,20,30,40,50,60,70,80,90,100),name="DEADLINESS")+ggtitle("The Microbe-scope")+theme(legend.title = element_text(colour="chocolate", size=16, face="bold"),plot.title = element_text(size=20, face="bold", vjust=2))
+plot2g
 ```
+# useful links:
+# http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/#add-a-title-ggtitle-or-labs
+# http://zevross.com/blog/2014/09/10/quickly-create-online-and-interactive-plots-using-plot-ly/
+# https://plot.ly/~zevross/15/temp-vs-date/
+# http://stackoverflow.com/questions/9178024/ggplot2-shade-area-between-two-vertical-lines
