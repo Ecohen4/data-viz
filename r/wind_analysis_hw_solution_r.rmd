@@ -60,7 +60,7 @@ options(stringsAsFactors=FALSE)
 
 ### Import data from .csv
 ```{r read.data}
-setwd("~/github/data-viz/r")
+# setwd("~/github/data-viz/r")
 data<-read.csv(file="WIND_VXE_2013.csv", header=TRUE)
 ```
 
@@ -256,7 +256,7 @@ dat$date_time[get]<-paste(dat$date_time[get], "00:00", sep=" ") # ammend those w
 # check if modified date_time character string can be coerced to POSIX without generating NA values.
 sum(is.na(as.POSIXct(dat$date_time, format="%m/%d/%y %H:%M"))) # six NAs... fix or omit after converting.
 
-# covert modified date_time character string to POSIX
+# convert modified date_time character string to POSIX
 dat$date_time <- as.POSIXct(dat$date_time, format="%m/%d/%y %H:%M")
 
 # check
@@ -307,7 +307,7 @@ dat$day<-as.factor(day)
 # dat$hour<-as.factor(hour)
 ```
 
-Save the augemented data.frame `dat`. This reflects the full dataset after NA checks and benchmark calculations, but prior to applying filters.
+Save the augmented data.frame `dat`. This reflects the full dataset after NA checks and benchmark calculations, but prior to applying filters.
 ```{r save}
 save(dat, file="Wind_VXE_2013_NAs_Removed.rdata")
 ```

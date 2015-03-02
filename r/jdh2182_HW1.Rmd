@@ -4,16 +4,54 @@ author: "Jeff Hudson"
 date: "Wednesday, January 28, 2015"
 output: html_document
 ---
+```{r echo=FALSE, cache=FALSE}
+setwd("C:/Users/Jeff.Bernard/Dropbox/QMSS/gitpages/data-viz/r")
+options(width = 800)
+```
+***********
+###Assignment
 
+The Nigerian Government has committed $1.2 billion USD to achieving the United Nations Millennium Development Goals. Matching grants are given to Local Government Areas (LGAs) for approved projects and programmes geared towards reducing poverty and improving education and health. To promote the use of data in the local planning process, a rigorous, geo-referenced, baseline facility inventory was conducted for the entire country. The objective was to collect data for all of Nigeria's health, education and water facilities. The result is this online portal, the [Nigeria MDG Information System](http://nmis.mdgs.gov.ng/about) (NMIS). 
+
+Using this rich dataset, we will assess a few key development statistics, previously unknowable.
+
+1. Go to this [link](http://bit.ly/1fj3sjD) to retrieve general metadata for Local Government Areas (LGAs) of Nigeria. LGAs are akin to counties in the U.S.
+2. Next, download the full [NMIS dataset](http://nmis.mdgs.gov.ng/download), and grab the [large] .csv file called "Health_Mopup_and_Baseline_NMIS_Facility.csv". This contains every health facility in Nigeria.
+3. Produce a new `data.frame` with the following properties:
+    + From the NMIS Health Facilities Inventory, select all facilities located in the Southern zones of Nigeria.
+    + Incorporate LGA metadata into this new dataframe.
+4. Calculate the total number of full time nurses and doctors for all health facilities, by state. Compute per capita and per area values, as well.
+    + Sort the resulting dataset by state population, in descending order.
+    + Show the results! 
 
 
 ```{r}
+library(plyr)
 
 data <- read.csv("Health_Mopup_and_Baseline_NMIS_Facility.csv")
 meta <- read.csv("lgas.csv")
-mdata <- merge(data,meta,by="unique_lga")
+mdata <- merge(data,meta[,c("unique_lga","state","zone")],by="unique_lga")
 
-sdata <- mdata[mdata$zone %in% c("South-South", "Southeast", "Southwest"),]
+southdata <- mdata[mdata$zone %in% c("South-South", "Southeast", "Southwest"),]
+southmeta <- meta[meta$zone %in% c("South-South", "Southeast", "Southwest"),]
+
+summarysouthdata <- ddply(na.omit(southdata),"state",summarise,
+                          tot_nur = sum(num_nurses_fulltime),
+                          tot_doc = sum(num_doctors_fulltime))
+
+summarysouthmeta <- ddply(southmeta,"state",summarise,
+                          area = sum(area_sq_km),
+                          pop = sum(pop_2006))
+
+sumstats <- merge(summarysouthdata,summarysouthmeta)
+
+sumstats$nur_per_sq_km <- round(sumstats$tot_nur / sumstats$area,7)
+sumstats$nur_per_capita <- round(sumstats$tot_nur / sumstats$pop,7)
+sumstats$doc_per_sq_km <- round(sumstats$tot_doc / sumstats$area,7)
+sumstats$doc_per_capita <- round(sumstats$tot_doc / sumstats$pop,7)
+
+sumstats[order(-sumstats$pop),]
+
 
 ```
 
