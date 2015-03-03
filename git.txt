@@ -1,7 +1,0 @@
-git checkout upstream/master(这行是elliot,别的都是我的master)
-git checkout -b hw1
-git checkout master <hw1.html>
-git add hw1.html
-git commit -m
-git push origin -u hw1
-http://htmlpreview.github.io/?
