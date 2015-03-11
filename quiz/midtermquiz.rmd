@@ -1,0 +1,35 @@
+---
+title: "Mid Term Quiz"
+author: "vrp2113"
+date: "Wednesday, March 11, 2015"
+output: html_document
+---
+```{r}
+
+if(!require(maps)) install.packages("maps")
+library("maps")
+if(!require(ggplot2)) install.packages("ggplot2")
+library(ggplot2)
+
+data(airquality)
+
+plot1<-ggplot(airquality, aes(y=c(0:100)))
+
+#airquality
+
+df<-data.frame("Wind")
+
+aqplot<-function(month, day)
+  {
+        for(i in 1:153)
+          {
+            if(month==airquality$Month)
+              {
+                df$Wind[i,]=airquality$Wind[i,]
+              }
+          }
+        plot1+geom_line(aes(x=df$Wind))
+  }
+
+aqplot(5,1)
+```
