@@ -71,21 +71,38 @@ Columbia University
 		- Resolve merge conflicts with git [mergetool](http://git-scm.com/docs/git-mergetool) and from the [command line](https://help.github.com/articles/resolving-a-merge-conflict-from-the-command-line/) 
 - Mar. 02 (M): HW2 due today. Project status updates due today. In class: Scripting, debugging and writing functions in `R`.
 - Mar. 04 (W): Peer code review of HW2 (30min). Time to work on projects (45min). Elliot at conference in Portugal; Hueiyi will be available for questions.
-- Mar. 09 (M): Colors! Semantically resonant colors. Color pallettes. HEX.
-- Mar. 11 (W): Mid-term Quiz
+- Mar. 09 (M): Cartography with __Data Maps__, __rMaps__, __Maps__ or other `R` libraries.
+
+		install.packages("reshape")
+		install.packages("deldir")
+		install.packages("sp")
+		require(devtools)
+		install.packages("base64enc")
+		install_github('ramnathv/rCharts@dev')
+		install_github('ramnathv/rMaps')
+
+- Mar. 11 (W): Mid-term Quiz. Introduction to the Document Object Model concept and its first component: HTML. Reading for next week: 
+	- Data Viz w. D3.js Cookbook (Zhu) Ch. 1-3: setup, selections, data.
+	- Interactive Data Viz for the Web (Murray) Ch. 3-6: technology, setup, data.
+	- Semantically-Resonant colors:
+	
 - Mar. 16 (M): SPRING BREAK
 - Mar. 18 (W): SPRING BREAK
-- Mar. 23: Cartography with __Data Maps__, __rMaps__, __Maps__ or other `R` libraries.
-- Mar. 25: TBD based on mid-term progress assessment. 
-- Mar. 30
-- Apr. 1
-- Apr. 6
-- Apr. 8
-- Apr. 13
-- Apr. 15
-- Apr. 20
-- Apr. 22
-- Apr, 27
-- Apr. 29
-- May 4
-- FINAL EXAMS
+- Mar. 23 (M): Colors! Semantically resonant colors. Color pallettes. HEX.
+- Mar. 25 (W): 
+- Mar. 30 (M): Reading Due Today (YES READ BOTH): 
+	- Data Viz w. D3.js Cookbook (Zhu) Ch. 4-6: scales, axes, transitions.
+	- Interactive Data Viz for the Web (Murray) Ch. 7-9: scales, axes, transitions.
+- Apr. 1 (W)
+- Apr. 6 (M): Reading Due Today (YES READ BOTH): 
+	- Data Viz w. D3.js Cookbook (Zhu) Ch. 7-9: shapes, charts, layouts.
+- Apr. 8 (W): 
+- Apr. 13 (M): Reading Due Today (YES READ BOTH): 
+	- Data Viz w. D3.js Cookbook (Zhu) Ch. 10: Interactivity.	- Interactive Data Viz for the Web (Murray) Ch. 10: Interactivity.
+- Apr. 15 (W)
+- Apr. 20 (M)
+- Apr. 22 (W)
+- Apr, 27 (M)
+- Apr. 29 (W)
+- May 4 (M)
+- FINAL EXAM WEEK
