@@ -85,7 +85,10 @@ Columbia University
 	- Data Viz w. D3.js Cookbook (Zhu) Ch. 1-3: setup, selections, data.
 	- Interactive Data Viz for the Web (Murray) Ch. 3-6: technology, setup, data.
 	- Semantically-Resonant colors:
-	
+		- [d3](https://github.com/mbostock/d3/wiki/Ordinal-Scales#categorical-colors)
+		- [Brewer](https://github.com/mbostock/d3/wiki/Ordinal-Scales#colorbrewer)
+		- [I want Hue](http://tools.medialab.sciences-po.fr/iwanthue/index.php)
+		- [Tristen](http://tristen.ca/hcl-picker/#/hlc/6/1/21313E/EFEE69)
 - Mar. 16 (M): SPRING BREAK
 - Mar. 18 (W): SPRING BREAK
 - Mar. 23 (M): Colors! Semantically resonant colors. Color pallettes. HEX.
