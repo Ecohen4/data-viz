@@ -84,12 +84,12 @@ Students will have the opportunity to work in small teams to create data visuali
 Your assignments will be submitted as pull requests to the class repository on github! Suppose you saved changes on your own `gh-pages` branch and would like to submit a ‘clean’ pull request with only your files and the commits you want. This is pretty easy.
 
 ### Option 1: Basic way with file checkouts (losing history):
-	git checkout upstream/gh-pages #you will be on a ‘detached HEAD’  
+	git checkout upstream/master #you will be on a ‘detached HEAD’  
 	git checkout -b hw1 #checkout a new branch called 'hw1'  
 	git checkout <branch> <folder/filename> #pluck a folder/file from another branch but stay on the current branch (in this case 'hw1').  
 	git add <folder/filename>
 	git commit -m "add only the right files on new clean branch"
-	git push -u hw1 #push commits to a new branch called hw1.
+	git push -u origin hw1 #push commits to a new branch called hw1.
 
 Your new `hw1` branch now has a copy of the folder/file(s) your plucked from elsewhere. Your working tree is still on the 'hw1' branch and you can continue to work on the files and commit+push further changes as frequently as you like.
 
