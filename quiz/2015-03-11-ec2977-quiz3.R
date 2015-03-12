@@ -15,5 +15,8 @@ air.plot <- function(data){
 
 }
 
-# labs(y=levels(factor(df$variable)))
-# scale_y_continuous(aes(name=levels(factor(df$variable))))
+## 2 points for proper funciton declaration
+## 2 points for date attribute (timeseries plot specified)
+## 2 points for melt or other reshape
+## 2 points for plot or ggplot
+## 2 points for pull request
