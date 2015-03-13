@@ -83,14 +83,14 @@ Columbia University
 	- Reading for next week: 
 		- Data Viz w. D3.js Cookbook (Zhu) Ch. 1-3: setup, selections, data.
 		- Interactive Data Viz for the Web (Murray) Ch. 3-6: technology, setup, data.
-		- Semantically-Resonant colors:
-			- [d3](https://github.com/mbostock/d3/wiki/Ordinal-Scales#categorical-colors)
-			- [Brewer](https://github.com/mbostock/d3/wiki/Ordinal-Scales#colorbrewer)
-			- [I want Hue](http://tools.medialab.sciences-po.fr/iwanthue/index.php)
-			- [Tristen](http://tristen.ca/hcl-picker/#/hlc/6/1/21313E/EFEE69)
+		- [Semantically-Resonant colors](http://idl.cs.washington.edu/files/2013-SemanticColor-EuroVis.pdf)
+		- [Categorical Colors](https://github.com/mbostock/d3/wiki/Ordinal-Scales#categorical-colors)
+		- [ColorBrewer](https://github.com/mbostock/d3/wiki/Ordinal-Scales#colorbrewer)
+		- [I want Hue](http://tools.medialab.sciences-po.fr/iwanthue/index.php)
+		- [ColorPicker](http://tristen.ca/hcl-picker/#/hlc/6/1/21313E/EFEE69)
 - Mar. 16 (M): SPRING BREAK
 - Mar. 18 (W): SPRING BREAK
-- Mar. 23 (M): Colors! Color scales. Semantically resonant colors. Color pallettes. HEX.
+- Mar. 23 (M): Colors! Semantically resonant colors. Color scales. Color pallettes. HEX.
 - Mar. 25 (W): Document Object Model part I & II: HTML & CSS.
 - Mar. 30 (M): Document Object Model part III: JavaScript
 	- Reading due today (YES READ BOTH): 
@@ -100,11 +100,11 @@ Columbia University
 - Apr. 06 (M): D3 part I: setup, selections and data.
 - Apr. 08 (W): D3 practice
 - Apr. 13 (M): D3 part II: scales, axes, transitions.
-	- Reading due today (YES READ BOTH): 
+	- Reading due today: 
 		- Data Viz w. D3.js Cookbook (Zhu) Ch. 7-9: shapes, charts, layouts.
 - Apr. 15 (W): Build a webpage on github.io
 - Apr. 20 (M): Quiz4: DOM. Quiz review. 
-	- Reading Due Today (YES READ BOTH): 
+	- Reading due today (YES READ BOTH): 
 		- Data Viz w. D3.js Cookbook (Zhu) Ch. 10: Interactivity.		- Interactive Data Viz for the Web (Murray) Ch. 10: Interactivity.
 - Apr. 22 (W): TBD
 - Apr, 27 (M): TBD
