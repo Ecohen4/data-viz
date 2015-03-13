@@ -83,7 +83,8 @@ Columbia University
 	- Reading for next week: 
 		- Data Viz w. D3.js Cookbook (Zhu) Ch. 1-3: setup, selections, data.
 		- Interactive Data Viz for the Web (Murray) Ch. 3-6: technology, setup, data.
-		- [Semantically-Resonant colors](http://idl.cs.washington.edu/files/2013-SemanticColor-EuroVis.pdf)
+		- [Color Theory Basics](https://cs.nyu.edu/courses/fall02/V22.0380-001/color_theory.htm)
+		- [Semantically-Resonant Colors](http://idl.cs.washington.edu/files/2013-SemanticColor-EuroVis.pdf)
 		- [Categorical Colors](https://github.com/mbostock/d3/wiki/Ordinal-Scales#categorical-colors)
 		- [ColorBrewer](https://github.com/mbostock/d3/wiki/Ordinal-Scales#colorbrewer)
 		- [I want Hue](http://tools.medialab.sciences-po.fr/iwanthue/index.php)
