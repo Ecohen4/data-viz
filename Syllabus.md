@@ -50,7 +50,7 @@ Columbia University
 - Jan. 28 (W): `R` tutorial.
 - Feb. 02 (M): Quiz 1 (Tufte and Wilkinson Ch. 1-3). From Wilkinson's grammar of graphics to implementation with Hadley's __ggplot2__.
 - Feb. 04 (W): Meet your computer. Git and `github` tutorial.
-- Feb. 09 (M): Guest Lecture Michael Malecki - __Data Maps__. Reading due today: [value-by-alpha maps](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3173776/pdf/nihms322499.pdf) & [more on value-by-alpha maps](http://andywoodruff.com/blog/value-by-alpha-maps/)
+- Feb. 09 (M): Guest Lecture Michael Malecki - [Data Maps](http://datamaps.github.io/). Reading due today: [value-by-alpha maps](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3173776/pdf/nihms322499.pdf) & [more on value-by-alpha maps](http://andywoodruff.com/blog/value-by-alpha-maps/)
 - Feb. 11 (W): Guest Lecture Swupnil Sahai - `Tableau`.
 - Feb. 16 (M): Time Series: The Climate Hockey Stick (IPCC). WSJ and NYT Business Section graphics. [gapminder](http://www.gapminder.org/) 
 - Feb. 18 (W): Handling time series in `R` with _date()_ and _POSIX()_ objects. In-class assignment: Handling geophysical time series -- example from [wind energy analysis](http://ecohen4.github.io/ECREEE/#visually-inspect-the-data-with-respect-to-time).
