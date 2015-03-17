@@ -19,7 +19,7 @@ Columbia University
 * [Tufte's Rules](http://www.sealthreinhold.com/tuftes-rules/rule_four.php). Above all else, show the data.
 * Grammar of Graphics. Wilkinson's theory and Wickham's implementation.
 * Meet your computer
-	* command line
+	* [command line](http://lifehacker.com/eight-terminal-utilities-every-os-x-command-line-user-s-1593793109)
 	* text editors
 	* file paths 
 * Working with data in `R` 
@@ -92,7 +92,7 @@ Columbia University
 - Mar. 16 (M): SPRING BREAK
 - Mar. 18 (W): SPRING BREAK
 - Mar. 23 (M): Colors! Semantically resonant colors. Color scales. Color pallettes. HEX.
-- Mar. 25 (W): Document Object Model part I & II: HTML & CSS.
+- Mar. 25 (W): Document Object Model part I & II: HTML & CSS. Helpful hints when working from the [command line](http://lifehacker.com/eight-terminal-utilities-every-os-x-command-line-user-s-1593793109).
 - Mar. 30 (M): Document Object Model part III: JavaScript
 	- Reading due today (YES READ BOTH): 
 		- Data Viz w. D3.js Cookbook (Zhu) Ch. 4-6: scales, axes, transitions.
