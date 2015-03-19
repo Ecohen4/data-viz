@@ -61,7 +61,7 @@ Columbia University
 	- Narrative Graphics of Space and Time: Minard's narrative of Napoleon's Failed Conquest of Russia. [NYT Ebola Graphics](http://www.informationisbeautiful.net/visualizations/the-microbescope/). Ornithology and botany field guides. 
 	- Reading due today: Tufte chapters 4-9. Wilkinson chapters 4-7 (you can skim ch. 5). 
 	- HW2 due Monday Mar. 2nd: Re-Create Minard's Napolean Conquest _or_ Ebola/contagion graphic in `R`.
-- Feb. 25 (W):
+- Feb. 25 (W): R and git.
 	- `R` to the next level (review):
 		- Split-Apply-Combine with Hadley's [plyr](http://www.jstatsoft.org/v40/i01/paperre). 
 		- Reshape data with [reshape2](http://cran.r-project.org/web/packages/reshape2/index.html). 
@@ -79,7 +79,7 @@ Columbia University
 		install_github('ramnathv/rCharts@dev')
 		install_github('ramnathv/rMaps')
 
-- Mar. 11 (W): 
+- Mar. 11 (W): DOM
 	- Quiz 3. 
 	- Introduction to the Document Object Model (DOM) paradigm: `HTML` + `CSS` + `JavaScript` 
 	- Reading for next week: 
@@ -106,14 +106,16 @@ Columbia University
 	- Reading due today (YES READ BOTH): 
 		- Data Viz w. D3.js Cookbook (Zhu) Ch. 4-6: scales, axes, transitions.
 		- Interactive Data Viz for the Web (Murray) Ch. 7-9: scales, axes, transitions.
-- Apr. 01 (W): Putting together the DOM with JsFiddle, Plunkr or a local server.
+- Apr. 01 (W): Putting together the DOM with JsFiddle, Plunkr or local server.
 - Apr. 06 (M): D3 part I: setup, selections and data.
 - Apr. 08 (W): D3 practice
 - Apr. 13 (M): D3 part II: scales, axes, transitions.
 	- Reading due today: 
 		- Data Viz w. D3.js Cookbook (Zhu) Ch. 7-9: shapes, charts, layouts.
+		- [D3 on blocks](http://bl.ocks.org/mbostock)
+		- [D3 intro](http://d3js.org/#introduction)
 - Apr. 15 (W): Build a webpage on github.io
-- Apr. 20 (M): 
+- Apr. 20 (M): D3
 	- Quiz 4 & quiz review. 
 	- Reading due today (YES READ BOTH): 
 		- Data Viz w. D3.js Cookbook (Zhu) Ch. 10: Interactivity.
