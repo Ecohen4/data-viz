@@ -1,0 +1,84 @@
+---
+title: "20150302-SangheeMin-HW2"
+author: "Sang-Hee Min"
+date: "March 2, 2015"
+output: html_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+getwd()
+setwd("~/data-viz/ebola")
+getwd()
+library(ggplot2)
+library(scales)
+
+##Read in data:
+germs <- read.csv(file="Microbe-scope-bugs.csv", header=TRUE)
+
+# assign descriptive column names where absent
+names(germs)[1]<-"germ"
+
+# how could you do this more carefully???
+# names(germs)[10]<-"yearly.fatalities.rounded"
+# names(germs)[11]<-"yearly.fatalities.raw"
+
+# keep only data columns, exclude notes/links
+notes <- germs[1, ] # save the notes?
+germs <- germs[-1, ] # remove **row** of notes
+# germs <- germs[, c(2, 4:7, 9:11)] # keep data **columns** only
+# how could you do this more carefully??? e.g. remove the columns you intend to remove.
+
+# how about something like this?
+notes <- grep(pattern="note", x=names(germs), ignore.case=TRUE)
+names(germs)[notes] # double check we got the right columns```
+
+germs <- subset(germs, select = -notes) # apply filter.
+
+# any more columns we want to omit?
+
+# remove percent signs
+dropPct<-function(germs, case.fatality.rate){
+        dropPct<-strsplit(as.character(germs[[case.fatality.rate]]), split="%")
+        germs[[case.fatality.rate]]<-as.numeric(dropPct)
+        return(germs[[case.fatality.rate]])}
+
+# remove % signs, leaving a numeric value.
+germs[["case.fatality.rate"]]<-dropPct(germs, "case.fatality.rate")
+
+# Convert basic reproductive rate from factor to numeric
+germs$average.basic.reproductive.rate <- as.numeric(as.character(germs$average.basic.reproductive.rate))
+
+germs <- subset(germs, primary.mode.of.transmission != "")
+
+germs <- germs[,c(1:4)]
+
+germs <- germs[complete.cases(germs),]
+
+plot <- ggplot(germs,aes(x=average.basic.reproductive.rate,y=case.fatality.rate,group =primary.mode.of.transmission,colour=primary.mode.of.transmission)) + geom_point(size=6)
+print(plot)
+
+plot <- ggplot(germs,aes(x=average.basic.reproductive.rate,y=case.fatality.rate,group =primary.mode.of.transmission,colour=primary.mode.of.transmission)) + geom_point(size=1)
+print(plot)
+
+plot <- ggplot(germs,aes(x=average.basic.reproductive.rate,y=case.fatality.rate,group =primary.mode.of.transmission,colour=primary.mode.of.transmission)) + geom_point(size=3)
+print(plot)
+
+germs <- subset(germs, germ != "Malaria (P. falciparum)")
+
+plot <- ggplot(germs,aes(x=average.basic.reproductive.rate,y=case.fatality.rate,group =primary.mode.of.transmission,colour=primary.mode.of.transmission)) + geom_point(size=2)
+print(plot)
+
+plot <- plot + 
+  scale_color_discrete(name="Primary Mode of Transmission") + 
+  ggtitle("The Microbe-scope") + 
+  scale_x_continuous("CONTAGIOUSNESS: average basic reproduction rate (R0), # people one person will likely infect", limits=c(0, 20), breaks=c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20), labels=c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20), expand = c(0,0)) + 
+  scale_y_log10("DEADLINESS: case fatality rate (%)", limits=c(.01, 150), breaks=c(0.1, 1, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200), labels=c(0.1, 1, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200), expand=c(0,0)) + 
+  theme_bw(base_size=12) + 
+  geom_text(aes(label=germ, hjust = 0.15, vjust=-0.75, angle = 10), size=2)
+print(plot)
+
+#having problems with the annotation...
