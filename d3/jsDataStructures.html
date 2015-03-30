@@ -36,26 +36,40 @@ var points = [
 {x:1, y:1}
 ];
 
-points[[1]]
+points[[1]]  // evaluate the first object in the array
 
 var data = {
 	trial1: [[1,2], [3,4]],
 	trial2: [[2,3], [4,5]]
 };
 
-data.trial2
+data.trial2  // evaluate the second object in the array
 
 // arithmetic operators
 3+2;
 3-2;
 3/2;
 
-// shorthand arithmetic operators
+// arithmetic operators handy in a loop
 var count = 0  // define a variable
 count++;       // increment by 1
 count--;       // decrement by 1
 count +=2;     // add 2. equivalent to count = count + 2
 count *=3;     //multiple by 3. equivalent to count = count*3
+
+// relational operators
+var x=2, y=3; // variable assignments
+x==y;         // equality test
+x!=y;		  // inequality test
+x<y;		  // is x less than y?
+x <= y; 	  // is x less than or equal to y?
+false==(x>y)// evaluates to true. False == False
+
+// logical operators combine or invert boolean values
+(x==2) && (y==3) // evaluates to true. both comparisons are true. && is AND.
+(x>3) || (y<3)  // evaluates to false. neither comparison is true. || is OR.
+!(x==y)         // evaluates to true. ! inverts a boolean value
+
 
 </script>
 
