@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Comparing CSS and D3 selectors</title>
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <!-- link to css 
+	<link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+	 -->
+	<style type="text/css"> /* embed css */
+	/* CSS comment syntax */
+		/* style all unordered list items */ 
+		ul li {
+			color: red;
+			}
+		/* style paragraphs of class target */
+		p.target {
+			color: blue;
+			font-weight: bold;
+			}
+	</style>
+  
+</head>
+<!-- HTML comment syntax -->
+
+<body> <!-- let's add text content to blank HTML elements dynamically with D3! -->
+
+	<p class="target"></p> <!-- empty paragraph of class "target" -->
+	<ul class="target">    <!-- empty list elements of class "target" -->
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+	<p class="not-target"> static paragraph </p> <!-- static paragraph -->
+
+	<script type="text/javascript"> // JS comment syntax
+  	// now let's use d3 selectors to dynamically populate empty elements of class "target"
+	d3.selectAll("p.target").text("dynamic paragraph") // append the text "paragraph" to each p element of class=target.
+    d3.selectAll("ul li").text("dynamic list item"); // append the text "list item" to each list item descendent from an unordered list 
+	</script>
+
+</body>
+</html>

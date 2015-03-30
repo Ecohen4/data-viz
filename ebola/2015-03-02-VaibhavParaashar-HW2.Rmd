@@ -1,0 +1,61 @@
+---
+title: "Reprise of The  Microbe-scope"
+author: "vrp2113"
+date: "Thursday, February 26, 2015"
+output:
+  html_document:
+    fig_height: 9
+    fig_width: 15
+---
+```{r, echo=FALSE}
+#Set WD and load required libraries
+setwd("~/GitHub/QMSS/data-viz/ebola")
+if(!require(plyr)) install.packages("plyr")
+library(plyr)
+if(!require(ggplot2)) install.packages("ggplot2")
+library(ggplot2)
+library(scales)
+```
+
+```{r, echo=FALSE}
+#Read data and create required dataframe
+germs <- read.csv(file="Microbe-scope-bugs.csv", header=TRUE)
+
+#reassigning col name
+names(germs)[1]<-"germ"
+
+#First row of DF is a info note; not reqd data. Make a copy and delete.
+noteRow <- germs[1,]
+germs <- germs[-1,]
+
+notes <- grep(pattern="note", x=names(germs), ignore.case=TRUE)
+#names(germs)[notes] # double check we got the right columns
+germs <- subset(germs, select = -notes) # apply filter
+
+# remove percent signs
+dropPct<-function(df, var)
+{
+  dropPct<-strsplit(as.character(df[[var]]), split="%")
+  df[[var]]<-as.numeric(dropPct)
+  return(df[[var]])
+}
+# remove % signs, leaving a numeric value.
+germs[["case.fatality.rate"]]<-dropPct(germs, "case.fatality.rate")
+germs[["average.basic.reproductive.rate"]]<-dropPct(germs, "average.basic.reproductive.rate")
+
+germs$case.fatality.rate
+germs$average.basic.reproductive.rate
+
+# Reference: http://www.cookbook-r.com/Graphs/Scatterplots_(ggplot2)/
+plot1 <- ggplot(germs, aes(x=average.basic.reproductive.rate,y=case.fatality.rate, color=primary.mode.of.transmission))
+
+plot1+geom_rect(aes(ymin=1, ymax=20, xmin=-Inf, xmax=Inf),fill="grey",alpha = 0.005)+geom_rect(aes(ymin=50, ymax=100, xmin=-Inf, xmax=Inf),fill="grey",alpha = 0.005)+geom_point(size=2)+geom_text(aes(label=germ),hjust=0,vjust=0,size=3)+scale_x_continuous(limits=c(0,18),breaks=0:18,name="CONTAGIOUSNESS")+scale_y_continuous(breaks=c(0,0.1,1,10,20,30,40,50,60,70,80,90,100),name="DEADLINESS")+ggtitle("The Microbe-scope")+theme(legend.title = element_text(colour="chocolate", size=16, face="bold"),plot.title = element_text(size=20, face="bold", vjust=2))+geom_vline(aes(xintercept=c(1,5,7,12)),linetype=1,color="red")+annotate("text", x = 1, y = 105, label = "not very", size=3, hjust=1.2)+annotate("text", x = 5, y = 105, label = "quite contagious", size=3, hjust=1.2)+annotate("text", x = 7, y = 105, label = "very", size=3, hjust=2)+annotate("text", x = 12, y = 105, label = "highly", size=3, hjust=3)+annotate("text", x = 17, y = 105, label = "vaccinate now!", size=3, hjust=1.3)+annotate("text", x = 17, y = 1, label = "not too deadly", size=3, hjust=-.4, vjust=.5)+annotate("text", x = 17, y = 20, label = "quite deadly", size=3, hjust=-.4, vjust=5)+annotate("text", x = 17, y = 50, label = "deadly", size=3, hjust=-1, vjust=6)+annotate("text", x = 17, y = 100, label = "extremely deadly", size=3, hjust=0, vjust=10)
+```
+```{r, echo=FALSE}
+# useful links:
+# http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/#add-a-title-ggtitle-or-labs
+# http://zevross.com/blog/2014/09/10/quickly-create-online-and-interactive-plots-using-plot-ly/
+# https://plot.ly/~zevross/15/temp-vs-date/
+# http://stackoverflow.com/questions/9178024/ggplot2-shade-area-between-two-vertical-lines
+# http://stackoverflow.com/questions/12545322/add-vline-to-existing-plot-and-have-it-appear-in-ggplot2-legend
+```
