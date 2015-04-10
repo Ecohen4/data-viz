@@ -6,7 +6,8 @@
     <script type="text/javascript" src="lib/d3.js"></script>
     <style type="text/css">
       // not getting applied :(
-      .axis{
+      .axis path,
+      .axis line {
         fill: none;
         stroke: red;
         stroke-width: 1px;
@@ -18,6 +19,7 @@
 
 
 <script type="text/javascript">
+    // define variables used throughout
     var height = 100,
         width = 500,
         margin = 25,
@@ -35,8 +37,8 @@
       dataset.push([newNumber1]);
     }
 
-
-    var xscale = d3.scale.linear()
+    // define scales
+    var xScale = d3.scale.linear()
                          .domain([0, xmax])
                          .range([margin, axisWidth])
                          .nice()
@@ -44,7 +46,6 @@
 
     function createSvg(){
          svg = d3.select("body").append("svg")
-            .attr("class", "axis")
             .attr("width", width)
             .attr("height", height);
     }
@@ -55,27 +56,24 @@
          .enter()
          .append("circle")
          .attr("cx", function(d) {
-                      return xscale(d[0]);
+                      return xScale(d[0]);
                     })
          .attr("cy", height-2*margin)
          .attr("r", 3)
          ;
     }
 
-    function renderAxis(scale){
-        var axis = d3.svg.axis()
+    function renderAxis(scale, orientation){
+        var Axis = d3.svg.axis()
             .scale(scale)
-            .orient("bottom")
+            .orient(orientation)
             .ticks(5);
 
         svg.append("g")
+            .attr("class", "axis")
             .attr("transform", "translate(" + 0 + "," + (height-margin) + ")")
-            .call(axis);
+            .call(Axis);
     }
-
-
-
-
 
 
 
@@ -86,7 +84,7 @@
 
         renderData();
 
-        renderAxis(xscale);
+        renderAxis(xScale, "bottom");
     }
 
     renderAll()
