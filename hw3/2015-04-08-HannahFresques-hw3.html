@@ -5,13 +5,14 @@
     <title>Basic Axes</title>
     <script type="text/javascript" src="lib/d3.js"></script>
     <style type="text/css">
-      // not getting applied :(
+
       .axis path,
       .axis line {
         fill: none;
-        stroke: red;
-        stroke-width: 1px;
+        stroke: black;
+        shape-rendering: crispEdges;
       }
+
     </style>
 </head>
 
@@ -44,13 +45,18 @@
                          .nice()
                          ;
 
-    function createSvg(){
-         svg = d3.select("body").append("svg")
-            .attr("width", width)
-            .attr("height", height);
-    }
+     // create svg
+     svg = d3.select("body").append("svg")
+        .attr("width", width)
+        .attr("height", height);
 
-    function renderData(){
+    // define axes
+    var xAxis = d3.svg.axis()
+        .scale(xScale)
+        .orient("bottom")
+        .ticks(5);
+
+    // render data
       svg.selectAll("circle")
          .data(dataset)
          .enter()
@@ -61,33 +67,15 @@
          .attr("cy", height-2*margin)
          .attr("r", 3)
          ;
-    }
-
-    function renderAxis(scale, orientation){
-        var Axis = d3.svg.axis()
-            .scale(scale)
-            .orient(orientation)
-            .ticks(5);
-
-        svg.append("g")
-            .attr("class", "axis")
-            .attr("transform", "translate(" + 0 + "," + (height-margin) + ")")
-            .call(Axis);
-    }
 
 
+    // render axis
+    svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(" + 0 + "," + (height-margin) + ")")
+        .call(xAxis);
 
-    function renderAll(){
-        if(svg) svg.remove();
 
-        createSvg();
-
-        renderData();
-
-        renderAxis(xScale, "bottom");
-    }
-
-    renderAll()
 </script>
 
 </body>
