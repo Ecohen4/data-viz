@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Basic Axes</title>
+    <script type="text/javascript" src="lib/d3.js"></script>
+    <style type="text/css">
+      // not getting applied :(
+      .axis{
+        fill: none;
+        stroke: red;
+        stroke-width: 1px;
+      }
+    </style>
+</head>
+
+<body>
+
+
+<script type="text/javascript">
+    var height = 100,
+        width = 500,
+        margin = 25,
+        axisWidth = width - 2 * margin,
+        svg;
+
+
+
+    //generate random dataset
+    var dataset = [];
+    var numDataPoints = 25;
+    var xmax = 1000
+    for (var i = 0; i < numDataPoints; i++) {
+      var newNumber1 = Math.floor(Math.random() * xmax);
+      dataset.push([newNumber1]);
+    }
+
+
+    var xscale = d3.scale.linear()
+                         .domain([0, xmax])
+                         .range([margin, axisWidth])
+                         .nice()
+                         ;
+
+    function createSvg(){
+         svg = d3.select("body").append("svg")
+            .attr("class", "axis")
+            .attr("width", width)
+            .attr("height", height);
+    }
+
+    function renderData(){
+      svg.selectAll("circle")
+         .data(dataset)
+         .enter()
+         .append("circle")
+         .attr("cx", function(d) {
+                      return xscale(d[0]);
+                    })
+         .attr("cy", height-2*margin)
+         .attr("r", 3)
+         ;
+    }
+
+    function renderAxis(scale){
+        var axis = d3.svg.axis()
+            .scale(scale)
+            .orient("bottom")
+            .ticks(5);
+
+        svg.append("g")
+            .attr("transform", "translate(" + 0 + "," + (height-margin) + ")")
+            .call(axis);
+    }
+
+
+
+
+
+
+
+    function renderAll(){
+        if(svg) svg.remove();
+
+        createSvg();
+
+        renderData();
+
+        renderAxis(xscale);
+    }
+
+    renderAll()
+</script>
+
+</body>
+
+</html>
