@@ -1,4 +1,5 @@
 
+		// extract electricity demand data [MW] for nyc
 		var getDemand = function(data) {
 			var demand = []
 			for (var i = data.length - 1; i >= 0; i--) {
@@ -22,12 +23,12 @@
 
 		var draw = function(data) {
 			d3.select("body").selectAll("div")
-				.data(data.slice(0,8760/12)) // just the first year
+				.data(data.slice(0,24*30)) // first month
 				.enter()
 				.append("div")
 				.attr("class", "bar")
 				.style("height", function(d) {
-					var barHeight = d.DM * (1/10);
+					var barHeight = d.DM * (1/100);
 					return barHeight + "px"
 				});
 
