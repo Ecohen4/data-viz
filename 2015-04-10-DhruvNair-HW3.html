@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Dhruv Nair HW3</title>
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>    
+</head>
+
+<body>
+
+	<button onclick="plotr()"> Generate Plot </button><br>
+	<p> Click Me </p>
+	<svg></svg>
+
+	<script>
+		
+		function plotr() {
+		//Generate an array of random data points
+			var data = [];
+			for (var i = 0; i < 100; i++) {
+				data[i] = Math.round((Math.random() * 100) + 1);
+			}
+			console.log(data)
+		//Setting chart variables
+			var margin = {top: 50, right: 50, bottom: 50, left: 50},
+    			width = 960 - margin.left - margin.right,
+    			height = 500 - margin.top - margin.bottom;
+    		var barPadding = 1;
+    	//Creating the svg and adding it to the DOM
+    		var svg = d3.select("body")
+       			.append("svg")
+        		.attr("width", width)
+    			.attr("height", height);
+    	//Editing the svg	
+    		svg.selectAll("rect")
+				.data(data)
+				.enter()
+				.append("rect")
+				.attr("x", function(d, i) {
+					return i * (width / data.length); 
+				})
+				.attr("y", function(d) {
+    				return height - d;  
+				})
+				.attr("width", width / data.length - barPadding)
+				.attr("height", function(d) {
+    				return d*1000; 
+    			}) 
+				.attr("fill", function(d) {
+					return "rgb(0," + (d * Math.round((Math.random() * 100) )) + ", " + (d * Math.round((Math.random() * 100) )) + ")";
+				})
+
+		d3.select("p")
+			.on("click", function () {
+				data2 = []
+				for (var i = 0; i < 100; i++) {
+				data2[i] = Math.round((Math.random() * 100) + 1);
+			}
+				console.log(data2)
+			//update bar graph
+				svg.selectAll("rect")
+					.data(data2)
+					.transition()
+					.delay(function(d, i) {
+							return i / data2.length * 1000;
+					})
+					.duration(500)
+					.attr("y", function(d) {
+					   	return height - d;
+					})
+					.attr("height", function(d) {
+					   	return d*1000;
+					})
+					.attr("fill", function(d) {
+						return "rgb(0," + (d * Math.round((Math.random() * 100) )) + ", " + (d * Math.round((Math.random() * 100) )) + ")";
+					})
+
+
+			})
+		}
+				
+	</script>
+</body>
+
+
