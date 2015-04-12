@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>testD3-3-drawingDivBar</title>
+<link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+<script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+
+
+<style>
+
+g {
+fill: #AB4DA8;
+}
+
+</style>
+
+
+<body>
+
+<div id="option">
+    <input name="updateButton"
+    type="button"
+    value="Want more?"
+    onclick="updateData()"
+    />
+</div>
+
+<script type="text/javascript">
+
+var _margin = {top: 20, right: 20, bottom: 30, left: 50},
+width = 900, height = 218;
+
+var x = d3.time.scale()
+.domain([0, 70])
+.range([0, width]);
+
+var y = d3.scale.linear()
+.domain([0, 100])
+.range([height, 0]);
+
+var xAxis = d3.svg.axis()
+.scale(x)
+.orient("bottom")
+.ticks(2);
+
+var yAxis = d3.svg.axis()
+.scale(y)
+.orient("left");
+
+var data = Array.apply(0, Array(60)).map(function() {return Math.random() * 200;
+});
+
+var _svg = d3.select("body")
+.append("svg")
+.attr("width", width)
+.attr("height", height + _margin.top + _margin.bottom)
+.append("g")
+.attr("transform", "translate(" + _margin.left + ", " + _margin.top + ")");
+
+_svg.append("g")
+.attr("class", "x axis")
+.attr("transform", "translate(0," + height + ")")
+.call(xAxis);
+
+_svg.append("g")
+.attr("class", "y axis")
+.call(yAxis);
+
+var barWidth = width / data.length;
+
+var _bodyG = _svg.selectAll("g")
+.data(data)
+.enter()
+.append("g")
+.attr("transform", function(d, i) {
+    console.log(i - 30);
+    return "translate(" + (i - 14) * barWidth + ", 0)";
+});
+
+_bodyG.append("rect")
+.attr("y", function(d) {
+    return height - d;
+})
+.attr("height", function(d) {
+    return d;
+})
+.attr("width", barWidth-1.5);
+
+
+function updateData() {
+var data = Array.apply(0, Array(60)).map(function() {return Math.random() * 200;});
+                                             
+var _svg = d3.select("body")
+.append("svg")
+.attr("width", width)
+.attr("height", height + _margin.top + _margin.bottom)
+.append("g")
+.attr("transform", "translate(" + _margin.left + ", " + _margin.top + ")");
+                                             
+_svg.append("g")
+.attr("class", "x axis")
+.attr("transform", "translate(0," + height + ")")
+.call(xAxis);
+                                             
+_svg.append("g")
+.attr("class", "y axis")
+.call(yAxis);
+                                             
+var barWidth = width / data.length;
+                                             
+var _bodyG = _svg.selectAll("g")
+.data(data)
+.enter()
+.append("g")
+.attr("transform", function(d, i) {
+      console.log(i - 30);
+      return "translate(" + (i - 14) * barWidth + ", 0)";
+});
+                                                   
+_bodyG.append("rect")
+.attr("y", function(d) {
+    return height - d;
+})
+.attr("height", function(d) {
+   return d;
+})
+.attr("width", barWidth-1.5);
+}
+
+
+</script>
+</body>
+</html>
