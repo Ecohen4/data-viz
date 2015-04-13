@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Array as Data</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+    var data = [10, 15, 30, 50, 80, 65, 55, 30, 20, 10, 8]; // <- A
+
+    function render(data) { // <- B
+        // Enter
+        d3.select("body").selectAll("div.h-bar") // select all div elements with h-bar CSS class. Hint: they don't exist yet on the page!
+            .data(data) // bind the data to the to-be-created visual elements.
+            .enter() // select all data elements that are not yet visualized.
+                .append("div") // create new div element and append to the body element of each data element selected in the enter function.
+                    .attr("class", "h-bar")
+                .append("span"); // create new span element and append to the div element; set its CSS class to h-bar.
+
+        // Update
+        d3.select("body").selectAll("div.h-bar")
+            .data(data) 
+                .style("width", function (d) { // <- H
+                    return (d * 3) + "px";
+                })
+                .select("span") // <- I
+                    .text(function (d) {
+                        return d;
+                    });
+                
+        // Exit
+        d3.select("body").selectAll("div.h-bar")
+            .data(data)
+            .exit() // <- J
+                .remove();        
+    }
+
+	// animate! remove the top element in the data array using the shift function, 
+	// while appending a random integer to the data array using the push() function 
+	// every 1.5 seconds. 
+	// Once the data array is updated, the render() function is called again to update our visualization.
+    setInterval(function () { // <- K
+        data.shift();
+        data.push(Math.round(Math.random() * 100));
+        render(data);
+    }, 1500);
+
+    render(data);
+</script>
+
+</body>
+
+</html>

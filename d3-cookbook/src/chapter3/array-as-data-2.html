@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!-- identical to v1 but with variable name assignments -->
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Array as Data</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+	var h=200;
+	var w=500;
+    var data = [10, 15, 30, 50, 80, 65, 55, 30, 20, 10, 8]; // <- A
+	var svg = d3.select("body").append("svg").attr("width", w).attr("height", h);
+	
+	svg.selectAll("rect") //use rectangles instead of divs
+		.data(data)
+		.enter()
+		.append("rect")
+		.attr("x", function(d, i) {
+			return i * w/ data.length; //bar width scales with svg width
+		})
+		.attr("y", function(d) {
+			return h - d*2;
+		})
+		.attr("width", 20)
+		.attr("height", function(d){
+			return d*2;
+		});
+
+
+
+ //    function render(data) { // <- B
+ //        // Enter
+ //        d3.select("body").selectAll("div") // select all div elements. Hint: they don't exist yet on the page!
+ //            .data(data) // bind the data to the to-be-created visual elements.
+ //            .enter() // select all data elements that are not yet visualized.
+ //                .append("div") // create new div element and append to the body element of each data element selected in the enter function.
+ //                    .attr("class", "v-bar")
+ //                .append("span"); // create new span element and append to the div element; set its CSS class to v-bar.
+
+ //        // Update
+	//  // identical to v1 but with variable name assignments
+ //        d3.select("body").selectAll("div.v-bar")
+ //            .data(data) 
+ //                .style("height", function (d) { // <- H
+ //                    // var h = 100
+	// 		 var barHeight = (d*3);
+	// 		 return barHeight + "px";
+ //                })
+ //                .select("span") // <- I
+ //                    .text(function (d) {
+ //                        return d;
+ //                    });
+                
+ //        // Exit
+ //        d3.select("body").selectAll("div.v-bar")
+ //            .data(data)
+ //            .exit() // <- J
+ //                .remove();        
+ //    }
+
+	// // animate! remove the top element in the data array using the shift function, 
+	// // while appending a random integer to the data array using the push() function 
+	// // every 1.5 seconds. 
+	// // Once the data array is updated, the render() function is called again to update our visualization.
+ //    setInterval(function () { // <- K
+ //        data.shift();
+ //        data.push(Math.round(Math.random() * 100));
+ //        render(data);
+ //    }, 1500);  // transition time in milliseconds.
+
+ //    render(data);
+</script>
+
+</body>
+
+</html>
