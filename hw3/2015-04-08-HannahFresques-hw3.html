@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Test Test</title>
+    <script type="text/javascript" src="lib/d3.js"></script>
+    <style type="text/css">
+
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: black;
+        shape-rendering: crispEdges;
+      }
+
+      .axis text {
+        font-size: 12px;
+      }
+
+    </style>
+</head>
+
+<h1>
+  Hannah's great scatterplot
+</h1>
+
+<body>
+
+  <p>
+    Monkey tail length by cuteness
+  </p>
+
+
+<script type="text/javascript">
+    // define variables used throughout
+    var height = 433,
+        width = 700,
+        margin = 50,
+        axisWidth = width - 2 * margin,
+        xmax = 1000,
+        ymax = 618,
+        svg;
+
+
+
+    //generate random dataset
+    var dataset = [];
+    var numDataPoints = 25;
+    for (var i = 0; i < numDataPoints; i++) {
+      var newNumber1 = Math.floor(Math.random() * xmax);
+      var newNumber2 = Math.floor(Math.random() * ymax);
+      // z variable is like a classification (0,1,2)
+      var newNumber3 = Math.floor(Math.random() * 3);
+      dataset.push([newNumber1, newNumber2, newNumber3]);
+    }
+
+    //define array to store colors.
+    // scheme taken from colorbrewer
+    var colors = ['rgb(141,211,199)','rgb(255,255,179)','rgb(190,186,218)']
+
+    // define scales
+    var xScale = d3.scale.linear()
+                         .domain([0, xmax])
+                         .range([margin, axisWidth])
+                         .nice()
+                         ;
+
+     var yScale = d3.scale.linear()
+                          .domain([0, ymax])
+                          .range([height-margin, margin])
+                          .nice()
+                          ;
+     // create svg
+     svg = d3.select("body").append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+    // define axes
+    var xAxis = d3.svg.axis()
+        .scale(xScale)
+        .orient("bottom")
+        .ticks(5);
+
+    var yAxis = d3.svg.axis()
+        .scale(yScale)
+        .orient("left")
+        .ticks(5);
+
+    // render data
+    svg.selectAll("circle")
+       .data(dataset)
+       .enter()
+       .append("circle")
+       .attr("cx", function(d) {
+                    return xScale(d[0]);
+                  })
+       .attr("cy", function(d) {
+                    return yScale(d[1]);
+                  })
+       .attr("r", 5)
+       .attr("fill", function(d) {
+                    if      (d[2] == 0) return colors[0] ;
+                    else if (d[2] == 1) return colors[1] ;
+                    else if (d[2] == 2) return colors[2] ;
+                    else                return "rgb(0,0,0)" ;
+                  })
+       ;
+
+
+    // render axis
+    svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(" + 0 + "," + (height-margin) + ")")
+        .call(xAxis);
+
+    svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(" + margin + "," + 0 + ")")
+        .call(yAxis);
+
+</script>
+
+<!--create a legend.-->
+<!--I'm sure there's a better way to do this, but this will be good practice anyway.-->
+<p>
+  <b>Legend</b>
+  <div style="color: rgb(141,211,199)">Baboon</div>
+  <div style="color: rgb(255,255,179)">Golden Lion Tamarin</div>
+  <div style="color: rgb(190,186,218)">Gibbon</div>
+</p>
+
+</body>
+
+</html>
