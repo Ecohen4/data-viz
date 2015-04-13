@@ -1,0 +1,18 @@
+svg circle{
+    stroke: none;
+    fill: black;
+    stroke-width: 0;
+}
+
+.axis path,
+.axis line {
+	fill: none;
+	stroke: black;
+	shape-rendering: crispEdges;
+	}
+			
+.axis text {
+	font-family: 'Open Sans';
+	font-size: 11px;
+	fill: black;
+	}
