@@ -1,7 +1,7 @@
 svg circle{
-    stroke: none;
-    fill: black;
-    stroke-width: 0;
+    stroke: black;
+    fill: none;
+    stroke-width: 1;
 }
 
 .axis path,
