@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Test Test</title>
-    <script type="text/javascript" src="lib/d3.js"></script>
+    <script type="text/javascript" src="d3.js"></script>
     <style type="text/css">
 
       .axis path,
@@ -47,8 +47,8 @@
     var dataset = [];
     var numDataPoints = 25;
     for (var i = 0; i < numDataPoints; i++) {
-      var newNumber1 = Math.floor(Math.random() * xmax);
-      var newNumber2 = Math.floor(Math.random() * ymax);
+      var newNumber1 = Math.random() * xmax;
+      var newNumber2 = Math.random() * ymax;
       // z variable is like a classification (0,1,2)
       var newNumber3 = Math.floor(Math.random() * 3);
       dataset.push([newNumber1, newNumber2, newNumber3]);
