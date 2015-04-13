@@ -128,7 +128,10 @@ Write a javascript function that returns a value one larger than the value passe
 	
 	plus1(3)
 
-Evaluate: `[1, 2, 7, 10].filter(function(i) { return i > 5 })[1]`
+Evaluate:
+
+	[1, 2, 7, 10].filter(function(i) { return i > 5 })[1]
+	
 // 10 is the only correct answer. Partial credit for 7 (indexing off-by-one error). No credit for <5.
 
 #### Relational Operators
@@ -183,18 +186,22 @@ Write a D3 selector to apply your CSS style rule to all the paragraphs in the bo
 
 
 ## Color
+Explain the difference between additive and subtractive colors?
 
-10. What would you name a CSS class that applied style: `background-color: "#00FF00";`
-something green is correct. Partial credit for blue or red. rgb(0,255,0) is not terrible. 
+Name the following colors:
 
-11. What is "#2A2A2A"
-really anything is correct. We talked about why it's not a valid selector.
+	# 00 00 00 // black
+	# ff 00 00 // red
+	# 00 ff 00 // green
+	# 00 00 ff // blue
+	# ff ff ff // white
+	# 00 ff ff // cyan
+	# ff 00 ff // magenta
+	# ff ff 00 // yellow
+	
+What is the range of each tuple in HEX? // 0-255
 
-12. Write the R equivalent of this json: [{"x":10, "y":3, "color": "yellow"}, {"x":2, "y": 7, "color":"green"}]
-Most of the answers look not bad. A few show no evidence of trying.
-
-13. If `A <- c(10, 20, 30)` were a javascript array, what is the equivalent of `twenty <- A[2
-var twenty = A[1] is correct. Most things with 'var' partial credit.
-
-14. What is "class" in: <g class="labels label-text"></g>
-An attribute. None of the others are at all correct. you use .attr() to set it.
+## Congratulations You Survived!
+Name:  
+UNI:  
+Date:
