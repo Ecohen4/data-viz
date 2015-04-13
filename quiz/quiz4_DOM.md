@@ -1,29 +1,31 @@
+# Quiz 4: Document Object Model
 
 	Course: Data Visualization (QMSS G4063) Spring 2015  
 	Time/Location: MW 1:10pm-2:25pm / 313 Fayerweather  
 	Instructor: Elliot Cohen, Ph.D.
-	
 	Quantitative Methods in the Social Sciences (QMSS)  
 	Graduate School of Arts and Sciences (GSAS) 
 	Columbia University
 	
-
-# Quiz 4: Document Object Model
-
 ## Conceptual Framework
 
-2. What does `DOM` stand for?  
-Document Object Model.
-
-1. What does `HTML` stand for?  What is its primary purpose in the DOM?  
-Hypertext Markup Language. Structure.
-
-1. What does `CSS` stand for?  What is its primary purpose in the DOM?  
-Cascading Style Sheets. Style.
-
-3. What does `D3` stand for? What is it?  
-Data Driven Documents. A javascript library. 
-
+	What does `DOM` stand for?
+	
+	
+	
+	What does `HTML` stand for?  What is its primary purpose in the DOM? 
+	
+	 
+	
+	What does `CSS` stand for?  What is its primary purpose in the DOM?  
+	
+	
+	
+	What does `D3` stand for? What is it? 
+	
+	
+	
+	
 ## JavaScript
 
 In the following sections, next to each line of Javascript, add a comment that describes what it does. Do not use the method name in its own definition.
@@ -36,18 +38,18 @@ For example, suppose we define the following JavaScript object, we comment accor
 When functions are assigned to the properties of an object, we call them methods.  What do the following methods do? Again, I will answer the first one for you as an example:
 
 	a.length;	  // returns the length of the array.
-	a.push(8);   // append the number 8 to the end of the array
-	a.pop();     // remove the last number and return its value
-	a.shift();   // remove the first value
-	a.unshift(0); // prepend one or more elements to the beginning of an array. The unshift() method is like the push() method, only it works at the beginning of the array.  
+	a.push(8);   
+	a.pop();     
+	a.shift();   
+	a.unshift(0);
 
 #### Return Values From An Array
-What is the return value?
+What is the return value on each line?
 	
-	a[1];          			 // second item in the array. JS is zero indexed.
-	a[a.length-1]; 			 // last item in the array
-	a.slice(0, a.length-1); // array.slice(start, end) => returns all items but the last
-	a.slice(0);  			 // returns all the items
+	a[1];          			 
+	a[a.length-1];
+	a.slice(0, a.length-1);
+	a.slice(0);
 
 #### JSON 
 Suppose we defined three JavaScript Objects:
@@ -91,14 +93,16 @@ Suppose we defined three JavaScript Objects:
 	
 What are the return values?
 
-	book.topic					// "javascript"
-	book["useful"]				// true
-	book.author==="Flanagan";	// true
-	schedule[1].instructor;	    // "Edward I of England"
-	schedule[1].location;		// "Scotland"
+	book.topic;			
+	book["useful"];
+	book.author==="Flanagan";
+	schedule[1].instructor;	 
+	schedule[1].location;
 
-How do you access Kyle's age?   // family.kyle.age  
-How do you access Jason's name? // family.jason.name  
+How do you access the following information?
+	
+	Kyle's age?  
+	Jason's name?  
 
 
 Now let's define two more JSON:
@@ -115,21 +119,22 @@ Now let's define two more JSON:
 
 What are the return values?
 	
-	points[1]      // Object {x: 1, y: 1}
-	points[1].y    // 1
-	data.trial2[1] // [4,5]
+	points[1]
+	points[1].y
+	data.trial2[1]
 
 #### Functions
+
 Write a javascript function that returns a value one larger than the value passed in.
 
-	function plus1(x) { //define a function named "plus1"
-		return x+1;     //return value one larger than the value passed in
-	}
-	
-	plus1(3)
+	|
+	|
+	|
+	|
 
-Evaluate: `[1, 2, 7, 10].filter(function(i) { return i > 5 })[1]`
-// 10 is the only correct answer. Partial credit for 7 (indexing off-by-one error). No credit for <5.
+Evaluate:
+	
+	[1, 2, 7, 10].filter(function(i) { return i > 5 })[1]
 
 #### Relational Operators
 Suppose we define two variables x and y:
@@ -138,63 +143,74 @@ Suppose we define two variables x and y:
 
 What are the return values to the following statements?
 
-	x==y;         		// equality test
-	x!=y;		  		// inequality test
-	x<y;		  		// is x less than y?
-	x <= y; 	  		// is x less than or equal to y?
-	false==(x>y);      // evaluates to true. False == False
-	(x==2) && (y==3);  // evaluates to true. both comparisons are true. && is AND.
-	(x>3) || (y<3);    // evaluates to false. neither comparison is true. || is OR.
-	!(x==y);           // evaluates to true. ! inverts a boolean value
+	x==y;
+	x!=y;
+	x<y;
+	x <= y;
+	false==(x>y);
+	(x==2) && (y==3);
+	(x>3) || (y<3);
+	!(x==y);
 
 ## CSS 
 Exactly like above, add comments to the following CSS selectors. [hint: use CSS comment characters instead of js]
 
-	#ID    /* Target particular ID. this is the most specific selector of all */
+	#ID	
 	
-	.class /* Target every element of a particular class */
+	.class
 	
-	A B    /* Select all B elements that are descendants of A */
+	A B
 	
 	div li {
-	          color: "red" /* Select all list items in a particular div and set them to red */
+	          color: "red"
 	        } 
 	        
-	p{color:red;}    /* Type selectors select HTML Elements, e.g. p, H1, H2, ul, ol, lo */
+	p{color:red;}
+		
+	ul+p{color:red;}	
 	
-	ul+p{color:red;} /* select the first <p> element that is immediately
-	                 /* adjacent to (e.g. follows) a ul element */
-	
-	A>B{border: 10 solid black;} /* Direct Descendent */
-
+	A>B{border: 10 solid black;}
  
-Set a CSS style rule for all content paragraphs in the body of a DOM.
+Now write your own code!
 
-/* p.content {
-			color: red;
-			background-color: white;
-			font-size: 24px;
-			}
-*/
-
-Write a D3 selector to apply your CSS style rule to all the paragraphs in the body of the DOM.
-
-// d3.select("body").selectAll("p").attr("class", "content");
+	Set a CSS style rule for all content paragraphs in the body of a DOM.
+	
+	
+	
+	
+	
+	Write a D3 selector to apply your CSS style rule to all the paragraphs in the body of the DOM.
+	|
+	|
+	|
+	|
+	
 
 
 ## Color
 
-10. What would you name a CSS class that applied style: `background-color: "#00FF00";`
-something green is correct. Partial credit for blue or red. rgb(0,255,0) is not terrible. 
+## Color
 
-11. What is "#2A2A2A"
-really anything is correct. We talked about why it's not a valid selector.
+	Explain the difference between additive and subtractive colors?
+	
+	
 
-12. Write the R equivalent of this json: [{"x":10, "y":3, "color": "yellow"}, {"x":2, "y": 7, "color":"green"}]
-Most of the answers look not bad. A few show no evidence of trying.
 
-13. If `A <- c(10, 20, 30)` were a javascript array, what is the equivalent of `twenty <- A[2
-var twenty = A[1] is correct. Most things with 'var' partial credit.
+Name the following colors:
 
-14. What is "class" in: <g class="labels label-text"></g>
-An attribute. None of the others are at all correct. you use .attr() to set it.
+	# 00 00 00
+	# ff 00 00
+	# 00 ff 00
+	# 00 00 ff
+	# ff ff ff
+	# 00 ff ff
+	# ff 00 ff
+	# ff ff 00
+	
+What is the range of each tuple in HEX?
+
+## Congratulations You Survived!
+
+	Name:  
+	UNI:  
+	Date:
