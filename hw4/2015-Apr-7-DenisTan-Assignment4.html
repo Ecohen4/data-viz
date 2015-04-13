@@ -37,8 +37,8 @@
 		function GenerateData(num) {
 			dat = d3.range(num).map(function() {
 				return {
-					x: Math.random() * 100,
-					y: Math.random() * 100
+					x: Math.random() * 1,
+					y: Math.random() * 1
 					}
 				});
 		};
@@ -117,10 +117,14 @@
 		
 		function updateColor() {
 			svg.selectAll("circle")
+<<<<<<< HEAD
 				.style("fill", "gold")
 				.transition()
 				.duration(5000)
 				.style("fill", "black");
+=======
+				.style("fill", "gold");
+>>>>>>> d33c73ca64cee03ce9f872a7dd87c8204171b84e
 		}
 		
 		</script>
