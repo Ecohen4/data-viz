@@ -115,11 +115,11 @@ Columbia University
 		- [D3 on blocks](http://bl.ocks.org/mbostock)
 		- [D3 intro](http://d3js.org/#introduction)
 - Apr. 15 (W): Build a webpage on github.io
-- Apr. 20 (M): D3
-	- Quiz 4 & quiz review. 
+- Apr. 20 (M): Exam! Covers all topics since Spring Break.
 	- Reading due today (YES READ BOTH): 
 		- Data Viz w. D3.js Cookbook (Zhu) Ch. 10: Interactivity.
 		- Interactive Data Viz for the Web (Murray) Ch. 10: Interactivity.
+		- Study!
 - Apr. 22 (W): TBD
 - Apr, 27 (M): TBD
 - Apr. 29 (W): First FULL draft of conference paper due! Instructor review.
