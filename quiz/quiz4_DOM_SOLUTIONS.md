@@ -1,12 +1,12 @@
 
-	Course: Data Visualization (QMSS G4063) Spring 2015  
-	Time/Location: MW 1:10pm-2:25pm / 313 Fayerweather  
-	Instructor: Elliot Cohen, Ph.D.
-	
-	Quantitative Methods in the Social Sciences (QMSS)  
-	Graduate School of Arts and Sciences (GSAS) 
-	Columbia University
-	
+Data Visualization (QMSS G4063) Spring 2015  
+Quantitative Methods in the Social Sciences (QMSS)  
+Graduate School of Arts and Sciences (GSAS) 
+Columbia University
+
+Time/Location: MW 1:10pm-2:25pm / 313 Fayerweather  
+Instructor: Elliot Cohen, Ph.D.
+***
 
 # Quiz 4: Document Object Model
 
@@ -26,7 +26,7 @@ Data Driven Documents. A javascript library.
 
 ## JavaScript
 
-In the following sections, next to each line of Javascript, add a comment that describes what it does. Do not use the method name in its own definition.
+In the following sections, next to each line of Javascript, add a comment that describes what it does. Do _not_ use the method name in its own definition.
 
 For example, suppose we define the following JavaScript object, we comment accordingly:
 	
@@ -42,12 +42,12 @@ When functions are assigned to the properties of an object, we call them methods
 	a.unshift(0); // prepend one or more elements to the beginning of an array. The unshift() method is like the push() method, only it works at the beginning of the array.  
 
 #### Return Values From An Array
-What is the return value?
+What is the return value on each line?
 	
-	a[1];          			 // second item in the array. JS is zero indexed.
-	a[a.length-1]; 			 // last item in the array
+	a[1];      // second item in the array. JS is zero indexed.
+	a[a.length-1]; 	// last item in the array
 	a.slice(0, a.length-1); // array.slice(start, end) => returns all items but the last
-	a.slice(0);  			 // returns all the items
+	a.slice(0); // returns all the items
 
 #### JSON 
 Suppose we defined three JavaScript Objects:
@@ -85,7 +85,7 @@ Suppose we defined three JavaScript Objects:
 	    "TA" : "William Wallace",
 	    "location" : "Scotland",
 	    "time" : "T/TH 1:10pm-2:25pm",
-	    "awesome": false
+	    "awesome": true
 	}];
 
 	
@@ -120,7 +120,7 @@ What are the return values?
 	data.trial2[1] // [4,5]
 
 #### Functions
-Write a javascript function that returns a value one larger than the value passed in.
+Write a javascript function that returns a value one larger than the value passed in. Show how to use it.
 
 	function plus1(x) { //define a function named "plus1"
 		return x+1;     //return value one larger than the value passed in
@@ -141,17 +141,17 @@ Suppose we define two variables x and y:
 
 What are the return values to the following statements?
 
-	x==y;         		// equality test
-	x!=y;		  		// inequality test
-	x<y;		  		// is x less than y?
-	x <= y; 	  		// is x less than or equal to y?
-	false==(x>y);      // evaluates to true. False == False
-	(x==2) && (y==3);  // evaluates to true. both comparisons are true. && is AND.
-	(x>3) || (y<3);    // evaluates to false. neither comparison is true. || is OR.
-	!(x==y);           // evaluates to true. ! inverts a boolean value
+	x==y;         		// false. equality test
+	x!=y;		  		// true. inequality test
+	x<y;		  		// true. is x less than y?
+	x <= y; 	  		// true. is x less than or equal to y?
+	false==(x>y);       // true. false == false
+	(x==2) && (y==3);   // true. both comparisons are true. && is AND.
+	(x>3) || (y<3);    // false. neither comparison is true. || is OR.
+	!(x==y);           // true. ! inverts a boolean value
 
 ## CSS 
-Exactly like above, add comments to the following CSS selectors. [hint: use CSS comment characters instead of js]
+Same as above, add comments to the following CSS selectors. [hint: use CSS comment characters instead of js]
 
 	#ID    /* Target particular ID. this is the most specific selector of all */
 	
@@ -160,13 +160,12 @@ Exactly like above, add comments to the following CSS selectors. [hint: use CSS 
 	A B    /* Select all B elements that are descendants of A */
 	
 	div li {
-	          color: "red" /* Select all list items in a particular div and set them to red */
-	        } 
+	          color: "red"
+	        } /* Select all list items in a particular div and set them to red */
 	        
 	p{color:red;}    /* Type selectors select HTML Elements, e.g. p, H1, H2, ul, ol, lo */
 	
-	ul+p{color:red;} /* select the first <p> element that is immediately
-	                 /* adjacent to (e.g. follows) a ul element */
+	ul+p{color:red;} /* select the first <p> element that immediately follows a ul element */
 	
 	A>B{border: 10 solid black;} /* Direct Descendent */
 
@@ -180,13 +179,13 @@ Set a CSS style rule for all content paragraphs in the body of a DOM.
 			}
 */
 
-Write a D3 selector to apply your CSS style rule to all the paragraphs in the body of the DOM.
+Write a D3 selector to apply your CSS style rule to all content paragraphs in the body of the DOM.
 
-// d3.select("body").selectAll("p").attr("class", "content");
+// d3.select("body").append("p").attr("class", "content").text("content paragraph");
 
 
 ## Color
-Explain the difference between additive and subtractive colors?
+Explain the difference between additive and subtractive colors.
 
 Name the following colors:
 
