@@ -1,52 +1,45 @@
+Elliot Cohen, Ph.D.  
+Data Visualization (QMSS G4063) Spring 2015  
+Quantitative Methods in the Social Sciences (QMSS)  
+Graduate School of Arts and Sciences (GSAS) 
+Columbia University  
+***
 # Quiz 4: Document Object Model
 
-	Course: Data Visualization (QMSS G4063) Spring 2015  
-	Time/Location: MW 1:10pm-2:25pm / 313 Fayerweather  
-	Instructor: Elliot Cohen, Ph.D.
-	Quantitative Methods in the Social Sciences (QMSS)  
-	Graduate School of Arts and Sciences (GSAS) 
-	Columbia University
-	
-## Conceptual Framework
+What does `DOM` stand for?
+<br />
+<br />
+What does `HTML` stand for?  In one word, what is its primary purpose in the DOM?
+<br />
+<br />
+What does `CSS` stand for?  In one word, what is its primary purpose in the DOM?
+<br />
+<br />
+What does `D3` stand for? What is it?
+<br />
+<br />
 
-	What does `DOM` stand for?
-	
-	
-	
-	What does `HTML` stand for?  What is its primary purpose in the DOM? 
-	
-	 
-	
-	What does `CSS` stand for?  What is its primary purpose in the DOM?  
-	
-	
-	
-	What does `D3` stand for? What is it? 
-	
-	
-	
-	
 ## JavaScript
+In the following sections, next to each line of code, add a comment that describes what it does. Do not give circular answers (such as using a method name in its own definition).
 
-In the following sections, next to each line of Javascript, add a comment that describes what it does. Do not use the method name in its own definition.
-
-For example, suppose we define the following JavaScript object, we comment accordingly:
+As an example, suppose we define the following JavaScript object, we comment accordingly:
 	
-	var a = [1,2,3,4,5,6,7]; // defines an array
+	var a = [1,2,3,4,5,6,7]; // defines an array --> good answer
+	var a = [1,2,3,4,5,6,7]; // sets a = 1:7 --> bad answer
 	
 #### Methods
 When functions are assigned to the properties of an object, we call them methods.  What do the following methods do? Again, I will answer the first one for you as an example:
 
-	a.length;	  // returns the length of the array.
-	a.push(8);   
-	a.pop();     
-	a.shift();   
-	a.unshift(0);
+	a.push(8);    // append the number 8 to the end of the array
+	a.length;  
+	a.pop();    
+	a.shift(); 
+	a.unshift(0); 
 
 #### Return Values From An Array
 What is the return value on each line?
 	
-	a[1];          			 
+	a[1];
 	a[a.length-1];
 	a.slice(0, a.length-1);
 	a.slice(0);
@@ -87,22 +80,20 @@ Suppose we defined three JavaScript Objects:
 	    "TA" : "William Wallace",
 	    "location" : "Scotland",
 	    "time" : "T/TH 1:10pm-2:25pm",
-	    "awesome": false
+	    "awesome": true
 	}];
 
 	
 What are the return values?
 
-	book.topic;			
-	book["useful"];
-	book.author==="Flanagan";
-	schedule[1].instructor;	 
-	schedule[1].location;
+	book.topic					
+	book["useful"]				
+	book.author==="Flanagan";	
+	schedule[1].instructor;	    
+	schedule[1].location;		
 
-How do you access the following information?
-	
-	Kyle's age?  
-	Jason's name?  
+How do you access Kyle's age?  
+How do you access Jason's name?  
 
 
 Now let's define two more JSON:
@@ -124,16 +115,15 @@ What are the return values?
 	data.trial2[1]
 
 #### Functions
+Write a javascript function that returns a value one larger than the value passed in. Show how to use it.
 
-Write a javascript function that returns a value one larger than the value passed in.
-
-	|
-	|
-	|
-	|
+<br />
+<br />
+<br />
+<br />
 
 Evaluate:
-	
+
 	[1, 2, 7, 10].filter(function(i) { return i > 5 })[1]
 
 #### Relational Operators
@@ -153,48 +143,40 @@ What are the return values to the following statements?
 	!(x==y);
 
 ## CSS 
-Exactly like above, add comments to the following CSS selectors. [hint: use CSS comment characters instead of js]
+Comment the following CSS selectors. Use CSS comment characters instead of js.
 
-	#ID	
-	
+	#ID
 	.class
-	
 	A B
-	
 	div li {
 	          color: "red"
-	        } 
-	        
+	        }     
 	p{color:red;}
-		
-	ul+p{color:red;}	
-	
+	ul+p{color:red;}
 	A>B{border: 10 solid black;}
+
  
-Now write your own code!
+Set a CSS style rule for all content paragraphs in the body of a DOM.
 
-	Set a CSS style rule for all content paragraphs in the body of a DOM.
-	
-	
-	
-	
-	
-	Write a D3 selector to apply your CSS style rule to all the paragraphs in the body of the DOM.
-	|
-	|
-	|
-	|
-	
+<br />
+<br />
+<br />
+<br />
 
+Write a D3 selector to apply your CSS style rule to all content paragraphs in the body of the DOM.
+
+<br />
+<br />
+<br />
+<br />
 
 ## Color
+Explain the difference between additive and subtractive colors.
 
-## Color
-
-	Explain the difference between additive and subtractive colors?
-	
-	
-
+<br />
+<br />
+<br />
+<br />
 
 Name the following colors:
 
@@ -208,9 +190,15 @@ Name the following colors:
 	# ff ff 00
 	
 What is the range of each tuple in HEX?
+<br />
+<br />
 
 ## Congratulations You Survived!
-
-	Name:  
-	UNI:  
-	Date:
+Questions?  
+Comments?  
+Suggestions?  
+<br />
+***
+Name:  
+UNI:  
+Date:

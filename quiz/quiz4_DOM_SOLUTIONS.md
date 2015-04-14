@@ -12,33 +12,33 @@ Instructor: Elliot Cohen, Ph.D.
 
 ## Conceptual Framework
 
-2. What does `DOM` stand for?  
+What does `DOM` stand for?  
 Document Object Model.
 
-1. What does `HTML` stand for?  What is its primary purpose in the DOM?  
+What does `HTML` stand for?  What is its primary purpose in the DOM?  
 Hypertext Markup Language. Structure.
 
-1. What does `CSS` stand for?  What is its primary purpose in the DOM?  
+What does `CSS` stand for?  What is its primary purpose in the DOM?  
 Cascading Style Sheets. Style.
 
-3. What does `D3` stand for? What is it?  
+What does `D3` stand for? What is it?  
 Data Driven Documents. A javascript library. 
 
 ## JavaScript
+In the following sections, next to each line of code, add a comment that describes what it does. Do not give circular answers (such as using a method name in its own definition).
 
-In the following sections, next to each line of Javascript, add a comment that describes what it does. Do _not_ use the method name in its own definition.
-
-For example, suppose we define the following JavaScript object, we comment accordingly:
+As an example, suppose we define the following JavaScript object, we comment accordingly:
 	
-	var a = [1,2,3,4,5,6,7]; // defines an array
+	var a = [1,2,3,4,5,6,7]; // defines an array --> good answer
+	var a = [1,2,3,4,5,6,7]; // sets a = 1:7 --> bad answer
 	
 #### Methods
 When functions are assigned to the properties of an object, we call them methods.  What do the following methods do? Again, I will answer the first one for you as an example:
 
+	a.push(8);    // append the number 8 to the end of the array
 	a.length;	  // returns the length of the array.
-	a.push(8);   // append the number 8 to the end of the array
-	a.pop();     // remove the last number and return its value
-	a.shift();   // remove the first value
+	a.pop();      // remove the last number and return its value
+	a.shift();    // remove the first value
 	a.unshift(0); // prepend one or more elements to the beginning of an array. The unshift() method is like the push() method, only it works at the beginning of the array.  
 
 #### Return Values From An Array
@@ -186,6 +186,10 @@ Write a D3 selector to apply your CSS style rule to all content paragraphs in th
 
 ## Color
 Explain the difference between additive and subtractive colors.
+<br />
+<br />
+<br />
+<br />
 
 Name the following colors:
 
