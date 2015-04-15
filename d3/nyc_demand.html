@@ -13,10 +13,10 @@
 
 		div.bar {
 			display: inline-block;
+			height: 75px; /* Gets overriden by D3-assigned height */
 			width: 10px;
-			height: 75px;/* Gets overriden by D3-assigned height below */
-			margin-right: 2px;
-			background-color: teal;
+			margin-right: 0px;
+			background-color: blue;
 		}
 
 	</style>
@@ -27,42 +27,52 @@
 </head>
 
 <body>
-<script>
- 
-		var getDemand = function(data) {
-			var demand = []
-			for (var i = data.length - 1; i >= 0; i--) {
-				demand.push(
-					data[i].DM
-					)
-			}	
-			return demand
-		};
+<script type="text/JavaScript">
+		var figHieght = 300;  // figure width
+		var goldenRatio = (1 + Math.sqrt(5)) / 2;
+		var figWidth = figHieght * goldenRatio;  // figure width
 
-		// create a date property to nyc
+		//var demand = [];
+
+		// extract DM and assign to new array called demand
+		// var getDemand = function(d) {
+		// 	for (var i = d.length - 1; i >= 0; i--) {
+		// 		demand.push(
+		// 			d[i].DM
+		// 			)
+		// 	}
+		// 	return demand
+		// };
+
+		// add a date property to data
 		var getDate = function(d) {
 			d.DATE = new Date (d.YR, d.M - 1, d.D, d.HR) 
 			return d
 		}; 
 
+		var xScale = d3.scale.linear()
+			.domain([0,function(d) { Math.max(d.DM) } ])
+			.range([0,figWidth]);
 
 		d3.csv("NYC_US_Hourly_Demand.csv")
-		.row(getDate)
-		.get(function(err, data) {draw(data)})
+			.row(getDate)
+			.get(function(err, data) {draw(data)})
 
 		var draw = function(data) {
 			d3.select("body").selectAll("div")
-				.data(data.slice(0,8760/12)) // just the first year
+				.data(data.slice(0,8760/52)) // just the first week
 				.enter()
 				.append("div")
 				.attr("class", "bar")
 				.style("height", function(d) {
-					var barHeight = d.DM * (1/10);
+					var barHeight = d.DM * (1/20)
 					return barHeight + "px"
-				});
-
+					})
+				.style("width", function(d) {
+					var barWidth = totalWidth/data.slice(0,8760/52).length
+					return barWidth + "px"
+					})
 			};
 </script>
-
 </body>
 </html>

@@ -7,16 +7,14 @@
 <body>
 
 	<script>
-		d3.csv("example.csv", function(d) {
-			return {
+	var data = []
+	d3.csv("example.csv", function(d) {
     year: new Date(+d.Year, 0, 1), // convert "Year" column to Date
     make: d.Make,
     model: d.Model,
     length: +d.Length // convert "Length" column to number
+    return d
 };
-}, function(error, rows) {
-	console.log(rows);
-});
 
 	</script>
 </body>
