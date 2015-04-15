@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+</head>
+<body>
+
+	<script>
+		d3.csv("example.csv", function(d) {
+			return {
+    year: new Date(+d.Year, 0, 1), // convert "Year" column to Date
+    make: d.Make,
+    model: d.Model,
+    length: +d.Length // convert "Length" column to number
+};
+}, function(error, rows) {
+	console.log(rows);
+});
+
+	</script>
+</body>
