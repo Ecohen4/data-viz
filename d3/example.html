@@ -7,14 +7,80 @@
 <body>
 
 	<script>
-	var data = []
-	d3.csv("example.csv", function(d) {
-    year: new Date(+d.Year, 0, 1), // convert "Year" column to Date
-    make: d.Make,
-    model: d.Model,
-    length: +d.Length // convert "Length" column to number
-    return d
-};
+	var nyc = []
+	var demand = []
+	
+	// choose data range to visualize
+	
+	//var range = d.length - 1 // all the data
+	var range = 24*7 // just the first week
+
+	d3.csv("NYC_US_Hourly_Demand.csv", function(d) {
+		nyc = d;
+		for (var i = 0; i <= range; i++) {
+			demand.push(
+				d[i].DM
+				)
+		};
+		draw(demand)
+	});
+
+	// d3.csv("NYC_US_Hourly_Demand.csv")
+	// 	.row(getDemand)
+	// 	.get(function(err, data) {draw(demand)})
+
+
+	// sanity check
+	// nyc[1].DM == demand[1] // true
+	
+	// print all the demand values in the console
+	// for (var i = 0; i < demand.length - 1; i++) {console.log(demand[i] ) } ;
+
+	
+	var w = 500;
+	var h = 100;
+	var barPadding = 1;
+	
+	var draw = function (demand){
+
+		var yScale = d3.scale.linear()
+			.domain([0, +d3.max(demand) ])
+			.range([0,h]);
+
+		var svg = d3.select("body")
+			.append("svg")
+			.attr("width", w)
+			.attr("height", h);
+
+		svg.selectAll("rect")
+			.data(demand)
+			.enter()
+			.append("rect")
+			.attr({
+				x: function(d, i) {return i* (w/ demand.length); }, // assign x coordinate as a function of data row index [i].
+				y: function(d) {return h - yScale(+d); }, //grow down from the top.
+				width: (w / demand.length) - barPadding,
+				height: function(d) { return yScale(+d); } //puts "bottom" of the rect on the bottom of the svg.
+			});
+	}
+	
+
+	// var getDate = function(d) {
+	// 	d.DATE = new Date (d.YR, d.M - 1, d.D, d.HR) 
+	// 	return d
+	// 	}; 
+
+
+
+// 			return {
+//     year: new Date(+d.Year, 0, 1), // convert "Year" column to Date
+//     make: d.Make,
+//     model: d.Model,
+//     length: +d.Length // convert "Length" column to number
+// };
+// }, function(error, d) {
+// 	console.log(data);
+// });
 
 	</script>
 </body>
