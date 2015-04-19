@@ -1,0 +1,47 @@
+<html>
+
+<body>
+
+<svg width="500" height="500">
+  <circle cx="100" cy="250" r="40" fill="lightblue" />
+  <circle cx="150" cy="170" r="30" fill="grey" />
+    <circle cx="250" cy="180" r="50" fill="lightblue" />
+  <circle cx="120" cy="70" r="10" fill="grey" />
+    <circle cx="110" cy="230" r="5" fill="lightblue" />
+
+ <g transform="translate(...) scale(...) rotate(...) translate(...) rotate(...)">
+     ...
+   </g>
+   
+</svg>
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+
+var margin = {top: 100, right: 100, bottom: 100, left: 100},
+    width = 960 - margin.left - margin.right,
+    height = 120 - margin.top - margin.bottom;
+
+var x = d3.scale.ordinal()
+    .domain(["1", "2", "3", "4"])
+    .rangePoints([0, width]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg.append("g")
+    .attr("class", "x axis")
+    .call(xAxis);
+
+
+
+</script>
+
+</body>
