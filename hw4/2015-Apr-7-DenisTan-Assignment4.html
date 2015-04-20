@@ -117,6 +117,8 @@
 		
 		function updateColor() {
 			svg.selectAll("circle")
+				.transition()
+				.duration(1000)
 				.style("fill", "gold");
 		}
 		
