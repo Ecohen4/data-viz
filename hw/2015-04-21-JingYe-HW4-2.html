@@ -1,0 +1,174 @@
+<html lang="en">
+<head>
+	<meta cahrset="utf-8">
+	<title>Simulation of Linear Regression</title>
+	<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/NickQiZhu/d3-cookbook/master/css/styles.css"/>
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+	<div>
+	<button onclick="reset()">Start/Reset</button>
+	<button onclick="renderFit()">Fit with Linear Regression</button>
+	</div>
+    <div>
+        <p id="note"></p>
+        <p id="original"></p>
+        <p id="fit"></p>
+    </div>
+	<script>
+		var a=0.3,b=3,noise=1,n=100;
+		var width = 600,
+        	height = 600,
+        	margin = 50,
+			x = d3.scale.linear() 
+            	.domain([0, 10])
+            	.range([margin, width - margin]),
+        	y = d3.scale.linear()
+            	.domain([0, 10])
+            	.range([height - margin, margin]);
+
+		var svg=d3.select("body")
+				.append("svg")
+				.attr("height",height)
+				.attr("width",width);
+
+		function createSvg(){
+        	svg = d3.select("body")
+        		.append("svg")
+            	.attr("height", height)
+            	.attr("width", width);
+    	}
+		
+		function scatterplot(svg,data){
+			svg.selectAll("circle")
+				.data(data)
+				.enter()
+				.append("circle")
+				.attr("cx",function(d){
+					return d[0];
+				})
+				.attr("cy",function(d){
+					return d[1];
+				})
+				.attr("r",3);
+		}			
+
+		function renderAxes(){
+        	var xAxis = d3.svg.axis()
+                .scale(x.range([0, quadrantWidth()]))
+               	.orient("bottom");            
+                
+        	var yAxis = d3.svg.axis()
+                .scale(y.range([quadrantHeight(), 0]))
+                .orient("left");
+        
+        	svg.append("g")        
+            	.attr("class", "axis")
+            	.attr("transform", function(){
+                	return "translate(" + xStart() 
+                    	+ "," + yStart() + ")";
+            	})
+            	.call(xAxis);
+            svg.append("g")        
+            	.attr("class", "axis")
+            	.attr("transform", function(){
+                	return "translate(" + xStart() 
+                    	+ "," + yEnd() + ")";
+            	})
+            	.call(yAxis);
+        }
+
+        function xStart(){
+        	return margin;
+    	}        
+    
+    	function yStart(){
+        	return height - margin;
+    	}
+    
+    	function xEnd(){
+      		return width - margin;
+    	}
+    
+    	function yEnd(){
+        	return margin;
+    	}
+    	function quadrantWidth(){
+        	return width - 2 * margin;
+    	}
+    
+    	function quadrantHeight(){
+        	return height - 2 * margin;
+        }
+
+        function renderLine(svg,data){
+        	var line = d3.svg.line() 
+            	.x(function(d){return x(d.x);})
+           		.y(function(d){return y(d.y);});
+        	x = d3.scale.linear() 
+            	.domain([0, 10])
+            	.range([margin, width-margin]),
+        	y = d3.scale.linear() 
+            	.domain([0, 10])
+            	.range([height - margin, margin]);
+        	svg.selectAll("path")
+            	.data(data)
+            	.enter()
+            	.append("path") 
+            	.attr("class", "line")            
+            	.attr("d", function(d){return line(d);});
+    	}
+    	
+    	function reset(){
+    		svg.remove()
+    		createSvg();
+    		renderAxes();
+            d3.select("body").select("p#note")
+                .text("We first render random data from the original line function and add some noise, then we fit with linear regression to get a fit model. In this way, we simulate the process of linear regression.");
+            d3.select("body").select("p#fit").text("");
+    	}
+
+    	function renderData(){    		
+    		var dataset=[];
+            var sumx=0,sumy=0;
+            
+			for(var i=0;i<n;i++){
+				var dx=margin+Math.random()*400;
+				var dy=height-50*(a*(dx-margin)/50+b+Math.random()*noise-Math.random()*noise)-margin;
+				dataset.push([dx,dy]);
+                sumx+=((dx-margin)/50);
+                sumy+=((550-dy)/50);
+			}	
+            var avgx=sumx/n, avgy=sumy/n;
+            var para=[],tmp1=0,tmp2=0;
+            for(var i=0;i<n;i++){
+                tmp1+=((dataset[i][0]-margin)/50-avgx)*((550-dataset[i][1])/50-avgy);
+                tmp2+=((dataset[i][0]-margin)/50-avgx)*((dataset[i][0]-margin)/50-avgx);
+            }
+            para[0]=tmp1/tmp2;   // a
+            para[1]=avgy-para[0]*avgx;  // b
+            
+			scatterplot(svg,dataset);
+    		return para;
+    	}
+
+    	function renderFit(){
+    		svg.remove();
+    		createSvg();
+            para=renderData();  
+    		var datafit = [
+        		d3.range(100).map(function(i){
+            		return {x: i/10, y: para[0]*(i/10)+para[1]};
+        		})
+        	];
+        	renderLine(svg,datafit);
+            renderAxes(); 
+            d3.select("body").select("p#fit").text("We get Linear Fit: y="+para[0].toFixed(2)+"x+"+para[1].toFixed(2));
+            d3.select("body").select("p#original").text("Original n="+n+" dots come from model: y="+a+"x+"+b+" , noise set as 1 norm(0,1)");
+            
+
+    	}	
+	</script>
+</body>
+</html>
