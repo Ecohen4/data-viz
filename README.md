@@ -21,7 +21,8 @@ This course offers a rigorous introduction to data visualization from theory to 
 - **Quizzes (30%)** 
 Quizzes are essential for assessing student learning and pedagogical efficacy. There will be 4 quizzes in total; students may pick their best three to count towards their final grade.
 - **Homework (30%)**
-Students will complete at least three assignments and submit them to the course repository as pull requests. All submissions must follow a "*Year-Month-Day-YourName-AssignmentName.FileExtension*" naming convention. Assignments will serve as progress indicators on key concepts, methods and techniques.
+Students will complete at least three assignments and submit them to the course repository as pull requests. All submissions must follow a standard naming convention: `Year-Month-Day-YourName-AssignmentName.FileExtension`
+	Assignments will serve as progress indicators on key concepts, methods and techniques.
 - **Semester Project (30%)**
 Students will have the opportunity to work in small teams to create data visualizations worthy of their portfolios. The final deliverable will be a well-articulated, research-driven data visualization and accompanying prose in the form of a conference paper submission. Students will have considerable leeway in choosing a project topic and finding an appropriate conference or forum for submission.
 - **Class Participation (10%)**
@@ -46,27 +47,27 @@ Students will have the opportunity to work in small teams to create data visuali
 * [Tufte's Rules](http://www.sealthreinhold.com/tuftes-rules/rule_four.php). Above all else, show the data.
 * Grammar of Graphics. Wilkinson's theory and Wickham's implementation.
 * Meet your computer
-	* command line
+	* [command line](http://lifehacker.com/5633909/who-needs-a-mouse-learn-to-use-the-command-line-for-almost-anything)
 	* text editors
 	* file paths 
 * Working with data in `R` 
-	* [Basic training](http://ecohen4.github.io/data-viz/r/R-tutorial.html)
-	* Data analysis with `plyr`
-	* Data visualization with `ggplot`
-	* Scripting, debugging and writing functions
-	* Reproducible research and dynamic output with [Rmarkdown](http://rmarkdown.rstudio.com/RMarkdownReferenceGuide.pdf)
-* Communicating & sharing your results in the browser
-	* github.io
+	* [basic training](http://ecohen4.github.io/data-viz/r/R-tutorial.html)
+	* data analysis with `plyr`
+	* data visualization with `ggplot`
+	* scripting, debugging and writing functions
+	* reproducible research and dynamic output with [Rmarkdown](http://rmarkdown.rstudio.com/RMarkdownReferenceGuide.pdf)
+* communicating & sharing your results in the browser
+	* [github.io](https://pages.github.com/)
 	* `HTML`, `CSS`, `JavaScript`
-	* Interactive visualization with `D3` 
+	* interactive visualization with `D3` 
 * Version control and collaboration with `github`
-	* [Don't get scared, get started!](http://readwrite.com/2013/09/30/understanding-github-a-journey-for-beginners-part-1)
-	* [Github Help](https://help.github.com/articles/set-up-git/)
-	* [Git intro for readers](http://skli.se/2012/09/22/introduction-to-git/)
-	- [Git intro for visual and auditory learners](https://www.youtube.com/watch?v=LXoWxrTdXkM)
-	- [Git workflow for beginners](http://skli.se/2012/10/07/git-workflow-beginner/)
-	- [Forking](https://help.github.com/articles/fork-a-repo)
-	- [Sharing and Collaborating](https://www.youtube.com/watch?v=ifAEho6BmH0&list=PLg7s6cbtAD17uAwaZwiykDci_q3te3CTY)
+	* [don't get scared, get started!](http://readwrite.com/2013/09/30/understanding-github-a-journey-for-beginners-part-1)
+	* [github help](https://help.github.com/articles/set-up-git/)
+	* [git intro for readers](http://skli.se/2012/09/22/introduction-to-git/)
+	- [git intro for visual and auditory learners](https://www.youtube.com/watch?v=LXoWxrTdXkM)
+	- [git workflow for beginners](http://skli.se/2012/10/07/git-workflow-beginner/)
+	- [forking](https://help.github.com/articles/fork-a-repo)
+	- [sharing and collaborating](https://www.youtube.com/watch?v=ifAEho6BmH0&list=PLg7s6cbtAD17uAwaZwiykDci_q3te3CTY)
 
 
 ## Get Started Now!
@@ -84,14 +85,14 @@ Students will have the opportunity to work in small teams to create data visuali
 Your assignments will be submitted as pull requests to the class repository on github! Suppose you saved changes on your own `gh-pages` branch and would like to submit a ‘clean’ pull request with only your files and the commits you want. This is pretty easy.
 
 ### Option 1: Basic way with file checkouts (losing history):
-	git checkout upstream/gh-pages #you will be on a ‘detached HEAD’  
+	git checkout upstream/master #you will be on a ‘detached HEAD’  
 	git checkout -b hw1 #checkout a new branch called 'hw1'  
 	git checkout <branch> <folder/filename> #pluck a folder/file from another branch but stay on the current branch (in this case 'hw1').  
 	git add <folder/filename>
 	git commit -m "add only the right files on new clean branch"
-	git push -u hw1 #push commits to a new branch called hw1.
+	git push -u origin hw1 #push commits to a new branch called hw1.
 
-Your new `hw1` branch now has a copy of the folder/file(s) your plucked from elsewhere. Your working tree is still on the 'hw1' branch and you can continue to work on the files and commit+push further changes as frequently as you like.
+Your new `hw1` branch now has a copy of the folder/file(s) your plucked from elsewhere. Your working tree is still on the `hw1` branch and you can continue to work on the files and commit+push further changes as frequently as you like.
 
 ### Option 2: Advanced way with Rebase (history re-written)
  

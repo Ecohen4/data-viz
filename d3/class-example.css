@@ -1,0 +1,13 @@
+div {	
+
+background-color: red;
+font-size: 40;
+font-weight: bold;
+color: white;
+
+}
+
+p.highlight {
+ background-color: yellow;
+ color: black;
+}
