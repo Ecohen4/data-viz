@@ -1,0 +1,85 @@
+---
+title: "HW1-Data-Vizualization"
+author: "Dhruv Nair"
+date: "Tuesday, February 03, 2015"
+output: html_document
+---
+Load required libraries. 
+
+```{r}
+if (!require(plyr)) install.packages("plyr")
+library(plyr)
+
+if (!require(ggplot2)) install.packages("ggplot2")
+library(ggplot2)
+```
+
+The first step is to load the data into R, and create the neccessary data.frame. In order to to this, I first merged both data sets by the unique_lga column and labeled it Nigeria_Data. I then extracted a subset for all locations below 8.00 N latitude (since this point is considered central Nigeria)
+
+```{r, echo=FALSE}
+
+setwd("C:/Users/suresh/Documents/GitHub/data-viz/r")
+HealthDat <- "Health_Mopup_and_Baseline_NMIS_Facility.csv"
+LGA <- "lgas.csv"
+Nigeria_Facilities <- read.csv(HealthDat)
+LGA <- read.csv(LGA)
+Nigeria_Data <- merge(Nigeria_Facilities,LGA,by = "unique_lga")
+Nigeria_South_Data = subset(Nigeria_Data, latitude.y < 8.00)
+```
+
+Now it's possible to manipulate this data.frame and get the required values. Before doing any calculations, it's best to check whether there are any NAs in the data.frame, specifically in the column telling us the number of nurses/doctors that are full time. 
+
+```{r}
+sum(is.na(Nigeria_South_Data$num_nurses_fulltime))
+
+```
+
+There are 1274 NA's in that particular column. Unfortunately, I was unable to figure out how to remove those specific rows associated with those NA's, so I removed all NA's from the dataset.
+
+```{r}
+Nigeria_South_Data <- na.omit(Nigeria_South_Data)
+sum(is.na(Nigeria_South_Data$num_nurses_fulltime))
+```
+
+Using ddply I calculated the total number of nurses and doctors per state and merged them into a new data.frame
+
+```{r}
+
+Doctors_ByState <- ddply(Nigeria_South_Data,"state",summarise,Total.Doctors=sum(num_doctors_fulltime))
+Nurse_ByState <- ddply(Nigeria_South_Data,"state",summarise,Total.Nurses=sum(num_nurses_fulltime))
+Doc_Nurse_Total <- merge(Doctors_ByState,Nurse_ByState, by = "state")
+```
+
+Similarly, to calculate the number of Doctors and Nurses per capita, and per area I calculated the total population using ddply and merged it with the previous data.frame Doc_Nurse_Total
+
+```{r}
+Total_Population <- ddply(Nigeria_South_Data,"state",summarise,TotalPopulation = sum(pop_2006))
+Total_Area <- ddply(Nigeria_South_Data,"state",summarise,TotalArea=sum(area_sq_km))
+Doc_Nurse_Total <- merge(Doc_Nurse_Total,Total_Area, by="state")
+Doc_Nurse_Total <- merge(Doc_Nurse_Total,Total_Population, by="state")
+```
+
+Finally, I added the required columns to the data.frame
+
+```{r}
+Doc_Nurse_Total$Nurses_PerCapita <- Doc_Nurse_Total$Total.Nurses/Doc_Nurse_Total$TotalPopulation
+Doc_Nurse_Total$Doc_PerCapita <- Doc_Nurse_Total$Total.Doctors/Doc_Nurse_Total$TotalPopulation
+Doc_Nurse_Total$Nurses_PerArea <- Doc_Nurse_Total$Total.Nurses/Doc_Nurse_Total$TotalArea
+Doc_Nurse_Total$Doc_PerArea <- Doc_Nurse_Total$Total.Doctors/Doc_Nurse_Total$TotalArea
+```
+
+Plots 
+
+```{r, echo=FALSE}
+
+qplot(state,Total.Doctors,data=Doc_Nurse_Total,color=state)
+qplot(state,Total.Nurses,data=Doc_Nurse_Total,color=state)
+qplot(state,Doc_PerCapita,data=Doc_Nurse_Total,color=state)
+qplot(state,Nurses_PerCapita,data=Doc_Nurse_Total,color=state)
+qplot(state,Doc_PerArea,data=Doc_Nurse_Total,color=state)
+qplot(state,Nurses_PerArea,data=Doc_Nurse_Total,color=state)
+
+```
+
+Could not find methods to increase the scale on the x-axis. 
+
