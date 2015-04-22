@@ -98,12 +98,15 @@
 			rcol = d3.scale.linear()
 				.domain([0, rmax])
 				.range([0, 255]);
+<<<<<<< HEAD
 			
 		function zoom() {
 			svg.attr("transform", "translate(" 
 				+ d3.event.translate 
 				+ ")scale(" + d3.event.scale + ")");
 		}
+=======
+>>>>>>> 3962916018f99c6e770a2d81ca3f8336d5d64c1c
 			
 		function renderAxis() {			
 			svg.append("g")
@@ -175,7 +178,13 @@
 				})
 				.attr("r", function (d) {
 					return rScale(d.r);
+<<<<<<< HEAD
 				});
+=======
+				})
+				.on("click", function(d) { console.log(d);
+				});;
+>>>>>>> 3962916018f99c6e770a2d81ca3f8336d5d64c1c
 		}
 		
 		function updateWithNewData() {
@@ -193,7 +202,13 @@
 				})
 				.attr("r", function (d) {
 					return rScale(d.r);
+<<<<<<< HEAD
 				});
+=======
+				})
+				.on("click", function(d) { console.log(d);
+				});;
+>>>>>>> 3962916018f99c6e770a2d81ca3f8336d5d64c1c
 		}
 		
 		function removeData() {

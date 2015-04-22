@@ -8,17 +8,7 @@
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
 	<!-- stylesheet -->
-	<!-- <link rel="stylesheet" href="style.css"> -->
 	<style type="text/css">
-
-		div.bar {
-			display: inline-block;
-			height: 75px; /* Gets overriden by D3-assigned height */
-			width: 10px;
-			margin-right: 1px;
-			background-color: blue;
-		}
-
 	</style>
 
 	<!-- JavaScript-->
@@ -53,6 +43,10 @@
 		var xScale = d3.scale.linear()
 			.domain([0, function(d) { d3.max(d) } ])
 			.range([0, figWidth]);
+
+		d3.csv("NYC_US_Hourly_Demand.csv"), function(data) {
+			console.log(data);
+		});
 
 		d3.csv("NYC_US_Hourly_Demand.csv")
 			.row(getDate)

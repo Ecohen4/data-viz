@@ -15,6 +15,7 @@
 	font-family: 'Open Sans';
 	font-size: 11px;
 	fill: black;
+<<<<<<< HEAD
 }
 
 rect:hover {
@@ -45,4 +46,6 @@ rect:hover {
 	font-family: sans-serif;
 	font-size: 16px;
 	line-height: 20px;
+=======
+>>>>>>> 3962916018f99c6e770a2d81ca3f8336d5d64c1c
 }

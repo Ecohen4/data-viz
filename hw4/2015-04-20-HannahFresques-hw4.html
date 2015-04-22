@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Test Test</title>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <style type="text/css">
+
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: black;
+        shape-rendering: crispEdges;
+      }
+
+      .axis text {
+        font-size: 12px;
+      }
+
+    </style>
+</head>
+
+<h1>
+  Great scatterplot, version 2.0
+</h1>
+
+<body>
+
+  <p>
+    Hannah Fresques (hmf2125)<br>
+    QMSS Data Visualization<br>
+    April 20, 2015<br>
+    Water Resevoir Levels<br>
+    https://data.cityofnewyork.us/Environment/Water-Resevoir-Levels/zkky-n5j3
+  </p>
+
+
+<script type="text/javascript">
+
+    // Get data from API
+    var getJSON = function(url) {
+      return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('get', url, true);
+        xhr.responseType = 'json';
+        xhr.onload = function() {
+          var status = xhr.status;
+          if (status == 200) {
+            resolve(xhr.response);
+          } else {
+            reject(status);
+          }
+        };
+        xhr.send();
+      });
+    };
+
+    getJSON('https://data.cityofnewyork.us/resource/zkky-n5j3.json').then(function(data) {
+        // alert('Your Json result is:  ' + JSON.stringify(data)); //you can comment this, i used it to debug
+         console.log(JSON.stringify(data[0]));
+        // call function to plot data
+        plotData(data);
+
+    }, function(status) { //error detection....
+      alert('Something went wrong.');
+    });
+
+
+
+    // define function to plot data
+    var plotData = function(data) {
+      // check check
+      console.log(JSON.stringify(data[0]));
+
+      var fakedate = new Date(1109692800000);
+      console.log(fakedate.toDateString());
+      // The json has dates as 10 digits. Correct values should be 13 digits.
+      // This is because my data measured time in seconds, as opposed to miliseconds (standard).
+      // If I multiply by 1000 I get the correct date for early points.
+      // However, I expected the date range to go through 2010, not 2008.
+      // I'm not sure why this is happening :(
+
+      // define variables used throughout
+      var height = 433,
+          width = 800,
+          margin = 50,
+          axisWidth = width - 2 * margin,
+          svg;
+
+
+      // define scales
+      var xScale = d3.time.scale()
+                           .domain([d3.min(data, function(d) { return d.neversink_date*1000; }),
+                                    d3.max(data, function(d) { return d.neversink_date*1000; }) ])
+                           .range([margin, axisWidth])
+                           .nice()
+                           ;
+
+       var yScale = d3.scale.linear()
+                            .domain([d3.min(data, function(d) { return parseInt(d.neversink_elevation); }),
+                                     d3.max(data, function(d) { return parseInt(d.neversink_elevation); }) ])
+                            .range([height-margin, margin])
+                            .nice()
+                            ;
+       // create svg
+       svg = d3.select("body").append("svg")
+          .attr("width", width)
+          .attr("height", height);
+
+      // define axes
+      var xAxis = d3.svg.axis()
+          .scale(xScale)
+          .orient("bottom")
+          .ticks(5);
+
+      var yAxis = d3.svg.axis()
+          .scale(yScale)
+          .orient("left")
+          .ticks(5);
+
+      // render data
+      svg.selectAll("circle")
+         .data(data)
+         .enter()
+         .append("circle")
+         .attr("cx", function(d) {
+                      return xScale(d.neversink_date*1000);
+                    })
+         .attr("cy", function(d) {
+                      return yScale(parseInt(d.neversink_elevation));
+                    })
+         .attr("r", 3)
+         ;
+
+
+      // render axis
+      svg.append("g")
+          .attr("class", "axis")
+          .attr("transform", "translate(" + 0 + "," + (height-margin) + ")")
+          .call(xAxis);
+
+      svg.append("g")
+          .attr("class", "axis")
+          .attr("transform", "translate(" + margin + "," + 0 + ")")
+          .call(yAxis);
+
+
+    // wish list for improvements
+    // - make this a line graph instead of a scatter plot
+    // - show elevation for two resevoirs on the same plot 
+    // - add interactivity to choose which resevoirs to display
+
+    }; //close plotData function
+
+</script>
+
+
+</body>
+
+</html>
