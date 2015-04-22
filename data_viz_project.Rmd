@@ -1,0 +1,123 @@
+---
+title: "times series + Microscobes visualization"
+author: "yl3174"
+date: "Thursday, March 19, 2015"
+output: html_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+# Time Series Visualization
+setwd("D:/Columbia/Subject/spring2015/4063-Dataviz/midterm")
+library(ggplot2)
+library(maps)
+library(reshape)
+
+data=airquality
+data=na.omit(data)
+
+data$time=as.character(paste("2014",data$Month,data$Day,sep="-"))
+data$Date=as.Date(data$time,"%Y-%m-%d")
+
+p<-ggplot(data,aes(x=Date,y=Ozone))+geom_line()
+
+timeseriesPlot <- function(Temp,Wind){
+  if(Temp==TRUE & Wind==TRUE) {
+    dataplot=data[,-c(2,5,6,7)]
+    dataplot=melt(dataplot,id.vars=c("Date"))
+    p=ggplot(dataplot,aes(x=Date,y=value,color=variable))+geom_line()
+    p=p+scale_y_continuous(name="Value")+labs(title="AirQuality")
+  }
+  if(Temp==TRUE & Wind==FALSE) {
+    dataplot=data[,-c(2,3,5,6,7)]
+    dataplot=melt(dataplot,id.vars=c("Date"))
+    p=ggplot(dataplot,aes(x=Date,y=value,color=variable))+geom_line()
+    p=p+scale_y_continuous(name="Value")+labs(title="AirQuality")
+  }
+  if(Temp==FALSE & Wind==TRUE) {
+    dataplot=data[,-c(2,4,5,6,7)]
+    dataplot=melt(dataplot,id.vars=c("Date"))
+    p=ggplot(dataplot,aes(x=Date,y=value,color=variable))+geom_line()
+    p=p+scale_y_continuous(name="Value")+labs(title="AirQuality")
+  }
+  if(Temp==FALSE & Wind==FALSE) {
+    dataplot=data[,-c(2,3,4,5,6,7)]
+    dataplot=melt(dataplot,id.vars=c("Date"))
+    p=ggplot(dataplot,aes(x=Date,y=value,color=variable))+geom_line()
+    p=p+scale_y_continuous(name="Value")+labs(title="AirQuality")
+  }
+  return(p)
+}
+
+timeseriesPlot(Temp=TRUE,Wind=FALSE)
+timeseriesPlot(Temp=TRUE,Wind=TRUE)
+timeseriesPlot(Temp=FALSE,Wind=FALSE)
+timeseriesPlot(Temp=FALSE,Wind=TRUE)
+
+# Microscobes visualization
+
+library(ggplot2)
+
+library(grid)
+setwd("D:/Columbia/Subject/spring2015/4063-Dataviz/hw2")
+germs <- read.csv(file="Microbe-scope-bugs.csv", header=TRUE)
+
+## pre-processing
+# assign descriptive column names where absent
+names(germs)[1]<-"germ"
+names(germs)[2] <- "DEADLINESS"
+names(germs)[4] <- "CONTAGIOUSNESS"
+names(germs)[5] <- "PRIMARY_TRANSMISSION_METHOD"
+
+# keep only data columns, exclude notes/links
+germs <- germs[-1, ] # remove **row** of notes
+germs.out <- germs[, c(1,2,4:7)] # keep data **columns** only
+
+# remove percent signs
+dropPct<-function(df, var){
+  dropPct<-strsplit(as.character(df[[var]]), split="%")
+  df[[var]]<-as.numeric(dropPct)
+  return(df[[var]])
+}
+
+# remove % signs, leaving a numeric value.
+germs.out[["DEADLINESS"]]<-dropPct(germs.out, "DEADLINESS")
+
+germs.out$CONTAGIOUSNESS <- as.numeric(levels(germs.out$CONTAGIOUSNESS))[germs.out$CONTAGIOUSNESS]
+
+for(i in 1:dim(germs.out[4])[1])
+{
+  if("airborne droplet"==germs.out[4][i,])
+    germs.out[4][i,]="airborne"
+}
+
+g <- ggplot(germs.out,aes(CONTAGIOUSNESS,DEADLINESS))
+#p<-
+g+
+geom_point(aes(color=PRIMARY_TRANSMISSION_METHOD))+
+labs(title="The Microbe-scope")+
+labs(y="DEADLINES (%)")+
+guides(color=guide_legend(title="PRIMARY TRANSMISSION METHOD"))+
+geom_text(aes(label=germ,color=PRIMARY_TRANSMISSION_METHOD),hjust=-0.1, vjust=-0.1,size=2)+
+scale_x_continuous(breaks=c(seq(0, 17, by = 1)),limits=c(0,22)) +
+scale_y_continuous(breaks =c(seq(0, 100, by = 10),1))+
+theme_bw()+
+theme(plot.title = element_text(hjust = 0, vjust=0),legend.key.size = unit(0, "cm"),legend.position='top',legend.text=element_text(size=7))+
+geom_vline(xintercept=c(1,5,7,12))+
+geom_text(aes(0,110, label="not very"), color="grey",size=3)+
+geom_text(aes(3,110, label="quite contagious"), color="grey",size=3)+
+geom_text(aes(6,110, label="very"), color="grey",size=3)+
+geom_text(aes(9,110, label="highly"), color="grey",size=3)+
+geom_text(aes(14,110, label="vaccinate now!"), color="grey",size=3)+
+geom_text(aes(21,80, label="extremely deadly"), color="grey",size=3)+
+geom_text(aes(21.4,35, label="deadly"), color="grey",size=3)+
+geom_text(aes(21.4,10, label="quite deadly"), color="grey",size=3)+
+geom_text(aes(21.3,0.5, label="not too deadly"), color="grey",size=3)+
+annotate("rect", xmin=0, xmax=17, ymin=0, ymax=1, alpha=0.5, fill="grey")+
+annotate("rect", xmin=0, xmax=17, ymin=20, ymax=50, alpha=0.5, fill="grey")
+
+#ggsave( "plot.png",p, width = 16, height = 10, dpi = 120)
+```
