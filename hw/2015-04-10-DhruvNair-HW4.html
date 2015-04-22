@@ -1,114 +1,136 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title>Dhruv Nair HW3</title>
-    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>    
-</head>
+    
+    <head>
+        <meta charset="utf-8">
+        <title>Dhruv Nair HW4</title>
+        <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    </head>
+    
+    <body>
+        <button onclick="plotr()">Generate Plot</button>
+        <br>
+        <button id="update">Click Me</button>
+        <script>
+            function plotr() {
 
-<body>
+                //Generate an array of random data points
+                var data = [];
+                for (var i = 0; i < 50; i++) {
+                    data[i] = Math.round((Math.random() * 100));
+                }
 
-	<button onclick="plotr()"> Generate Plot </button><br>
-	<p> Click Me </p>
-	
+                console.log(data)
 
-	<script>
-		
-		function plotr() {
-		//Generate an array of random data points
-			var data = [];
-			for (var i = 0; i < 50; i++) {
-				data[i] = Math.round((Math.random() * 100));
-			}
-			console.log(data)
-		//Setting chart variables
-			var margin = {top: 50, right: 50, bottom: 50, left: 50},
-    			width = 960 - margin.left - margin.right,
-    			height = 500 - margin.top - margin.bottom;
-    		
-    		var barPadding = 1;
-    		
-    		var xScale = d3.scale.ordinal()
-                .domain(d3.range(dataset.length))
-                .rangeRoundBands([0, w], 0.05);
+                //Setting chart variables
+                var margin = {
+                    top: 50,
+                    right: 50,
+                    bottom: 50,
+                    left: 50
+                },
+                width = 960 - margin.left - margin.right,
+                    height = 500 - margin.top - margin.bottom;
 
-            var yScale = d3.scale.linear()
-                .domain([0, d3.max(data)])
-                .range([0, height]);
+                //var barPadding = 1;
 
-    	//Creating the svg and adding it to the DOM
-    		var svg = d3.select("body")
-       			.append("svg")
-        		.attr("width", width)
-    			.attr("height", height);
-    	//Editing the svg	
-    		svg.selectAll("rect")
-				.data(data)
-				.enter()
-				.append("rect")
-				.attr("x", function(d, i) {
-					return i * (width / data.length); 
-				})
-				.attr("y", function(d) {
-    				return height - yScale(d);  
-				})
-				.attr("width", xScale.rangeBand())
-				.attr("height", function(d) {
-    				return d*1000; 
-    			}) 
-				.attr("fill", function(d) {
-					return "rgb(0," + (d * Math.round((Math.random() * 100) )) + ", " + (d * Math.round((Math.random() * 100) )) + ")";
-				})
+                var xScale = d3.scale.ordinal()
+                    .domain(d3.range(data.length))
+                    .rangeRoundBands([0, width], 0.05);
 
-			svg.selectAll("text")
-   				.data(dataset)
-   				.enter()
-   				.append("text")
-   				.text(function(d) {
-        			return d;
-   				})
-   				.attr("x", function(d, i) {
-        			return i * (width / dataset.length) + 5;
-   				})
-   				.attr("y", function(d) {
-        			return height - (d * 4) + 15;              // +15
-   				});
-   				.attr("font-family", "sans-serif")
-   				.attr("font-size", "11px")
-   				.attr("fill", "white");
+                var yScale = d3.scale.linear()
+                    .domain([0, d3.max(data)])
+                    .range([0, height]);
 
+                //Creating the svg and adding it to the DOM
+                var svg = d3.select("body")
+                    .append("svg")
+                    .attr("width", width)
+                    .attr("height", height);
 
-		d3.select("p")
-			.on("click", function () {
-				data2 = []
-				for (var i = 0; i < 50; i++) {
-				data2[i] = Math.round((Math.random() * 100));
-				}	
-				console.log(data2)
-			//update bar graph
-				svg.selectAll("rect")
-					.data(data2)
-					.transition()
-					.delay(function(d, i) {
-							return i / data2.length * 1000;
-					})
-					.duration(500)
-					.attr("y", function(d) {
-					   	return height - d;
-					})
-					.attr("height", function(d) {
-					   	return d*1000;
-					})
-					.attr("fill", function(d) {
-						return "rgb(0," + (d * Math.round((Math.random() * 100) )) + ", " + (d * Math.round((Math.random() * 100) )) + ")";
-					})
+                //Adding Rectangles to the SVG
+                svg.selectAll("rect")
+                    .data(data)
+                    .enter()
+                    .append("rect")
+                    .attr("x", function(d, i) {
+                    return xScale(i);
+                })
+                    .attr("y", function(d) {
+                    return height - yScale(d);
+                })
+                    .attr("width", xScale.rangeBand())
+                    .attr("height", function(d) {
+                    return yScale(d);
+                })
+                    .attr("fill", function(d) {
+                    return "rgb(0," + (d * 5) + ", 0)";
+                })
 
-   			}
+                //Adding labels to bar chart
+                svg.selectAll("text")
+                    .data(data)
+                    .enter()
+                    .append("text")
+                    .text(function(d) {
+                    return d;
+                })
+                    .attr("x", function(d, i) {
+                    return xScale(i) + xScale.rangeBand() / 2;
+                })
+                    .attr("y", function(d) {
+                    return height - yScale(d) + 15;
+                })
+                    .attr("text-anchor", "middle")
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "11px")
+                    .attr("fill", "black");
 
-   		}
+                d3.selectAll("button")
+                    .on("click", function() {
+                    data2 = []
+                    for (var i = 0; i < 50; i++) {
+                        data2[i] = Math.round((Math.random() * 100));
+                    }
+                    console.log(data2)
+                    
+                    //update bar graph
+                    svg.selectAll("rect")
+                        .data(data2)
+                        .transition()
+                        .delay(function(d, i) {
+                        return i / data2.length * 1000;
+                    })
+                        .duration(500)
+                        .attr("y", function(d) {
+                        return height - yScale(d);
+                    })
+                        .attr("height", function(d) {
+                        return yScale(d);
+                    })
+                        .attr("fill", function(d) {
+                        return "rgb(0," + (d*7) + ", 0)";
+                    });
 
-				
-	</script>
-</body>
-
-
+                    //update text labels
+                    svg.selectAll("text")
+                        .data(data2)
+                        .transition()
+                        .attr("text-anchor", "middle")
+                        .delay(function(d, i) {
+                        return i / data2.length * 1000;
+                    })
+                        .duration(500)
+                        .text(function(d) {
+                        return d;
+                    })
+                        .attr("x", function(d, i) {
+                        return xScale(i) + xScale.rangeBand() / 2;
+                    })
+                        .attr("y", function(d) {
+                        return height - yScale(d) + 14;
+                    })
+                });
+            }
+        </script>
+    </body>
