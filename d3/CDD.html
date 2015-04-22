@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<!-- adapted from http://bl.ocks.org/d3noob/raw/d553875b4f0bd5086c28/ -->
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+
+body { font: 10px sans-serif;}
+
+text.shadow {
+  stroke: white;
+  stroke-width: 2.5px;
+  opacity: 0.9;
+}
+
+text.label {
+  fill: black;
+  stroke-width: 1px;
+  opacity: 1;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  font-family: sans-serif;
+  font-size: 11px;
+  fill: black;
+}
+
+.x.axis text {
+  font-family: sans-serif;
+  font-size: 11px;
+  fill: black;
+}
+
+.x.axis path { display: none;}
+
+.area.below { fill: coral;}
+
+.area.above { fill: deepskyblue;}
+
+.line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+</style>
+</head>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+
+<script>
+
+var title = "Cooling & Heating Degree Days";
+
+var margin = {top: 20, right: 20, bottom: 50, left: 50},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var  parseDate = d3.time.format("%m-%d").parse;
+
+var x = d3.time.scale()
+    .range([0, width]);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom")
+    .tickCDHs(d3.time.month.range(
+                            new Date("1900 02"),
+                            new Date("1901 01")),
+                            1);
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var line = d3.svg.area()
+    .interpolate("basis")
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.CDH); });
+
+var area = d3.svg.area()
+    .interpolate("basis")
+    .x(function(d) { return x(d.date); })
+    .y1(function(d) { return y(d.CDH); });
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+
+// create a date property to nyc
+		var getDate = function(d) {
+			d.date = new Date (d.YR, d.M - 1, d.D, d.HR) 
+			return d
+		};
+
+		var getCDH = function(d) {
+			d.CDH = +d.TEMP-18;
+			return d
+		};
+
+d3.csv("NYC_US_Hourly_Demand.csv", function(d) {
+			return {
+    date: new Date (d.YR, d.M - 1, d.D, d.HR)
+    TEMP: +d.TEMP-18,
+    length: +d.Length // convert "Length" column to number
+};
+}, function(error, rows) {
+	console.log(rows);
+});
+
+
+
+// d3.csv("NYC_US_Hourly_Demand.csv")
+// 		.row(getDate);
+// 		.row(getCDH);
+
+// d3.csv("NYC_US_Hourly_Demand.csv")
+//     .row(function(d) { return {HR: d.HR, CDH: +d.TEMP-18}; })
+//     .get(function(error, rows) { console.log(rows); });
+
+
+// d3.csv("NewYork_USA_Hourly_Weather.csv", function(error, data) {
+//   data.forEach(function(d) {
+//     d.date = getDate(d);
+//     d.TEMP = +d.TEMP-18;
+//   });
+
+  // Scale the range of the data
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+  y.domain([
+    d3.min(data, function(d) { return d.CDH; }), 
+    d3.max(data, function(d) { return d.CDH; })
+  ]);
+  
+  svg.datum(data);
+
+  svg.append("clipPath")
+      .attr("id", "clip-above")
+    .append("path")
+      .attr("d", area.y0(height));
+
+  svg.append("clipPath")
+      .attr("id", "clip-below")
+    .append("path")
+      .attr("d", area.y0(0));
+
+  svg.append("path")
+      .attr("class", "area below")
+      .attr("clip-path", "url(#clip-below)")
+      .attr("d", area.y0(y(0)));
+
+  svg.append("path")
+      .attr("class", "area above")
+      .attr("clip-path", "url(#clip-above)")
+      .attr("d", area);
+
+  svg.append("path") // Draw the line
+      .attr("class", "line")
+      .attr("d", line);
+
+  svg.append("g") // shadow for the x axis
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + (y(0)) + ")") // cross @ 0
+      .style("stroke", "white")
+      .call(xAxis);
+
+  svg.append("g") // x axis
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + (y(0)) + ")") // cross @ 0
+      .call(xAxis);
+
+  svg.append("g") // y axis label shadow
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "translate(5," + (height) + ") rotate(-90)")
+      .attr("dy", ".71em")
+      .style("text-anchor", "start")
+      .attr("class", "shadow")
+      .text("Degree Day (ºC)");
+      
+  svg.append("g") // y axis label 
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "translate(5," + (height) + ") rotate(-90)")
+      .attr("dy", ".71em")
+      .style("text-anchor", "start")
+      .style("fill", "black")
+      .text("Degree Day (ºC)");
+
+  svg.append("text") // Title shadow
+    .attr("x", (width / 2))
+    .attr("y", 35 )
+    .attr("text-anchor", "middle")
+    .style("font-size", "30px")
+    .attr("class", "shadow")
+    .text(title);
+
+  svg.append("text") // Title
+    .attr("x", (width / 2))
+    .attr("y", 35 )
+    .attr("text-anchor", "middle")
+    .style("font-size", "30px")
+    .style("stroke", "none")
+    .text(title);
+
+  svg.append("rect") // Cooling Legend Rectangle
+    .attr("x", ((width / 2)/2)-100)
+    .attr("y", height+(margin.bottom/2)-18 )
+    .attr("width", "200")
+    .attr("height", "25")
+    .attr("class", "area above");
+
+  svg.append("rect") // Heating Legend Rectangle
+    .attr("x", ((width / 2)/2)+(width / 2)-100)
+    .attr("y", height+(margin.bottom/2)-18 )
+    .attr("width", "200")
+    .attr("height", "25")
+    .attr("class", "area below");
+
+  svg.append("text") // Cooling Legend Text shadow
+    .attr("x", ((width / 2)/2))
+    .attr("y", height+(margin.bottom/2) )
+    .attr("text-anchor", "middle")
+    .style("font-size", "18px")
+    .attr("class", "shadow")
+    .text("Degree Days of Cooling");
+
+  svg.append("text") // Heating Legend Text shadow
+    .attr("x", ((width / 2)/2)+(width / 2))
+    .attr("y", height+(margin.bottom/2) )
+    .attr("text-anchor", "middle")
+    .style("font-size", "18px")
+    .attr("class", "shadow")
+    .text("Degree Days of Heating");
+
+  svg.append("text") // Cooling Legend Text
+    .attr("x", ((width / 2)/2))
+    .attr("y", height+(margin.bottom/2) )
+    .attr("text-anchor", "middle")
+    .style("font-size", "18px")
+    .style("stroke", "none")
+    .text("Degree Days of Cooling");
+
+  svg.append("text") // Heating Legend Text
+    .attr("x", ((width / 2)/2)+(width / 2))
+    .attr("y", height+(margin.bottom/2) )
+    .attr("text-anchor", "middle")
+    .style("font-size", "18px")
+    .style("stroke", "none")
+    .text("Degree Days of Heating");
+
+});
+
+</body></html>
