@@ -103,13 +103,6 @@
 						return "rgb(0," + (d * Math.round((Math.random() * 100) )) + ", " + (d * Math.round((Math.random() * 100) )) + ")";
 					})
 
-				svg.selectAll("text")
-					.data(data2)
-					.transition()        
-   					.duration(500)
-   					.text(function(d) {
-        				return d;
-   					})
    			}
 
    		}
