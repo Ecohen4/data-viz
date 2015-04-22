@@ -10,32 +10,22 @@
 
 	<button onclick="plotr()"> Generate Plot </button><br>
 	<p> Click Me </p>
-	
+	<svg></svg>
 
 	<script>
 		
 		function plotr() {
 		//Generate an array of random data points
 			var data = [];
-			for (var i = 0; i < 50; i++) {
-				data[i] = Math.round((Math.random() * 100));
+			for (var i = 0; i < 100; i++) {
+				data[i] = Math.round((Math.random() * 100) + 1);
 			}
 			console.log(data)
 		//Setting chart variables
 			var margin = {top: 50, right: 50, bottom: 50, left: 50},
     			width = 960 - margin.left - margin.right,
     			height = 500 - margin.top - margin.bottom;
-    		
     		var barPadding = 1;
-    		
-    		var xScale = d3.scale.ordinal()
-                .domain(d3.range(dataset.length))
-                .rangeRoundBands([0, w], 0.05);
-
-            var yScale = d3.scale.linear()
-                .domain([0, d3.max(data)])
-                .range([0, height]);
-
     	//Creating the svg and adding it to the DOM
     		var svg = d3.select("body")
        			.append("svg")
@@ -50,9 +40,9 @@
 					return i * (width / data.length); 
 				})
 				.attr("y", function(d) {
-    				return height - yScale(d);  
+    				return height - d;  
 				})
-				.attr("width", xScale.rangeBand())
+				.attr("width", width / data.length - barPadding)
 				.attr("height", function(d) {
     				return d*1000; 
     			}) 
@@ -60,30 +50,12 @@
 					return "rgb(0," + (d * Math.round((Math.random() * 100) )) + ", " + (d * Math.round((Math.random() * 100) )) + ")";
 				})
 
-			svg.selectAll("text")
-   				.data(dataset)
-   				.enter()
-   				.append("text")
-   				.text(function(d) {
-        			return d;
-   				})
-   				.attr("x", function(d, i) {
-        			return i * (width / dataset.length) + 5;
-   				})
-   				.attr("y", function(d) {
-        			return height - (d * 4) + 15;              // +15
-   				});
-   				.attr("font-family", "sans-serif")
-   				.attr("font-size", "11px")
-   				.attr("fill", "white");
-
-
 		d3.select("p")
 			.on("click", function () {
 				data2 = []
-				for (var i = 0; i < 50; i++) {
-				data2[i] = Math.round((Math.random() * 100));
-				}	
+				for (var i = 0; i < 100; i++) {
+				data2[i] = Math.round((Math.random() * 100) + 1);
+			}
 				console.log(data2)
 			//update bar graph
 				svg.selectAll("rect")
@@ -103,17 +75,9 @@
 						return "rgb(0," + (d * Math.round((Math.random() * 100) )) + ", " + (d * Math.round((Math.random() * 100) )) + ")";
 					})
 
-				svg.selectAll("text")
-					.data(data2)
-					.transition()        
-   					.duration(500)
-   					.text(function(d) {
-        				return d;
-   					})
-   			}
 
-   		}
-
+			})
+		}
 				
 	</script>
 </body>
