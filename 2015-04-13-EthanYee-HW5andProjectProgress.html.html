@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>HW5</title>
+    <style>
+		.axis path,
+		.axis line {
+			fill: none;
+			stroke: #aaa;
+			shape-rendering: crispEdges;
+		}
+		 
+		.axis text {
+			font-family: sans-serif;
+			font-size: 11px;
+		}
+		 
+		.loading {
+			font-family: sans-serif;
+			font-size: 15px;
+		}
+		 
+		.circle {
+			fill: white;
+		}
+		
+		.dot {
+			fill: rgba(0,0,0,.25);
+			}
+
+	</style>
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+</head>
+
+<body>
+ 
+<b>Data Viz Homework 5 / Project draft by Ethan Yee (ty2247)<br /><br /></b>
+ 
+KEY:<br />
+ Red=snow, orange = light snow, blue = rain, light blue = light rain <br />
+ Triangle = federal holiday or weekends, Circle = all others (ie working days)<br />
+ 
+	<div id="workdammit"></div>
+	
+
+
+ 
+	<script type="text/javascript">
+
+	//Global vars.
+		var w = 900,
+			h = 600,
+			top_pad = 20,
+			left_pad = 100;
+			
+	//Define scale
+		var x = d3.scale.linear() 
+				.domain([-1, 23])
+				.range([left_pad, w - left_pad]),
+			y = d3.scale.linear() 
+				.domain([0, 9000])
+				.range([h - top_pad, top_pad]);
+	
+	//Define symbols to be used later
+		var symbolTypes = {
+			"triangleDown": d3.svg.symbol().type("triangle-down").size(18),
+			"circle": d3.svg.symbol().type("circle").size(18)
+		};
+		
+	//Append svg graph
+		var svg = d3.select("#workdammit")
+				.append("svg")
+				.attr("width", w+left_pad)
+				.attr("height", h+top_pad);		
+		
+		svg.append("text")
+			.attr("class", "loading")
+			.text("Loading ...")
+			.attr("x", function () { return w/2; })
+			.attr("y", function () { return h/2-5; });		
+			
+	//loading the data			
+		var dataSet = [];
+		d3.csv("weatherCabDataHW5.csv", function(data){
+		dataSet = data
+		
+	//Parse the hour
+
+		var parseTime = d3.time.format("%Y-%m-%d %H:%M:%S").parse;
+		var getHour = d3.time.format("%H");
+	
+		console.log("scale");
+		console.log(x(12));
+		
+		
+	//Scatterplot points		
+		svg.selectAll("path")
+		    .data(dataSet)
+		    .enter().append("path")
+		    .attr("class", "dot")
+            .attr("transform", function(d) { return "translate(" + (x(getHour(parseTime(d.datetime))) + (Math.random() * 12 - 6)) + "," +  y(d.occupancy) + ")"; })
+			//code below assigns shape using the symbolTypes defined earlier
+			.attr("d", function(d,i){
+				if (d.holWkend === "0")
+					return symbolTypes.circle();
+				else
+					return symbolTypes.triangleDown();
+			})
+			//assigns color based on the colors we had earlier
+			.style("fill", function(d,i){
+				if(d.rainSnowStatus === "0"){return "rgba(50,50,50,.1)"} else{
+					if (d.rainSnowStatus > "2"){
+						if (d.rainSnowStatus === "4")
+							return "red";
+						else
+							return "orange";
+					}else{
+
+					
+					if(d.rainSnowStatus=== "2"){return "navy";} else {return "lightblue"}
+					
+					}
+				}
+			});		
+					
+		svg.selectAll(".loading").remove(); //remove loading text after data has loaded
+			
+
+		});			
+	
+	
+	//Axes
+		var xAxis = d3.svg.axis().scale(x).orient("bottom")
+					.tickFormat(function(d) {
+						var f = ["12.51AM", "1.51AM", "2.51AM", "3.51AM", "4.51AM", "5.51AM", "6.51AM", "7.51AM", "8.51AM", "9.51AM", "10.51AM", "11.51AM", "12.51PM", "1.51PM", "2.51PM", "3.51PM", "4.51PM", "5.51PM", "6.51PM", "7.51PM", "8.51PM", "9.51PM", "10.51PM", "11.51PM"];
+						return (f[d]);
+					}),	
+			yAxis = d3.svg.axis().scale(y).orient("left");
+		
+		svg.append("g")
+			.attr("class", "axis")
+			.attr("transform", "translate(0, "+(h-top_pad)+")")
+			.call(xAxis);
+ 
+		svg.append("g")
+			.attr("class", "axis")
+			.attr("transform", "translate("+(left_pad)+", 0)")
+			.call(yAxis);
+		
+	
+		console.log(dataSet, "dataSet outside");	
+			
+
+	</script>
+
+</body></html>
