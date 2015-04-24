@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>2015-04-13-XiaoyuGuo-HW4</title>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <script type="text/javascript" src="d3.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+   
+    var width = 500,
+        height = 500,
+        margin = 35;
+
+    
+    var data = []; 
+    var datapoints = 15;
+    var maxrange = Math.random()*500;
+    for (var i=0; i<datapoints; i++) {
+        var xcoordinate=Math.floor(Math.random()*maxrange);
+        var ycoordinate=Math.floor(Math.random()*maxrange);
+        data.push([xcoordinate, ycoordinate]);
+    }
+
+    var svg = d3.select("body1").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+  
+    svg.selectAll(".dot")
+            .data(data)
+            .enter().append("circle")
+            .attr("class", "dot")
+            .attr("r", function(d) {return d.x/25+2})
+            .attr("cx", function(d) { return d.x; })
+            .attr("cy", function(d) { return d.y; })
+
+    var xScale = d3.scale.linear()
+              .domain([0, d3.max(data, function(d) { return d[0]; })])
+              .range([margin, width - margin*2]);
+    
+    var yScale = d3.scale.linear()
+              .domain([0, d3.max(data, function(d) { return d[1]; })])
+              .range([ height-margin, margin]);
+
+
+    var xAxis = d3.svg.axis()
+    .scale(xScale)
+    .orient("bottom");
+
+    svg.append("g")       
+           .attr("class", "xaxis")
+           .attr("transform", function(){ 
+            return "translate(" + margin + "," + (height - margin) + ")";
+        })
+            .call(xAxis);
+
+    var yAxis = d3.svg.axis()
+    .scale(yScale)
+    .orient("left");
+
+    svg.append("g")       
+            .attr("class", "yaxis")
+            .attr("transform", function(){
+                return "translate(" + margin + "," + margin + ")";
+            })
+            .call(yAxis);
+
+    d3.select("body2")
+           .on("click", function(){
+            var values = data.length;
+            var maxrange = Math.random()*500;
+            data =[];
+            for (var i=0; i<values; i++) {
+                var xcoordinate=Math.floor(Math.random()*maxrange);
+                var ycoordinate=Math.floor(Math.random()*maxrange);
+                data.push([xcoordinate, ycoordinate]);
+           }
+
+    xScale.domain([0, d3.max(data,function(d){
+        return d[0];
+    })]);
+
+    yScale.domain([0, d3.max(data,function(d){
+        return d[1];
+    })]);
+
+    svg.selectAll("circle")
+            .data(data)  
+            .transition() 
+            .duration(2000) 
+            .each("start", function() {  
+                d3.select(this)  
+                    .attr("fill", "steelblue")  
+            })
+
+            .delay(function(d, i) {
+                return i / data.length * 2000;  
+            })
+            
+            .attr("cx", function(d) {
+                return xScale(d[0]);  
+            })
+            .attr("cy", function(d) {
+                return yScale(d[1]);  
+            })
+
+            .each("end", function() {  
+                d3.select(this)  
+                    .transition()
+                    .duration(1000)
+                    .attr("fill", "red");    
+            });
+
+            svg.select(".x.axis")
+                .transition()
+                .duration(1000)
+                .call(xAxis);
+
+            svg.select(".y.axis")
+                .transition()
+                .duration(1000)
+                .call(yAxis);
+    });
+
+
+</script>
+</body>
+</html>
+
+
+ 
