@@ -7,23 +7,32 @@
 <body>
 
 	<script>
-	var nyc = []
-	var demand = []
+	// var nyc = []
+	// var demand = []
+	// var index = []
 	
 	// choose data range to visualize
 	
 	//var range = d.length - 1 // all the data
 	var range = 24*7 // just the first week
+	var demand = [ // <-C
+            {x: 0, y: 5},{x: 1, y: 9},{x: 2, y: 7},
+            {x: 3, y: 5},{x: 4, y: 3},{x: 6, y: 4},
+            {x: 7, y: 2},{x: 8, y: 3},{x: 9, y: 2}
+        ]
 
-	d3.csv("NYC_US_Hourly_Demand.csv", function(d) {
-		nyc = d;
-		for (var i = 0; i <= range; i++) {
-			demand.push(
-				d[i].DM
-				)
-		};
-		draw(demand)
-	});
+	// d3.csv("NYC_US_Hourly_Demand.csv", function(d) {
+	// 	nyc = d;
+	// 	for (var i = 0; i <= range; i++) {
+	// 		demand.push(
+	// 			d[i].DM
+	// 			),
+	// 		index.push(
+	// 			i
+	// 			)
+	// 	};
+	// 	draw(demand)
+	// });
 
 	// d3.csv("NYC_US_Hourly_Demand.csv")
 	// 	.row(getDemand)
@@ -38,31 +47,42 @@
 
 	
 	var w = 500;
-	var h = 100;
-	var barPadding = 1;
+	var	h = 500;
+	var margin = 0;
+
 	
 	var draw = function (demand){
 
+		var xScale = d3.scale.linear()
+			.domain([0, 10])
+			.range([margin, w-margin]);
+
 		var yScale = d3.scale.linear()
-			.domain([0, +d3.max(demand) ])
-			.range([0,h]);
+			.domain([0, 10])
+			.range([h-margin, margin]);
+
+        var line = d3.svg.line() // <-D
+            .x(function(d){return xScale(d.x);})
+            .y(function(d){return yScale(d.y);});
+
+		// var line = d3.svg.line()
+		// 	.x(function(i) {return i ; })
+		// 	.y(function(d) {return yScale(+d); } );
 
 		var svg = d3.select("body")
 			.append("svg")
 			.attr("width", w)
 			.attr("height", h);
 
-		svg.selectAll("rect")
+		svg.selectAll("path")
 			.data(demand)
 			.enter()
-			.append("rect")
+			.append("path")
+			.attr("class", "line")  
 			.attr({
-				x: function(d, i) {return i* (w/ demand.length); }, // assign x coordinate as a function of data row index [i].
-				y: function(d) {return h - yScale(+d); }, //grow down from the top.
-				width: (w / demand.length) - barPadding,
-				height: function(d) { return yScale(+d); } //puts "bottom" of the rect on the bottom of the svg.
+				d: function(d) {return line(d); }
 			});
-	}
+	};
 	
 
 	// var getDate = function(d) {

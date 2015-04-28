@@ -1,0 +1,76 @@
+<!doctype html>
+
+<html>
+
+<head>
+	<title> Scatter Chart! alice emily baird </title>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+
+
+	<script>
+
+	d3.select("body")
+			.append("p")
+			.style("color", "purple")
+			.style("font-family", "arial")
+			.text("HW_4_plotted_in_d3  alice emily baird 2015");
+
+	var dataArray = [20, 50, 60, 55, 32, 10, 11, 23, 14, 10, 200, 12, 250, 300, 540, 100]; // width linked to the function below
+	
+	var width = 500		// width and height variables
+	var height = 500
+	
+	var widthScale = d3.scale.linear()
+			.domain([0, 540]) // min, max values in array
+			.range([0, 500]) // containter max value
+
+							//transforming a range into a scale to fit inside a small container
+
+	var colorScale = d3.scale.linear()
+			.domain([20, 540])				//scales width!! 
+			.range(["grey", "blue"])
+
+	var axis = d3.svg.axis()
+			.scale(widthScale);
+
+
+	var canvas = d3.select("body")
+			.append("svg")
+			.attr("width", width)
+			.attr("height", height)
+			.append("g")
+			.attr("transform", "translate(100, 50)")
+			
+
+ // move canvas around
+
+			// canvas for the visualisation
+
+
+	var bars = canvas.selectAll("circle")
+			.data(dataArray)
+			.enter()
+				.append("circle")
+				.attr("r", function(d) {return d / 5.8; })
+				.attr("cx", function(d, i) {return (d) })
+				.attr("cy", function(d, i) {return i * 2 })
+				.attr("fill", function(d) {return colorScale(d);})
+
+
+canvas.append("g")
+		.attr("transform", "translate(0, 100)")
+		.call(axis);
+
+//function controled by the data array value above 
+
+
+	console.log(d3); // turns on the d3 console inspector within the browser console. 
+
+	</script>
+
+</body>
+
+</html>
