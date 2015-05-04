@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Jeff's Magic Graph</title>
+    <!-- <link rel="stylesheet" type="text/css" href="d3-cookbook/css/styles.css"/> -->
+    <style type="text/css">
+      .axis path, .axis line {
+          fill: none;
+          stroke: #000;
+          shape-rendering: crispEdges;
+      }
+
+      .axis text {
+          font: 10px sans-serif;
+      }
+
+      .axis .grid-line{
+          stroke: black;
+          shape-rendering: crispEdges;
+          stroke-opacity: .2;
+      }
+
+      button {
+        margin: 0 7px 0 0;
+        background-color: #f5f5f5;
+        border: 1px solid #dedede;
+        border-top: 1px solid #eee;
+        border-left: 1px solid #eee;
+        font-size: 12px;
+        line-height: 130%;
+        text-decoration: none;
+        font-weight: bold;
+        color: #565656;
+        cursor: pointer;
+      }
+    </style>
+
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+
+<div class="control-group">
+    <button onclick="setup()">
+        setup
+    </button>
+    <button onclick="newData()">
+        generate new data!
+    </button>
+    <br />
+    <br />
+    <button onclick="changeColor('red')">
+        make 'em red!
+    </button>
+    <button onclick="changeColor('blue')">
+        make 'em blue!
+    </button>
+    <button onclick="changeColor('green')">
+        make 'em green!
+    </button>
+    <button onclick="colorScale(data)">
+        data-driven colors!
+    </button>
+    
+</div>
+
+<script type="text/javascript">
+    function randomDataPoint() {
+        var x = Math.round(Math.random() * 1000);
+        var y = Math.round(Math.random() * 1000);
+        var z = Math.round(Math.random() * 100);
+        return [x,y,z];
+    }
+
+    function generateData(){
+        var data = [];
+        for(var i = 0; i < numdatapoints; i++){
+             data.push(randomDataPoint());
+        }
+        return data;
+    }
+
+    var height = 500, 
+        width = 500, 
+        lmargin = 40,
+        bmargin = 30,
+        maxRad = 15,
+        xaxisWidth = width - 2*lmargin,
+        yaxisHeight = height - 2*bmargin,
+        numdatapoints = 20,
+        svg,
+        data,
+        xscale,
+        yscale,
+        zscale;
+      
+    function setup(){
+        if(svg) svg.remove();
+        
+        svg = d3.select("body").append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+        xscale = d3.scale.linear()
+                       .domain([0, 1000])
+                       .range([lmargin, (xaxisWidth - 2*maxRad)]);
+        
+        var xaxis = d3.svg.axis() 
+                      .scale(xscale) 
+                      .orient('bottom')
+                      .ticks(5);
+        
+        svg.append("g")
+           .attr("class", "axis")
+           .attr("transform", "translate(0," + (yaxisHeight-bmargin) + " )")
+           .call(xaxis);
+
+        yscale = d3.scale.linear()
+                       .domain([0,1000])
+                       .range([(yaxisHeight - 2*maxRad),bmargin]);
+
+        var yaxis = d3.svg.axis() 
+                      .scale(yscale) 
+                      .orient('left')
+                      .ticks(5);
+
+        svg.append("g")
+           .attr("class", "axis")
+           .attr("transform", "translate(" + lmargin + ",0)")
+           .call(yaxis);
+
+        zscale = d3.scale.linear()
+                       .domain([0,100])
+                       .range([3,maxRad]);
+
+        data = generateData();
+
+        d3.select("body").select("svg").selectAll("circle")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("cx", function(d) { return xscale(d[0]); })
+            .attr("cy", function(d) { return yscale(d[1]); })
+            .attr("r", function(d) { return zscale(d[2]); })
+            .attr("fill-opacity",".7")
+            .attr("fill", "black");
+    }
+
+    function newData(){
+        data = generateData();
+
+        svg.selectAll("circle")
+           .data(data)
+           .transition()
+           .duration(1000)
+           .attr("cx", function(d) { return xscale(d[0]); })
+           .attr("cy", function(d) { return yscale(d[1]); })
+           .attr("r", function(d) { return zscale(d[2]); })
+    }
+
+    function changeColor(color){
+
+        var opacscale = d3.scale.linear()
+                          .domain([0,100])
+                          .range([0.9,0.3]);
+
+        d3.select("body").select("svg").selectAll("circle")
+            .data(data)
+            .transition()
+            .duration(1000)
+            .attr("fill",color)
+            .attr("fill-opacity",function(d) { return opacscale(d[2]); });
+    }
+  
+    function colorScale(data){
+
+        var xycol = d3.scale.linear().domain([0,1000]).range([0,255]); 
+        var zcol  = d3.scale.linear().domain([0, 100]).range([0,255]);
+
+        svg.selectAll("circle")
+            .data(data)
+            .transition()
+            .duration(1000)
+            .attr("fill-opacity",".8")
+            .attr("fill", function(d) { return "rgb(" + Math.round(xycol(d[0])) + "," + Math.round(xycol(d[1])) + "," + Math.round(zcol(d[2])) + ")"; });
+    }
+</script>
+
+</body>
+
+</html>

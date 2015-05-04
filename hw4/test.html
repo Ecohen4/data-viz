@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Practise Visualization</title>
+		<!--Read js from separate file-->
+		<script type="text/javascript" src="d3.js"></script>
+		<!--Read stylesheet from separate file-->
+		<link rel="stylesheet" type="text/css" href="styles.css"/>
+	</head>
+	<body>
+		<script type="text/javascript">
+
+			//Width, height, margin
+			var w = 500;
+			var h = 400;
+			var margin = 40;
+			
+			//Define data
+			var dat = [
+	            {x: 5, y: 20},{x: 480, y: 90},{x: 250, y: 50},
+	            {x: 100, y: 33},{x: 330, y: 95},{x: 410, y: 12},
+	            {x: 475, y: 44},{x: 25, y: 67},{x: 85, y: 21},
+				{x: 820, y: 88}
+			];
+			
+			//Find maximum x value			  
+			var xmax = d3.max(dat, function (d) {
+				return d.x;
+			});
+			
+			//Find maximum y value
+			var ymax = d3.max(dat, function (d) {
+				return d.y;
+			});
+			
+			//Find maximum of x and y value
+			var absmax = Math.max(xmax, ymax);
+			
+			//Define x-axis scale
+			var xScale = d3.scale.linear()
+								 .domain([0, absmax])
+								 .range([margin, w - margin]);
+			
+			//Define y-axis scale
+			var yScale = d3.scale.linear()
+								 .domain([0, absmax])
+							  	 .range([h - margin, margin]);
+						  
+			//Create SVG elements for data points
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);
+			
+			//Create svg x-axis element
+			var xAxis = d3.svg.axis()
+				   			  .scale(xScale)
+				   			  .orient("bottom")
+			
+			//Create svg y-axis	element		
+			var yAxis = d3.svg.axis()
+						      .scale(yScale)
+						      .orient("left")
+			
+			//Render svg data points
+			svg.selectAll("circle")
+			   .data(dat)
+			   .enter()
+			   .append("circle")
+			   .attr("cx", function (d) {
+				   return xScale(d.x);
+			   })
+			   .attr("cy", function (d) {
+				   return yScale(d.y);
+			   })
+			   .attr("r", 3)
+			   .transition()
+			   .duration(5000)
+			   .attr("cx", function (d) {
+				   return xScale(d.y);
+			   })
+			   .attr("cy", function (d) {
+				   return yScale(d.x);
+			   });
+			
+			//Render svg x-axis   
+			svg.append("g")
+			   .attr("class", "axis")
+			   .attr("transform", "translate(0," + (h - margin) + ")")
+			   .call(xAxis);
+			
+			//Render svg y-axis   
+			svg.append("g")
+			   .attr("class", "axis")
+			   .attr("transform", "translate("+ margin + ", 0)")
+			   .call(yAxis);
+				   
+		</script>
+	</body>
+</html>
