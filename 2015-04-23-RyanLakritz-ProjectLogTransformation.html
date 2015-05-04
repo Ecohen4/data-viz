@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Project Visualization 1: Log Tranformation</title>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+<style>
+circle{
+    stroke: steelblue;
+    fill: none;
+    stroke-width: 1;
+}
+
+button {
+    margin: 0 7px 0 0;
+    background-color: #f5f5f5;
+    border: 1px solid #dedede;
+    border-top: 1px solid #eee;
+    border-left: 1px solid #eee;
+
+    font-size: 12px;
+    line-height: 130%;
+    text-decoration: none;
+    font-weight: bold;
+    color: #565656;
+    cursor: pointer;
+}
+
+.axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font: 10px sans-serif;
+}
+
+.line{
+    fill: none;    
+    stroke: grey;
+    stroke-width: 1;
+}
+</style>
+
+<body>
+
+<p>
+    <strong>The Almighty Log Tranformation</strong>
+    <br>
+    <br>
+    This chart uses 2012 Economic Census data in the US. It shows the relationship between Annual Revenue (y-axis) and Annual Payroll (x-axis)for American industries in all 50 states + Puerto Rico.
+    <br>
+    <br>
+    When you "make it log," both the independent and dependent variables are transformed by the mathematic log(x) function. This brings out the linear trend between the two variables and allows for linear regression or some other form of data analysis.  
+</p>
+
+<div class="control-group">
+    <button onclick="makeLinearChart()">
+        Make it Linear
+    </button>
+    <button onclick="makeLogChart()">
+        Make it Log
+    </button>
+</div>
+
+<script type="text/javascript">
+
+    var height = 600, 
+        width = 800,
+        margin = 75,
+        svg,
+        xScale,
+        yScale,
+        lindata,
+        logdata;
+ 
+    function makeLinearChart(){
+        if(svg) svg.remove();
+        
+        svg = d3.select("body").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+        
+        d3.csv("econCensusData.csv", function (raw) {
+            data = raw.map(function (d) {
+                return {
+                    Payroll: d.Payroll,
+                    Revenue: d.Revenue
+                };
+                });
+            makeLinearScale();
+            makeTheAxes();
+            makeTheDots();
+        });
+    }
+
+    function makeLogChart(){
+        if(svg) svg.remove();
+        svg = d3.select("body").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        d3.csv("econCensusLogData.csv", function (raw) {
+            data = raw.map(function (d) {
+                return {
+                    Payroll: d.logPayroll,
+                    Revenue: d.logRevenue
+                };
+                });
+            makeLogScale();
+            makeTheAxes();
+            makeTheDots();
+        });
+    }
+
+    function makeLinearScale(){
+        xScale = d3.scale.linear()
+            .domain([0,1000000000])
+            .range([margin, width-margin]);
+
+        yScale =d3.scale.linear()
+            .domain([0,70000000])
+            .range([height-margin,margin]);
+    }
+
+    function makeLogScale(){
+        xScale = d3.scale.linear()
+            .domain([0,22])
+            .range([margin, width-margin]);
+
+        yScale =d3.scale.linear()
+            .domain([0,20])
+            .range([height-margin,margin]);
+    }
+
+    function makeTheAxes(){
+        var xAxis = d3.svg.axis()
+            .scale(xScale)
+            .orient("bottom")
+            .ticks(10);
+        var yAxis = d3.svg.axis()
+            .scale(yScale)
+            .orient("left")
+            .ticks(10);
+
+        svg.append("g")        
+            .attr("class", "axis")
+            .attr("transform", "translate(0," + (height-margin) + ")")
+            .call(xAxis);
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", "translate(" + margin + ",0)")
+            .call(yAxis);
+    }
+
+    function makeTheDots(){
+        svg.selectAll("circle")
+            .data(data)
+            .enter()
+            .append("circle")
+            .transition()
+            .attr("cx", function(d){return xScale(d.Payroll);})
+            .attr("cy", function(d){return yScale(d.Revenue);})
+            .attr("r", 2);
+    }
+</script>
+
+</body>
+
+</html>
