@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>grargh</title>
+    <style>
+		.axis path,
+		.axis line {
+			fill: none;
+			stroke: #aaa;
+			shape-rendering: crispEdges;
+		}
+		 
+		.axis text {
+			font-family: sans-serif;
+			font-size: 11px;
+		}
+		 
+		.introtext {
+			font-family: sans-serif;
+			font-size: 20px;
+			font-weight: bold;
+		}
+		 
+		.circle {
+			fill: white;
+		}
+		
+		.dot {
+			fill: rgba(0,0,0,.25);
+			//stroke: rgba(255,0,0,.1);
+			}
+
+	</style>
+	<script type="text/javascript"  src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+</head>
+
+<body>
+
+	<span id="introtext">
+	Ethan Yee (ty2247) <br />
+	Assignment for DataViz class<br /> <br />
+	
+	This scatterplot parses the hour of the day from the standard R date/time output 
+	(ie "YYYY-mm-dd hh:MM:ss") and plots a y variable against the hour. Color is based on a
+	dummy variable.
+
+	</span>
+ 
+ 
+	<div id="workdammit"></div>
+	
+
+ 
+	<script type="text/javascript">
+
+	//Global vars. No need if use translate() later?
+		var w = 900,
+			h = 600,
+			top_pad = 20,
+			left_pad = 100;
+			
+	//Define scale
+		var x = d3.scale.linear() 
+				.domain([-1, 23])
+				.range([left_pad, w - left_pad]),
+			y = d3.scale.linear() 
+				.domain([0, 9000])
+				.range([h - top_pad, top_pad]);
+	
+	
+	//Append svg graph
+		var svg = d3.select("#workdammit")
+				.append("svg")
+				.attr("width", w+left_pad)
+				.attr("height", h+top_pad);		
+		
+
+	//loading the data			
+		var dataSet = [{datetime: "2013-01-01 00:00:00",occupancy: "3188",quantVar1: "0", status:"0", dummyVar1:"0"}, 
+               {datetime: "2013-01-01 01:00:00",occupancy: "2063",quantVar1: "33", status:"0", dummyVar1:"1"}, 
+               {datetime: "2013-01-01 02:00:00",occupancy: "5241",quantVar1: "0", status:"2", dummyVar1:"0"}, 
+               {datetime: "2013-01-01 03:00:00",occupancy: "2741",quantVar1: "27", status:"0", dummyVar1:"0"}, 
+               {datetime: "2013-01-01 04:00:00",occupancy: "2401",quantVar1: "0", status:"0", dummyVar1:"0"},
+               {datetime: "2013-01-01 05:00:00",occupancy: "3318",quantVar1: "12", status:"0", dummyVar1:"1"},
+               {datetime: "2013-01-01 08:00:00",occupancy: "118",quantVar1: "2", status:"0", dummyVar1:"1"},
+               {datetime: "2013-01-01 10:00:00",occupancy: "4448",quantVar1: "0", status:"2", dummyVar1:"0"},
+               {datetime: "2013-01-01 13:00:00",occupancy: "6231",quantVar1: "1", status:"0", dummyVar1:"1"},
+               {datetime: "2013-01-01 15:00:00",occupancy: "3908",quantVar1: "0", status:"2", dummyVar1:"0"},
+               {datetime: "2013-01-01 18:00:00",occupancy: "1238",quantVar1: "36", status:"0", dummyVar1:"0"},
+               {datetime: "2013-01-01 20:00:00",occupancy: "1344",quantVar1: "0", status:"1", dummyVar1:"1"},
+               {datetime: "2013-01-01 22:00:00",occupancy: "2718",quantVar1: "39", status:"0", dummyVar1:"1"},
+               {datetime: "2013-01-01 23:00:00",occupancy: "1806",quantVar1: "41", status:"0", dummyVar1:"0"},
+               {datetime: "2013-01-02 15:00:00",occupancy: "2798",quantVar1: "23", status:"0", dummyVar1:"0"},
+               {datetime: "2013-01-04 17:00:00",occupancy: "3908",quantVar1: "0", status:"2", dummyVar1:"1"},
+              ];
+
+		
+	//Parse the hour
+
+		var parseTime = d3.time.format("%Y-%m-%d %H:%M:%S").parse;
+		var getHour = d3.time.format("%H");
+	
+		console.log("scale");
+		console.log(x(12));
+	
+	
+	//Scatterplot points
+
+	//var colors = ["blue", "red"]; (see line before .filter)
+		
+		svg.selectAll("circle")
+				.data(dataSet)
+			.enter().append("circle") 
+				.attr("class", "dot")
+				.attr("cx", function(d) { return x(getHour(parseTime(d.datetime)) ) + (Math.random() * 12 - 6) ; })
+				//.attr("cx", function(d) { return getHour(parseTime(d.datetime)) * 35 + (Math.random() * 12 - 6) + left_pad ; })
+				.attr("cy", function(d) { return y(d.occupancy); })
+				//.attr("cy", function(d) { return h - d.occupancy/15 + top_pad; })
+				.attr("r", 4)
+				
+	//.style("fill", function (d) { return colors[d.type]; }) to return diff colors based on a var?
+				
+				.filter(function(d) { return d.dummyVar1 == 1 })   //ONLY ONE FITER POSSIBLE! anything afterwards filters the filtered data
+					.style("fill", "rgba(255,0,0,.25)" );
+			
+	
+		var xAxis = d3.svg.axis().scale(x).orient("bottom")
+					.tickFormat(function(d) {
+						var f = ["12AM", "1AM", "2AM", "3AM", "4AM", "5AM", "6AM", "7AM", "8AM", "9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM"];
+						return (f[d]);
+					}),	
+			yAxis = d3.svg.axis().scale(y).orient("left");
+		
+		svg.append("g")
+			.attr("class", "axis")
+			.attr("transform", "translate(0, "+(h-top_pad)+")")
+			.call(xAxis);
+ 
+		svg.append("g")
+			.attr("class", "axis")
+			.attr("transform", "translate("+(left_pad)+", 0)")
+			.call(yAxis);
+		
+	
+		console.log(dataSet, "dataSet outside");	
+			 
+
+	</script>
+
+</body></html>

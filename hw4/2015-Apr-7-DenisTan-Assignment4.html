@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang = "en">
+	
+	<head>
+		<meta charset = "utf-8">
+		<title>Canvas</title>
+		<script type = "text/javascript" src = "d3.js"></script>
+		<link rel = "stylesheet" type"text/css" href = "canvasstyle.css"/>
+	</head>
+	
+	<body>
+		<div id="option">
+		    <input name="axisButton" 
+		                 type="button" 
+		                value="Draw Axis" 
+		                onclick="removeAxis(); renderAxis();"/>
+		</div>
+		
+		<div id="option">
+		    <input name="updateButton" 
+		                 type="button" 
+		                value="Update" 
+		                onclick="removeData(); renderData();"/>
+		</div>
+		
+		<div id="option">
+		    <input name="updateColour" 
+		                 type="button" 
+		                value="Update Color" 
+		                onclick="updateColor();"/>
+		</div>
+		
+		<script type = "text/javascript">
+		
+		var dat;
+		
+		function GenerateData(num) {
+			dat = d3.range(num).map(function() {
+				return {
+					x: Math.random() * 1,
+					y: Math.random() * 1
+					}
+				});
+		};
+		
+		GenerateData(100);
+					
+		var w = 500,
+			h = 400,
+			margin = 40,
+			xmax = d3.max(dat, function (d) {
+				return d.x;
+			}),
+			ymax = d3.max(dat, function (d) {
+				return d.y;
+			}),
+			svg = d3.select("body")
+				.append("svg")
+				.attr("width", w)
+				.attr("height", h),
+			xScale = d3.scale.linear()
+				.domain([0, xmax])
+				.range([margin, w - margin]),
+			yScale = d3.scale.linear()
+				.domain([0, ymax])
+				.range([h - margin, margin]),
+			xAxis = d3.svg.axis()
+				.scale(xScale)
+				.orient("bottom"),
+			yAxis = d3.svg.axis()
+				.scale(yScale)
+				.orient("left");
+			
+		function renderAxis() {			
+			svg.append("g")
+				.attr("class", "axis")
+				.attr("transform", "translate(0," + (h - margin) + ")")
+				.call(xAxis);
+			
+			svg.append("g")
+				.attr("class", "axis")
+				.attr("transform", "translate("+ margin + ", 0)")
+				.call(yAxis);
+		}
+		
+		function removeAxis() {
+			svg.selectAll("g")
+				.remove()
+		}
+			
+		function renderData() {
+			GenerateData(100);
+			update_enter();	
+		}
+		
+		function update_enter() {
+		
+			var selection = svg.selectAll("circle") //Update
+					.data(dat)
+			
+			selection.enter() //Enter
+				.append("circle")
+				.attr("cx", function (d) {
+					return xScale(d.x);
+				})
+				.attr("cy", function (d) {
+					return yScale(d.y);
+				})
+				.attr("r", 3);	
+		}
+		
+		function removeData() {
+			svg.selectAll("circle") //Remove
+				.data(dat)
+				.remove()
+		}
+		
+		function updateColor() {
+			svg.selectAll("circle")
+				.transition()
+				.duration(1000)
+				.style("fill", "gold");
+		}
+		
+		</script>
+	</body>
+</html>
