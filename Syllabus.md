@@ -121,7 +121,12 @@ Columbia University
 		- Interactive Data Viz for the Web (Murray) Ch. 10: Interactivity.
 		- Study!
 - Apr. 22 (W): TBD
-- Apr, 27 (M): TBD
-- Apr. 29 (W): First FULL draft of conference paper due! Instructor review.
+- Apr. 27 (M): Revisiting sage advice from Edward Tufte: Corruption in Evidence Presentation
+        - Effects without causes.  Actions without actors. Passive voice as obfuscation.
+        - Cherry-picking, overreaching, the rage to conclude.
+        - Chartjunk strikes back!
+        - Why PowerPoint insults your audience's intelligence.
+- Apr. 29 (W): First FULL draft of conference paper due! Instructor review. 
+        - In class introduce new data-viz libraries for R: [dygraphs](https://rstudio.github.io/dygraphs/), [plotly](https://plot.ly/ggplot2/getting-started/) and [leaflet](https://rstudio.github.io/leaflet/).
 - May  04 (M): First FULL draft of project website due! Peer code review.
-- FINAL EXAM WEEK: Present final project: conference paper with accompanying web-based visualizations.
+- May 11 (M): FINAL EXAM (1:10-4:00pm): Present final project: conference paper with accompanying web-based visualizations.
