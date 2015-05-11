@@ -1,0 +1,24 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Single Selection</title>
+    <link rel="stylesheet" type="text/css" href="class-example.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+	<script type="text/javascript">
+		d3.selectAll("p").classed("highlight", true)
+    </script>
+</head>
+
+<body>
+	<div>
+		<p>
+		I am a descendent of the div.
+		</p> 
+		<p class="highlight"> I am a descendant of the div with class highlight</p>
+	<!-- Comment in HTML -->
+	</div>
+	<p> I am a sibling of the div </p>
+	<p></p>
+
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+<style>
+
+body {
+  width: 960px;
+  margin: auto;
+  position: relative;
+}
+
+#tooltip {
+    position: absolute;
+    width: 200px;
+    height: auto;
+    padding: 7px;
+    background-color: white;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+    }
+      
+#tooltip.hidden {
+  display: none;
+}
+
+#tooltip p {
+  margin: 0;
+  font-family: sans-serif;
+  font-size: 10px;
+  line-height: 12px;
+}
+
+text {
+  font: 10px sans-serif;
+}
+
+.axis path {
+  display: none;
+}
+
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.group-label {
+  font-weight: bold;
+  text-anchor: end;
+}
+
+form {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+</style>
+</head>
+<body>
+<div id="tooltip" class="hidden">
+<p><span id="value">100</span></p>
+</div>
+<div id="visualizing-the-american-electorates-political-polarization-does-it-mirror-the-polarization-in-washington" class="section level1">
+<h1></br>Polarization in the American Electorate: Percentage of Respondents Identifying as Conservative/Liberal</h1>
+<h3>Click on the Multiple/Stacked buttons in the upper right to change between views</h3>
+<p>Figure 2: This visualization describes how respondents to the ANES survey identify on a Conservative to Liberal Scale. The black line that appears in stacked view represents 50% of Respondents. Mouseover each year to learn information regarding the political alignment of the president, the Senate and House majorities, and the sample size.</p>
+</p>
+</div>
+<form>
+  <label><input type="radio" name="mode" value="multiples" checked> Multiples</label>
+  <label><input type="radio" name="mode" value="stacked"> Stacked</label>
+</form>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+
+var margin = {top: 10, right: 50, bottom: 35, left: 190},
+    width = 1000 - margin.left - margin.right,
+    height = 650 - margin.top - margin.bottom;
+
+var y0 = d3.scale.ordinal()
+    .rangeRoundBands([height, 0], .2);
+
+var y1 = d3.scale.linear();
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1, 0);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom")
+
+var nest = d3.nest()
+    .key(function(d) { return d.group; }).sortKeys(d3.ascending);
+
+var stack = d3.layout.stack()
+    .values(function(d) { return d.values; })
+    .x(function(d) { return d.date; })
+    .y(function(d) { return d.value; })
+    .out(function(d, y0) { d.valueOffset = y0; });
+
+var color = d3.scale.category10()
+                    .range(["#0101c0", "#4949c8", "#9191d1", "#d9d9d9", "#d19191", "#c84949", "#c00101"]);
+
+var color2 = d3.scale.category10()
+                    .range(["#0101c0", "#4949c8", "#9191d1", "#d9d9d9", "#d19191", "#c84949", "#c00101"]);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.csv("anes_ideology_identification.csv", function(error, data) {
+
+  data.forEach(function(d) {
+//    d.date = parseDate(d.date);
+    d.value = +d.value;
+  });
+
+  var dataByGroup = nest.entries(data);
+
+  stack(dataByGroup);
+  x.domain(dataByGroup[0].values.map(function(d) { return d.date; }));
+  y0.domain(dataByGroup.map(function(d) { return d.key; }));
+  y1.domain([0, d3.max(data, function(d) { return d.value; })]).range([y0.rangeBand(), 0]);
+
+  var group = svg.selectAll(".group")
+      .data(dataByGroup)
+    .enter().append("g")
+      .attr("class", "group")
+      .attr("transform", function(d) { return "translate(0," + y0(d.key) + ")"; });
+
+  group.append("text")
+      .attr("class", "group-label")
+      .attr("x", -6)
+      .attr("y", function(d) { return y1(d.values[0].value / 2); })
+      .attr("dy", ".35em")
+      .text(function(d) { return d.key; });
+
+
+  group.selectAll("rect")
+      .data(function(d) { return d.values; })
+      .enter().append("rect")
+      .attr("fill", function(d) { return color(d.group); })
+      .attr("x", function(d) { return x(d.date); })
+      .attr("y", function(d) { return y1(d.value); })
+      .attr("width", x.rangeBand())
+      .attr("height", function(d) { return y0.rangeBand() - y1(d.value); })
+      .on("mouseover", function(d) {
+
+      //Get this bar's x/y values, then augment for the tooltip
+      var xPosition = parseFloat(d3.select(this).attr("x")) + x.rangeBand() / 2;
+
+      //Update the tooltip position and value
+      d3.select("#tooltip")
+        .style("left", xPosition + "px")
+        .style("top", 600 + "px")           
+        .select("#value")
+        .html("<strong> Year: </strong>" + d.date + "</br>" + "<strong> President: </strong>" + d.President + "</br>" + "<strong> Senate: </strong>" + d.Senate + "</br>" + "<strong> House: </strong>" + d.House + "</br>" + "<strong> % Conservative: </strong>" + d3.round(d.Conservative*100, 2) + "%" + "</br>" + "<strong> % Moderate: </strong>" + d3.round(d.Moderate*100, 2) + "%" + "</br>" + "<strong> % Liberal: </strong>" + d3.round(d.Liberal*100, 2) + "%" + "</br>" + "<strong> Sample Size: </strong>" + d.x);
+     
+      //Show the tooltip
+      d3.select("#tooltip").classed("hidden", false);
+
+     })
+     .on("mouseout", function() {
+     
+      //Hide the tooltip
+      d3.select("#tooltip").classed("hidden", true);
+      
+     });
+
+  svg.append("line")
+     .attr("x1", 0)
+     .attr("y1", 500)
+     .attr("x2", width)
+     .attr("y2", 500)
+     .attr("stroke", "black")
+     .attr("stroke-width", 2)
+     .attr("opacity", 0);
+
+  group.filter(function(d, i) { return !i; }).append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + y0.rangeBand() + ")")
+      .call(xAxis);
+
+  d3.selectAll("input").on("change", change);
+
+  var timeout = setTimeout(function() {
+    d3.select("input[value=\"stacked\"]").property("checked", true).each(change);
+  }, 2000);
+
+  function change() {
+    clearTimeout(timeout);
+    if (this.value === "multiples") transitionMultiples();
+    else transitionStacked();
+  }
+
+  function transitionMultiples() {
+    var t = svg.transition().duration(750),
+        g = t.selectAll(".group").attr("transform", function(d) { return "translate(0," + y0(d.key) + ")"; });
+    g.selectAll("rect").attr("y", function(d) { return y1(d.value); })
+                       //.attr("opacity", 1)
+                       .attr("fill", function(d) { return color(d.group); });
+    g.select(".group-label").attr("y", function(d) { return y1(d.values[0].value / 2); });
+    svg.selectAll("line").attr("opacity", 0);
+  }
+
+  function transitionStacked() {
+    var t = svg.transition().duration(750),
+        g = t.selectAll(".group").attr("transform", "translate(0," + y0(y0.domain()[0]) + ")");
+        g.selectAll("rect").attr("y", function(d) { return y1(d.value + d.valueOffset); })
+                       //.attr("opacity", .8)
+                       .attr("fill", function(d) { return color2(d.group); });;
+        g.select(".group-label").attr("y", function(d) { return y1(d.values[0].value / 2 + d.values[0].valueOffset); });
+        svg.selectAll("line").attr("opacity", 1)
+                             .transition()
+                             .duration(750);
+  }
+});
+
+</script>
+
+</body>
