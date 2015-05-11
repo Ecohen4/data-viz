@@ -7,42 +7,40 @@
     <style type="text/css">
 
 .puma path{
-  fill: none;
   stroke: #fff;
   stroke-linejoin: round;
-  fill:rgb(150,150,150); 
   opacity: 0.75;
 }
 
 div.mouseover{
-	position: absolute;
-	background: black;
-	background-color: rgba(0,0,0,0.5);
-	border: 1px solid #131313;
-	color: white;
-	padding: 5px 8px;
-	margin-left: 100px;
-	margin-top: 50px;
-	display: none;
+  position: absolute;
+  background: black;
+  background-color: rgba(0,0,0,0.5);
+  border: 1px solid #131313;
+  color: white;
+  padding: 5px 8px;
+  margin-left: 100px;
+  margin-top: 50px;
+  display: none;
 }
 
 h2 {
-	font-family: arial;
+  font-family: arial;
   font-size: 20pt;
 }
 
 select {
-  font-size: 16pt;
+  font-size: 15pt;
+}
+
+.puma path:hover{
+  opacity: 1;
 }
 
 /*svg {
   border:1px solid black;
 }
 */
-.puma path:hover{
-  opacity: 1;
-	fill:rgb(250,250,50);
-}
 
 </style>
 <script src="http://d3js.org/d3.v3.min.js"> </script>
@@ -55,17 +53,18 @@ select {
 <body>
 <div class="mouseover"></div>
 <center>
-	<h2>Indicators of Gentrification in NYC, 2005-2011</h2>
+  <h2>Indicators of Gentrification in NYC, 2005-2011</h2>
 
 <table>
 <tr>
   <td></td>
-  <td>
+  <td width=500px>
     <div id="map"></div>
   </td>
   <td width=450px>
 <div id="selections">
 <select id="variable">
+<option value="NDX">Gentrification Index</option>
 <option value="MHI">Median Household Income</option>
 <option value="MGR">Median Gross Rent</option>
 <option value="MHV">Median Home Value</option>
@@ -74,10 +73,10 @@ select {
 <option value="EDU">Educational Attainment</option>
 <option value="UTF">Young Adult Population</option>
 <option value="WHT">White Population</option>
-<option value="NDX">Gentrification Index</option>
 </select>
 
 <select id="year">
+<option value="trnd">Trend</option>
 <option value="yr05">2005</option>
 <option value="yr06">2006</option>
 <option value="yr07">2007</option>
@@ -85,9 +84,8 @@ select {
 <option value="yr09">2009</option>
 <option value="yr10">2010</option>
 <option value="yr11">2011</option>
-<option value="trnd">Trend</option>
 </select></div>
-<br><br>
+<br>
 My research identified eight primary demographic and housing indicators of gentrification. They are: 
 <ul>
 <li><strong>Median Household Income</strong> - median total income by household.</li>
@@ -99,7 +97,7 @@ My research identified eight primary demographic and housing indicators of gentr
 <li><strong>Young Adult Population</strong> - percent of residents who are aged 18 to 35.</li>
 <li><strong>White Population</strong> - percent of residents who are non-Hispanic white/Caucasian.</li>
 </ul>
-To get a holistic picture of gentrification, I normalized and combined these figures in the <strong>Gentrification Index</strong> measure. For each of these nine metrics, data is available for each year between 2005 and 2011, inclusive. To emphasize the focus on change over time, I included a "Trend" year label which shows the difference between the last and the first years in the study. All data is courtesy of the United States Census Bureau's Public Use Microdata Samples.
+To get a holistic picture of gentrification, I normalized and combined these figures in the <strong>Gentrification Index</strong> measure. For each of these nine metrics, data is available for each year between 2005 and 2011 as well as the "trend" (difference between 2011 and 2005). Note that because gentrification is a process of change over time, the index measure only meaningfully corresponds to gentrification at the "trend" level. All data is courtesy of the United States Census Bureau's Public Use Microdata Samples.
   </td>
 
 </tr>
@@ -129,9 +127,9 @@ var yr05 = 0*9,
     yr11 = 6*9,
     trnd = 7*9;
 
-var variable = MHI;
-var year = yr05;
-var frmt = d3.format("$,.0f");
+var variable = NDX;
+var year = trnd;
+var frmt = d3.format("0.3r");
 
 var colorRange = ['rgb(118,42,131)','rgb(153,112,171)','rgb(194,165,207)',
                   'rgb(231,212,232)','rgb(217,240,211)','rgb(166,219,160)',
@@ -139,10 +137,10 @@ var colorRange = ['rgb(118,42,131)','rgb(153,112,171)','rgb(194,165,207)',
 colorRange.reverse();
 
 var projection = d3.geo.conicConformal()
-					.parallels([70 + 40/60, 41 + 2/60])
-					.scale(42500)
+          .parallels([70 + 40/60, 41 + 2/60])
+          .scale(42500)
           .translate([width / 2, height / 2])
-					.rotate([74,-40 - 42/60])
+          .rotate([74,-40 - 42/60])
 
 var proj = d3.geo.path().projection(projection);
 
@@ -173,6 +171,7 @@ function ready(error, map, text) {
       .enter().append("path")
       .attr("id",function(d){return d.properties.PUMACE10;})
       .attr("d", proj)
+      .style("fill","#ffffff")
       .on("mouseover",mouseover)
       .on("mouseout",mouseout);
 
@@ -202,6 +201,7 @@ function updateMap(){
                 .range(colorRange);
 
   svg.select("g").selectAll("path")
+     .transition().duration(1500)
      .style("fill",function(d){
         return choro(+dat[d.properties.PUMACE10][variable + year]);
      });
@@ -246,6 +246,8 @@ function drawLegend(){
   var legendcolors = d3.scale.threshold().domain(arb).range(colorRange);
 
   legend.append("rect")
+    .style("fill","#ffffff")
+    .transition().duration(1500)
    .attr("x", 20)
    .attr("y", function(d, i){ return height - (i*ls_h) - 2*ls_h;})
    .attr("width", ls_w)
@@ -254,6 +256,7 @@ function drawLegend(){
    .style("opacity", 0.75);
    
   legend.append("text")
+  .transition().duration(1500).delay(500)
    .attr("x", 50)
    .attr("y", function(d, i){ return height - (i*ls_h) - ls_h - 4;})
    .text(function(d, i){ return txt[i]; });
@@ -267,26 +270,26 @@ d3.select('#year')
 
 function mouseover(d){
   var id = d.properties.PUMACE10;
-	var text = dat[id][72]+"<br>"+frmt(dat[id][variable + year]);
-	$(".mouseover").html(text);
-	$(".mouseover").css("display","inline");
+  var text = dat[id][72]+"<br>"+frmt(dat[id][variable + year]);
+  $(".mouseover").html(text);
+  $(".mouseover").css("display","inline");
 }
 
 function mouseout(d){
-	d3.select("#arcSelection").remove();
-	$(".mouseover").text("");
-	$(".mouseover").css("display","none");
+  d3.select("#arcSelection").remove();
+  $(".mouseover").text("");
+  $(".mouseover").css("display","none");
 }
 
 d3.select('html').on('mousemove', function() {
-	var locs=d3.mouse(this);
-	locs[0] += 15;
-	locs[1] += 5;
+  var locs=d3.mouse(this);
+  locs[0] += 15;
+  locs[1] += 5;
 
-	$("div.mouseover").css("margin-left",locs[0]);
-	$("div.mouseover").css("margin-top",locs[1]);
+  $("div.mouseover").css("margin-left",locs[0]);
+  $("div.mouseover").css("margin-top",locs[1]);
     });
-</script>	
+</script> 
 </body>
 
 </html>
