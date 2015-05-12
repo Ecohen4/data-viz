@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Yiqian's first trial with d3</title>
+    
+    <!--
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+-->
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    <!--<script type="text/javascript" src="d3.js"></script>
+-->
+
+    <style type="text/css">
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: black;
+        shape-rendering: crispEdges;
+        stroke-width: 1;
+      }
+      .axis text {
+        font-size: 12px;
+        font-family: sans-serif;
+      }
+      .axis .grid-line{
+        stroke: black;
+        shape-rendering: crispEdges;
+        stroke-opacity: .2;
+    }
+    rect:hover {
+                fill: orange;
+            }
+    p{
+        font-size: 20px;
+    }
+
+    </style>
+
+</head>
+
+<body>
+<p>
+Yiqian Jin's second HW version~
+</p>
+
+<p> <em>Click the button to get changed!</em>
+</p>
+
+<div class="control-group">
+    <button onclick="initial()">
+        Initialize it!
+    </button>
+    <br />
+    <br />
+    <button onclick="newData()">
+        New Data New Range!
+    </button>
+    <br />
+    <br />
+    <button onclick="colorCircle()">
+        Color Points!
+    </button>
+    
+    <button onclick="changeShape()">
+        Change Shape to Rect!
+    </button>
+
+    <button onclick="makeLine()">
+        Make Lines!
+    </button>
+
+    <button onclick="smooth()">
+        Make Smooth!
+    </button>
+    
+   
+</div>
+
+
+<script type="text/javascript">
+    var w=600;
+    var h=400;
+    var padding = 35;
+    var svg,
+        xScale,
+        yScale,
+        rScale,
+        dataset,
+        xAxis,
+        yAxis,
+        numData = 20;
+        var linedata = [];
+
+
+    function genData(){
+        linedata = [];
+        var datahere = [];
+
+        var xRange = Math.random() * 1000;
+        var yRange = Math.random() * 1000;
+
+        for (var i = 0; i < numData; i++) {
+            var new1 = Math.floor(Math.random() * xRange);
+            var new2 = Math.floor(Math.random() * yRange);
+        // generate new integers
+            linedata.push({x:new1, y:new2});
+            datahere.push([new1, new2]);
+
+            linedata.sort(function(a,b) { 
+            return a.x - b.x ; 
+            });
+
+        }
+
+        xScale = d3.scale.linear()
+                        .domain([0,d3.max(datahere, function(d) {
+                            return d[0]; })])
+                        //.range(0, w );
+                        .range([padding, w - padding * 2]);
+        yScale = d3.scale.linear()
+                        .domain([0,d3.max(datahere, function(d) {
+                            return d[1]; })])
+                        //.range(0, h );
+                        .range([h - padding, padding]);
+        rScale = d3.scale.linear()
+                        .domain([0, d3.max(datahere, function(d) { 
+                            return d[1]; })])
+                        .range([3, 6]);
+
+         return datahere;
+
+        
+    }
+
+
+
+    function initial(){
+        if(svg) svg.remove();
+
+        dataset = genData();
+
+        
+        xAxis = d3.svg.axis()
+                        .scale(xScale)
+                        .orient("bottom")
+                        .ticks(5);
+        yAxis = d3.svg.axis()
+                        .scale(yScale)
+                        .orient("left")
+                        .ticks(5);
+
+        svg = d3.select("body")
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h);
+
+
+       
+
+        svg.selectAll("rect")
+            .data(dataset)
+            .enter()
+            .append("rect")
+            .attr("rx", function(d) {
+                return 4*rScale(d[1]);
+            })
+            .attr("ry", function(d) {
+                return 4*rScale(d[1]);
+            })
+            .attr("x", function(d) {
+                return xScale(d[0])-7 ;
+            })
+            .attr("y", function(d) {
+                return yScale(d[1])-7 ;
+            })
+            .attr("width", function(d) {
+                return 4*rScale(d[1]);
+            })
+            .attr("height", function(d) {
+                return 4*rScale(d[1]);
+            })
+            .append("title")
+            .text(function(d){
+                return d;
+            });
+
+        svg.append("g")
+            .attr("class", "x-axis")
+            .attr("transform", "translate(0," + (h - padding) + ")")
+                .call(xAxis);
+            
+    //Create Y axis
+        svg.append("g")
+            .attr("class", "y-axis")
+            .attr("transform", "translate(" + padding + ",0)")
+            .call(yAxis);
+
+
+    }
+
+
+    function newData(){
+        svg.selectAll("path").remove();
+
+        dataset = genData();
+
+
+        xAxis.scale().domain([0,d3.max(dataset, function(d) {
+                            return d[0]; })])
+                        .range([padding, w - padding * 2]);
+
+        yAxis.scale().domain([0,d3.max(dataset, function(d) {
+                            return d[1]; })])
+                        .range([h - padding, padding]);
+
+
+        svg.select("g.x-axis")
+            .transition()
+            .duration(1000)
+            .call(xAxis);
+
+        svg.select("g.y-axis")
+            .transition()
+            .duration(1000)
+            .call(yAxis);
+
+        svg.selectAll("rect")
+            .data(dataset)
+            .transition()
+            .duration(1000)
+            .attr("rx", function(d) {
+                return 6*rScale(d[1]);
+            })
+            .attr("ry", function(d) {
+                return 6*rScale(d[1]);
+            })
+            .attr("x", function(d) {
+                return xScale(d[0])-7 ;
+            })
+            .attr("y", function(d) {
+                return yScale(d[1])-7 ;
+            })
+            .attr("width", function(d) {
+                return 6*rScale(d[1]);
+            })
+            .attr("height", function(d) {
+                return 6*rScale(d[1]);
+            })
+
+    }
+
+    function colorCircle(){
+        var color = Math.floor(Math.random() * 16777216).toString(16);
+        color = '#000000'.slice(0, -color.length) + color ;
+        d3.select("body").select("svg").selectAll("rect")
+            .data(dataset)
+            .transition()
+            .duration(500)
+            .attr("fill", color)
+            //.attr("stroke", "grey")
+            //.attr("stroke-width", 3 )//function(d) {
+                //return d; });
+    }
+
+
+
+    function changeShape(){
+
+        svg.selectAll("rect")
+            .data(dataset)
+            .enter()
+            .append("rect")
+            .attr("rx", function(d) {
+                return 4*rScale(d[1]);
+            })
+            .attr("ry", function(d) {
+                return 4*rScale(d[1]);
+            })
+            .attr("x", function(d) {
+                return xScale(d[0])-7 ;
+            })
+            .attr("y", function(d) {
+                return yScale(d[1])-7 ;
+            })
+            .attr("width", function(d) {
+                return 4*rScale(d[1]);
+            })
+            .attr("height", function(d) {
+                return 4*rScale(d[1]);
+            })
+
+            d3.selectAll("rect")
+                .transition()
+                .duration(1000)
+                .attr("rx",0)
+                .attr("ry",0);
+    }
+    
+
+
+    function makeLine(){
+   //svg.selectAll("rect").remove();
+
+        var line = d3.svg.line() // <-D
+            .x(function(d){return xScale(d.x);})
+            .y(function(d){return yScale(d.y);})
+            .interpolate("linear");
+
+        svg.selectAll("path")
+            .data(linedata)
+            .enter()
+            .append("path") // <-E
+            .attr("class", "line")            
+            .attr("d", line(linedata) )
+            .attr("stroke", "grey" )
+            .attr("stroke-width", 2)
+            .attr("fill", "none")
+            .attr("shape-rendering","optimizeSpeed");
+        }
+
+
+
+ function smooth(){
+        svg.selectAll("rect").remove();
+        //svg.selectAll("path.line").remove();
+
+        var line = d3.svg.line() // <-D
+            .x(function(d){return xScale(d.x);})
+            .y(function(d){return yScale(d.y);})
+            .interpolate("basis");
+
+        svg.selectAll("path.line")
+            .transition()
+            .duration(1000)          
+            .attr("d", line(linedata) )
+            .attr("stroke", "grey" )
+            .attr("stroke-width", 2)
+            .attr("fill", "none")
+            .attr("shape-rendering","optimizeSpeed");
+
+            
+    
+    }
+
+
+
+
+        </script>
+    </body>
+</html>

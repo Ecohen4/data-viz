@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>d3.csv w. inline assets</title>
+	
+	<!-- d3 -->
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+	<!-- stylesheet -->
+	<style type="text/css">
+	</style>
+
+	<!-- JavaScript-->
+	<!-- <script src="script.js"></script> -->
+
+</head>
+
+<body>
+<script type="text/JavaScript">
+		var figHieght = 300;	// figure width
+		var goldenRatio = (1 + Math.sqrt(5)) / 2;
+		var figWidth = figHieght * goldenRatio;  // figure width
+
+		//var demand = [];
+
+		// extract DM and assign to new array called demand
+		// var getDemand = function(d) {
+		// 	for (var i = d.length - 1; i >= 0; i--) {
+		// 		demand.push(
+		// 			d[i].DM
+		// 			)
+		// 	}
+		// 	return demand
+		// };
+
+		// add a date property to data
+		var getDate = function(d) {
+			d.DATE = new Date (d.YR, d.M - 1, d.D, d.HR) 
+			return d
+		}; 
+
+		var xScale = d3.scale.linear()
+			.domain([0, function(d) { d3.max(d) } ])
+			.range([0, figWidth]);
+
+		d3.csv("NYC_US_Hourly_Demand.csv"), function(data) {
+			console.log(data);
+		});
+
+		d3.csv("NYC_US_Hourly_Demand.csv")
+			.row(getDate)
+			.get(function(err, data) {draw(data)})
+
+		var draw = function(data) {
+			d3.select("body").selectAll("div")
+				.data(data.slice(0,8760/52)) // just the first week
+				.enter()
+				.append("div")
+				.attr("class", "bar")
+				.style("height", function(d) {
+					var barHeight = d.DM * (1/20)
+					return barHeight + "px"
+					})
+				.style("width", function(d) {
+					var barWidth = figWidth/data.slice(0,8760/52).length
+					return barWidth + "px"
+					})
+			};
+</script>
+</body>
+</html>

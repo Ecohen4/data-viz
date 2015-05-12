@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang = "en">
+	
+	<head>
+		<meta charset = "utf-8">
+		<title>Canvas</title>
+		<script type = "text/javascript" src = "d3.js"></script>
+		<link rel = "stylesheet" type"text/css" href = "canvasstyle.css"/>
+	</head>
+	
+	<body>
+		<div id="option">
+		    <input name="axisButton" 
+		                 type="button" 
+		                value="Draw Axis" 
+		                onclick="removeAxis(); removeAxisTitlesAndTitle(); renderAxis();  renderAxisTitles(); renderTitle();"/>
+		</div>
+		
+		<div id="option">
+		    <input name="baseplotButton" 
+		                 type="button" 
+		                value="Initial Plot" 
+		                onclick="removeData(); renderData();"/>
+		</div>
+		
+		<div id="option">
+		    <input name="updateButton" 
+		                 type="button" 
+		                value="Update" 
+		                onclick="updateWithNewData();"/>
+		</div>
+		
+		<div id="option">
+		    <input name="updateColour" 
+		                 type="button" 
+		                value="Update Color" 
+		                onclick="updateColor();"/>
+		</div>
+
+		<script type = "text/javascript">
+		
+		var dat;
+		
+		function GenerateData(num) {
+			dat = d3.range(num).map(function() {
+				return {
+					x: Math.random() * 100,
+					y: Math.random() * 100,
+					r: Math.random() * 10,
+				}
+				});
+		};
+		
+		GenerateData(100);
+					
+		var w = 500,
+			h = 400,
+			margin = 40,
+			xmax = d3.max(dat, function (d) {
+				return d.x;
+			}),
+			ymax = d3.max(dat, function (d) {
+				return d.y;
+			}),
+			rmax = d3.max(dat, function (d) {
+				return d.r;
+			}),
+			svg = d3.select("body")
+				.append("svg")
+				.attr("width", w)
+				.attr("height", h),
+			xScale = d3.scale.linear()
+				.domain([0, xmax])
+				.range([margin, w - margin]),
+			yScale = d3.scale.linear()
+				.domain([0, ymax])
+				.range([h - margin, margin]),
+			rScale = d3.scale.linear()
+				.domain([0, rmax])
+				.range([0, rmax]),
+			xAxis = d3.svg.axis()
+				.scale(xScale)
+				.orient("bottom"),
+			yAxis = d3.svg.axis()
+				.scale(yScale)
+				.orient("left"),
+			xcol = d3.scale.linear()
+				.domain([0, xmax])
+				.range([0, 255]),
+			ycol = d3.scale.linear()
+				.domain([0, ymax])
+				.range([0, 255]),
+			rcol = d3.scale.linear()
+				.domain([0, rmax])
+				.range([0, 255]);
+			
+		function renderAxis() {			
+			svg.append("g")
+				.attr("class", "axis")
+				.attr("transform", "translate(0," + (h - margin) + ")")
+				.call(xAxis);
+			
+			svg.append("g")
+				.attr("class", "axis")
+				.attr("transform", "translate("+ margin + ", 0)")
+				.call(yAxis);
+		}
+		
+		function removeAxis() {
+			svg.selectAll("g")
+				.remove();
+		}
+		
+		function renderAxisTitles() {
+			svg.append("text")
+				.attr("class", "axislabel")
+	        	.attr("x", w/2 )
+	        	.attr("y", h-margin/4)
+	        	.style("text-anchor", "middle")
+	        	.text("X Axis");
+				
+			svg.append("text")
+				.attr("class", "axislabel")
+		        .attr("transform", "rotate(-90)")
+		        .attr("y", margin/16)
+		        .attr("x",0 - h / 2)
+		        .attr("dy", "1em")
+		        .style("text-anchor", "middle")
+		        .text("Y Axis");
+		}
+		
+		function removeAxisTitlesAndTitle() {
+			svg.selectAll("text")
+				.remove();
+		}
+		
+		function renderTitle() {
+			svg.append("text")
+				.attr("class", "title")
+	        	.attr("x", (w / 2))             
+	        	.attr("y", 0 + (margin / 2))
+	        	.attr("text-anchor", "middle")  
+	        	.style("font-size", "14px") 
+				.style("font-family", "Open Sans")
+	        	.style("text-decoration", "underline")  
+	        	.text("Update Homework 4 Plot");
+		}
+			
+		function renderData() {
+			update_enter();	
+		}
+		
+		function update_enter() {
+					
+			svg.selectAll("circle") //Update
+				.data(dat)
+				.enter() //Enter
+				.append("circle")
+				.attr("cx", function (d) {
+					return xScale(d.x);
+				})
+				.attr("cy", function (d) {
+					return yScale(d.y);
+				})
+				.attr("r", function (d) {
+					return rScale(d.r);
+				});
+		}
+		
+		function updateWithNewData() {
+			GenerateData(100);
+			
+			svg.selectAll("circle") //Update
+				.data(dat)
+				.transition()
+				.duration(1000)
+				.attr("cx", function (d) {
+					return xScale(d.x);
+				})
+				.attr("cy", function (d) {
+					return yScale(d.y);
+				})
+				.attr("r", function (d) {
+					return rScale(d.r);
+				});
+		}
+		
+		function removeData() {
+			svg.selectAll("circle") //Remove
+				.data(dat)
+				.remove()
+		}
+		
+		function updateColor() {
+			svg.selectAll("circle")
+				.transition()
+				.duration(1000)
+				.style("fill", function(d) { return "rgb(" + Math.round(xcol(d.x)) + "," + Math.round(ycol(d.y)) + "," + Math.round(rcol(d.r)) + ")"; });
+		}
+		
+		
+		function alternateData() {
+			removeData();
+			
+			d3.json("data.json", function (rawData) {
+				dat = rawData.map(function (d) {
+					return {
+						x:d.x,
+						y:d.y
+					};
+				});
+			});	
+			
+			update_enter(); //Buggy but not sure why
+		}
+		
+		</script>
+	</body>
+</html>

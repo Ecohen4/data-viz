@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+</head>
+<body>
+
+	<script>
+	// var nyc = []
+	// var demand = []
+	// var index = []
+	
+	// choose data range to visualize
+	
+	//var range = d.length - 1 // all the data
+	var range = 24*7 // just the first week
+	var demand = [ // <-C
+            {x: 0, y: 5},{x: 1, y: 9},{x: 2, y: 7},
+            {x: 3, y: 5},{x: 4, y: 3},{x: 6, y: 4},
+            {x: 7, y: 2},{x: 8, y: 3},{x: 9, y: 2}
+        ]
+
+	// d3.csv("NYC_US_Hourly_Demand.csv", function(d) {
+	// 	nyc = d;
+	// 	for (var i = 0; i <= range; i++) {
+	// 		demand.push(
+	// 			d[i].DM
+	// 			),
+	// 		index.push(
+	// 			i
+	// 			)
+	// 	};
+	// 	draw(demand)
+	// });
+
+	// d3.csv("NYC_US_Hourly_Demand.csv")
+	// 	.row(getDemand)
+	// 	.get(function(err, data) {draw(demand)})
+
+
+	// sanity check
+	// nyc[1].DM == demand[1] // true
+	
+	// print all the demand values in the console
+	// for (var i = 0; i < demand.length - 1; i++) {console.log(demand[i] ) } ;
+
+	
+	var w = 500;
+	var	h = 500;
+	var margin = 0;
+
+	
+	var draw = function (demand){
+
+		var xScale = d3.scale.linear()
+			.domain([0, 10])
+			.range([margin, w-margin]);
+
+		var yScale = d3.scale.linear()
+			.domain([0, 10])
+			.range([h-margin, margin]);
+
+        var line = d3.svg.line() // <-D
+            .x(function(d){return xScale(d.x);})
+            .y(function(d){return yScale(d.y);});
+
+		// var line = d3.svg.line()
+		// 	.x(function(i) {return i ; })
+		// 	.y(function(d) {return yScale(+d); } );
+
+		var svg = d3.select("body")
+			.append("svg")
+			.attr("width", w)
+			.attr("height", h);
+
+		svg.selectAll("path")
+			.data(demand)
+			.enter()
+			.append("path")
+			.attr("class", "line")  
+			.attr({
+				d: function(d) {return line(d); }
+			});
+	};
+	
+
+	// var getDate = function(d) {
+	// 	d.DATE = new Date (d.YR, d.M - 1, d.D, d.HR) 
+	// 	return d
+	// 	}; 
+
+
+
+// 			return {
+//     year: new Date(+d.Year, 0, 1), // convert "Year" column to Date
+//     make: d.Make,
+//     model: d.Model,
+//     length: +d.Length // convert "Length" column to number
+// };
+// }, function(error, d) {
+// 	console.log(data);
+// });
+
+	</script>
+</body>
+</html>

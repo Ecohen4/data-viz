@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  font: 14px sans-serif;
+  margin: 0;
+}
+
+.line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.area {
+
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+    }
+            
+.axis text {
+    font-family: sans-serif;
+    font-size: 8px;
+    }
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+
+var margin = {top: 2, right: 10, bottom: 25, left: 10},
+    width = 1200 - margin.left - margin.right,
+    height = 150 - margin.top - margin.bottom;
+
+var color = d3.scale.ordinal()
+    .range(["#00194d", "#26409b", "#51bbed", "#d5d5d5", "#ce1c04", "#881111", "#360200"]);
+
+var fontcolorx = d3.scale.ordinal()
+    .range(["#ffffff", "#ffffff", "#ffffff", "#000000", "#ffffff", "#ffffff", "#ffffff"]);
+
+var parseYear = d3.time.format("%Y").parse;
+
+var x = d3.time.scale()
+    .range([0, width]);
+
+var xAxis = d3.svg.axis()
+              .scale(x)
+              .orient("bottom");
+
+//var priority_order = ['Strong Republican', "Weak Republican", "Independent - Republican", "Independent", "Independent-Democrat", "Weak Democrat", "Strong Democrat"];
+
+d3.csv("anes_party_identification.csv", type, function(error, data) {
+  var party_id = d3.nest()
+      .key(function(d) { return d.party_id; }).sortKeys(d3.ascending)
+//      .key(function(d) { return d.priority_order; }).sortKeys(function(a,b) { return priority_order.indexOf(a) - priority_order.indexOf(b); })
+//      .rollup(function(leaves) { return leaves.length; })
+      .entries(data);
+
+  x.domain([
+    d3.min(party_id, function(party_id) { return party_id.values[0].year; }),
+    d3.max(party_id, function(party_id) { return party_id.values[party_id.values.length - 1].year; })
+  ]);
+
+  var svg = d3.select("body").selectAll("svg")
+      .data(party_id)
+    .enter().append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+      .each(function(party_id) {
+        party_id.y = d3.scale.linear()
+            .domain([0, d3.max(party_id.values, function(d) { return d.party_ratio; })])
+            .range([height, 0]);
+      });
+
+  svg.append("path")
+      .attr("class", "area")
+      .attr("d", function(party_id) {
+        return d3.svg.area()
+            .x(function(d) { return x(d.year); })
+            .y1(function(d) { return party_id.y(d.party_ratio); })
+            .y0(height)
+            (party_id.values)
+      })
+      .style("fill", function(d, i) { return color(i); });
+
+//  svg.append("g")
+//     .attr("class", "axis")
+//     .attr("transform", "translate(0," + (h-margin.bottom)+")")
+//     .call(xAxis);
+
+  svg.append("path")
+      .attr("class", "line")
+      .attr("d", function(party_id) {
+        return d3.svg.line()
+            .x(function(d) { return x(d.year); })
+            .y(function(d) { return party_id.y(d.party_ratio); })
+            (party_id.values);
+      });
+
+  svg.append("text")
+      .attr("x", width - 6)
+      .attr("y", height - 6)
+      .style("text-anchor", "end")
+      .style("fill", function(d, i) { return fontcolorx(i); })
+      .text(function(party_id) { return party_id.key; });
+});
+
+function type(d) {
+  d.party_ratio = +d.party_ratio;
+  d.year = parseYear(d.year);
+  return d;
+}
+
+</script>
+
