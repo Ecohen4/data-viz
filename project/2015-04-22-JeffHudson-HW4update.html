@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Jeff's Magic Map</title>
+    <style type="text/css">
+
+.zipcode path{
+  fill: none;
+  stroke: #fff;
+  stroke-linejoin: round;
+  fill:rgb(150,150,150); 
+}
+
+div.mouseover{
+	position: absolute;
+	background: black;
+	background-color: rgba(0,0,0,0.5);
+	border: 1px solid #131313;
+	color: white;
+	padding: 5px 8px;
+	margin-left: 100px;
+	margin-top: 50px;
+	display: none;
+}
+
+h2 {
+	font-family: arial;
+}
+
+.zipcode path:hover{
+	fill:rgb(250,250,50);
+}
+
+</style>
+<script src="http://d3js.org/d3.v3.min.js"> </script>
+<script src="http://d3js.org/queue.v1.min.js"> </script>
+<script src="http://d3js.org/topojson.v1.min.js"> </script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>
+
+</head>
+
+<body>
+<div class="mouseover"></div>
+<center>
+	<h2>Clusters of Increased Retail Business Development in NYC</h2>
+</center>
+<div id="svg"></div>
+<script type="text/javascript">
+var width = 960,
+    height = 700,
+    g;
+
+var clusters;
+popClusters();
+
+var projection = d3.geo.conicConformal()
+					.parallels([40 + 40/60, 41 + 2/60])
+					.scale(70000)
+					.rotate([74,-40 - 45/60])
+
+var path = d3.geo.path().projection(projection);
+
+var svg = d3.select("body").select("#svg").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+queue()
+    .defer(d3.json, "nyczips.json")
+    .await(ready);
+
+function ready(error, map) {
+ g=svg.append("g")
+      .attr("class", "zipcode")
+    .selectAll("path")
+      .data(map.features)
+    .enter().append("path")
+      .attr("id",function(d){return d.properties["ZIP"];})
+      .attr("d", path)
+   	  .on("mouseover",mouseover)
+	  .on("mouseout",mouseout);
+	assignClusters();
+}
+
+function assignClusters(){
+	var colors = [
+		"#E41A1C",
+		"#377EB8",
+		"#4DAF4A",
+		"#984EA3",
+		"#FF7F00"];
+
+	for(var i=0; i < clusters.length; i++){
+		for(var j=0; j < clusters[i].length; j++){
+			$("#"+clusters[i][j]).css("fill",colors[i]);
+		}
+	}
+}
+
+function mouseover(d){
+	//var text="NY"+d.properties["ZIP"]+"<br>"+d.properties["PO_NAME"];
+	var text = addClusterText(d);
+	$(".mouseover").html(text);
+	$(".mouseover").css("display","inline");
+}
+
+function addClusterText(d){
+	var clustertext = [
+		"Central Manhattan<br>1998-2002",
+		"Brooklyn<br>2009-2012",
+		"South Bronx/East Harlem<br>2009-2012",
+		"Financial District<br>1998-2000",
+		"Flushing, Queens<br>2009-2012"
+	];
+
+	var text;
+	for(var i = 0; i < clusters.length; i++){
+		for(var j = 0; j < clusters[i].length; j++){
+			if(clusters[i][j] == d.properties["ZIP"]){
+				text = d.properties["ZIP"] + "<br>" + clustertext[i];
+			}
+		}
+	}
+	if(!text){
+		text = d.properties["ZIP"]+"<br>"+d.properties["PO_NAME"];
+	}
+	return text;
+}
+
+function mouseout(d){
+	d3.select("#arcSelection").remove();
+	$(".mouseover").text("");
+	$(".mouseover").css("display","none");
+}
+
+d3.select('html').on('mousemove', function() {
+	var locs=d3.mouse(this);
+	locs[0] += 15;
+	locs[1] += 5;
+
+	$("div.mouseover").css("margin-left",locs[0]);
+	$("div.mouseover").css("margin-top",locs[1]);
+});
+
+function popClusters(){
+	clusters = [[
+        10106,
+        10107,
+        10105,
+        10019,
+        10104,
+        10103,
+        10151,
+        10112,
+        10153,
+        10111,
+        10020,
+        10075,
+        10065,
+        10152,
+        10154,
+        10036,
+        10176,
+        10155,
+        10171,
+        10177,
+        10172,
+        10175,
+        10173,
+        10023,
+        10166,
+        10167,
+        10110,
+        10169,
+        10022,
+        10069,
+        10170,
+        10165,
+        10168,
+        10178,
+        10018,
+        10174,
+        10017,
+        10021,
+        10055,
+        10090,
+        10123,
+        10120,
+        10122,
+        10158,
+        10118,
+        10119,
+        10121,
+        10001,
+        10016,
+        10024,
+        10199,
+        10028,
+        10044,
+        10162,
+        10010,
+        10128,
+        10011,
+        10003,
+        10025
+    ],[
+        11203,
+        11241,
+        11242,
+        11243,
+        11249,
+        11252,
+        11256,
+        11226,
+        11212,
+        11225,
+        11213,
+        11210,
+        11236,
+        11233,
+        11234,
+        11218,
+        11216,
+        11230,
+        11207,
+        11238,
+        11239,
+        11221,
+        11215,
+        11109,
+        11217,
+        11204,
+        11229,
+        11219,
+        11205,
+        11208,
+        11206,
+        11232,
+        11237,
+        11223,
+        11231,
+        11385,
+        11201,
+        11220,
+        11211,
+        11235
+    ],[
+        10454,
+        10455,
+        10035,
+        10451,
+        10037,
+        10474,
+        10030,
+        10456,
+        10039,
+        10459,
+        10029,
+        10026
+    ],[
+        10004,
+        10280,
+        10006,
+        10041,
+        10271,
+        10281,
+        10005,
+        10270,
+        10045,
+        10282,
+        10279,
+        10007,
+        10038,
+        10278
+    ],[
+        11355,
+        11354
+    ]
+];
+}
+</script>	
+</body>
+
+</html>

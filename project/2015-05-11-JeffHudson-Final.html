@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>NYC Gentrification Indicators</title>
+    <style type="text/css">
+
+.puma path{
+  stroke: #fff;
+  stroke-linejoin: round;
+  opacity: 0.75;
+}
+
+div.mouseover{
+  position: absolute;
+  background: black;
+  background-color: rgba(0,0,0,0.5);
+  border: 1px solid #131313;
+  color: white;
+  padding: 5px 8px;
+  margin-left: 100px;
+  margin-top: 50px;
+  display: none;
+}
+
+h2 {
+  font-family: arial;
+  font-size: 20pt;
+}
+
+select {
+  font-size: 15pt;
+}
+
+.puma path:hover{
+  opacity: 1;
+}
+
+/*svg {
+  border:1px solid black;
+}
+*/
+
+</style>
+<script src="http://d3js.org/d3.v3.min.js"> </script>
+<script src="http://d3js.org/queue.v1.min.js"> </script>
+<script src="http://d3js.org/topojson.v1.min.js"> </script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>
+
+</head>
+
+<body>
+<div class="mouseover"></div>
+<center>
+  <h2>Indicators of Gentrification in NYC, 2005-2011</h2>
+
+<table>
+<tr>
+  <td></td>
+  <td width=500px>
+    <div id="map"></div>
+  </td>
+  <td width=450px>
+<div id="selections">
+<select id="variable">
+<option value="NDX">Gentrification Index</option>
+<option value="MHI">Median Household Income</option>
+<option value="MGR">Median Gross Rent</option>
+<option value="MHV">Median Home Value</option>
+<option value="RMB">Residential Mobility</option>
+<option value="OCC">Occupational Prestige</option>
+<option value="EDU">Educational Attainment</option>
+<option value="UTF">Young Adult Population</option>
+<option value="WHT">White Population</option>
+</select>
+
+<select id="year">
+<option value="trnd">Trend</option>
+<option value="yr05">2005</option>
+<option value="yr06">2006</option>
+<option value="yr07">2007</option>
+<option value="yr08">2008</option>
+<option value="yr09">2009</option>
+<option value="yr10">2010</option>
+<option value="yr11">2011</option>
+</select></div>
+<br>
+My research identified eight primary demographic and housing indicators of gentrification. They are: 
+<ul>
+<li><strong>Median Household Income</strong> - median total income by household.</li>
+<li><strong>Median Gross Rent</strong> - median amount paid for all rental costs, among all resident renters.</li>
+<li><strong>Median Home Value</strong> - median home value among all resident home owners.</li>
+<li><strong>Residential Mobility</strong> - percent of residents who moved into their current residence in the past five years.</li>
+<li><strong>Occupational Prestige</strong> - percent of residents with managerial, professional, or technical careers.</li>
+<li><strong>Educational Attainment</strong> - percent of residents who have at least some college education.</li>
+<li><strong>Young Adult Population</strong> - percent of residents who are aged 18 to 35.</li>
+<li><strong>White Population</strong> - percent of residents who are non-Hispanic white/Caucasian.</li>
+</ul>
+To get a holistic picture of gentrification, I normalized and combined these figures in the <strong>Gentrification Index</strong> measure. For each of these nine metrics, data is available for each year between 2005 and 2011 as well as the "trend" (difference between 2011 and 2005). Note that because gentrification is a process of change over time, the index measure only meaningfully corresponds to gentrification at the "trend" level. All data is courtesy of the United States Census Bureau's Public Use Microdata Samples.
+  </td>
+
+</tr>
+</table>
+</center>
+<script type="text/javascript">
+var width = 700,
+    height = 500,
+    g;
+
+var MHI = 0,
+    MGR = 1,
+    MHV = 2,
+    RMB = 3,
+    OCC = 4,
+    EDU = 5,
+    UTF = 6,
+    WHT = 7,
+    NDX = 8;
+
+var yr05 = 0*9,
+    yr06 = 1*9,
+    yr07 = 2*9,
+    yr08 = 3*9,
+    yr09 = 4*9,
+    yr10 = 5*9,
+    yr11 = 6*9,
+    trnd = 7*9;
+
+var variable = NDX;
+var year = trnd;
+var frmt = d3.format("0.3r");
+
+var colorRange = ['rgb(118,42,131)','rgb(153,112,171)','rgb(194,165,207)',
+                  'rgb(231,212,232)','rgb(217,240,211)','rgb(166,219,160)',
+                  'rgb(90,174,97)','rgb(27,120,55)'];
+colorRange.reverse();
+
+var projection = d3.geo.conicConformal()
+          .parallels([70 + 40/60, 41 + 2/60])
+          .scale(42500)
+          .translate([width / 2, height / 2])
+          .rotate([74,-40 - 42/60])
+
+var proj = d3.geo.path().projection(projection);
+
+var svg = d3.select("body").select("#map").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+queue()
+    .defer(d3.json, "nycpumas.json")
+    .defer(d3.text, "nycgent.csv")
+    .await(ready);
+
+var dat;
+
+function ready(error, map, text) {
+  if (error) return console.error(error);
+
+  dat = {};
+
+  d3.csv.parseRows(text).slice(1).map(function(row){
+    dat[row.shift()] = row;
+    });
+
+  g=svg.append("g")
+      .attr("class", "puma")
+      .selectAll("path")
+      .data(topojson.feature(map, map.objects.nycpumas).features)
+      .enter().append("path")
+      .attr("id",function(d){return d.properties.PUMACE10;})
+      .attr("d", proj)
+      .style("fill","#ffffff")
+      .on("mouseover",mouseover)
+      .on("mouseout",mouseout);
+
+  updateMap();
+
+  drawLegend();
+ }
+
+function updateMap(){
+
+  var dataset = [];
+
+  for (var puma in dat){
+    dataset.push(+dat[puma][variable+year]);
+  }
+
+  var max = d3.max(dataset)
+  var min = d3.min(dataset)
+  var colorDomain = [];
+
+  for (var i=1; i < 8; i++) {
+    colorDomain.push(min + (((max-min)/8)*i));
+  }
+
+  var choro = d3.scale.threshold()
+                .domain(colorDomain)
+                .range(colorRange);
+
+  svg.select("g").selectAll("path")
+     .transition().duration(1500)
+     .style("fill",function(d){
+        return choro(+dat[d.properties.PUMACE10][variable + year]);
+     });
+}
+
+d3.select('#variable')
+  .on('change', function() {
+    variable = eval(d3.select(this).property('value'));
+    updateMap();
+  switch(variable){
+    case MHI:
+    case MGR:
+    case MHV:
+      frmt = d3.format("$,.0f");
+      break;
+    case RMB:
+    case OCC:
+    case EDU:
+    case UTF:
+    case WHT:
+      frmt = d3.format(".4p");
+      break;
+    case NDX:
+      frmt = d3.format("0.3r");
+      break;
+  }
+});
+
+function drawLegend(){
+
+  var arb = [0,1,2,3,4,5,6,7];
+  var txt = ["Low",".",".",".",".",".",".","High"]
+
+  var legend = svg.selectAll("g.legend")
+                  .data(arb)
+                  .enter().append("g")
+                  .attr("class", "legend")
+                  .attr("transform","translate(75,-250)");
+ 
+  var ls_w = 20, ls_h = 20;
+ 
+  var legendcolors = d3.scale.threshold().domain(arb).range(colorRange);
+
+  legend.append("rect")
+    .style("fill","#ffffff")
+    .transition().duration(1500)
+   .attr("x", 20)
+   .attr("y", function(d, i){ return height - (i*ls_h) - 2*ls_h;})
+   .attr("width", ls_w)
+   .attr("height", ls_h)
+   .style("fill", function(d, i) { return legendcolors(d-0.5); })
+   .style("opacity", 0.75);
+   
+  legend.append("text")
+  .transition().duration(1500).delay(500)
+   .attr("x", 50)
+   .attr("y", function(d, i){ return height - (i*ls_h) - ls_h - 4;})
+   .text(function(d, i){ return txt[i]; });
+}
+
+d3.select('#year')
+  .on('change', function() {
+    year = eval(d3.select(this).property('value'));
+    updateMap();
+});
+
+function mouseover(d){
+  var id = d.properties.PUMACE10;
+  var text = dat[id][72]+"<br>"+frmt(dat[id][variable + year]);
+  $(".mouseover").html(text);
+  $(".mouseover").css("display","inline");
+}
+
+function mouseout(d){
+  d3.select("#arcSelection").remove();
+  $(".mouseover").text("");
+  $(".mouseover").css("display","none");
+}
+
+d3.select('html').on('mousemove', function() {
+  var locs=d3.mouse(this);
+  locs[0] += 15;
+  locs[1] += 5;
+
+  $("div.mouseover").css("margin-left",locs[0]);
+  $("div.mouseover").css("margin-top",locs[1]);
+    });
+</script> 
+</body>
+
+</html>

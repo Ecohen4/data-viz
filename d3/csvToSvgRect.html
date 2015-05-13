@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+
+	<style type="text/css">
+
+	.axis line {
+	fill: none;
+	stroke: black;
+	shape-rendering: crispEdges;
+	}
+
+	.axis text {
+	font-family: sans-serif;
+	font-size: 11px;
+	}
+
+	</style>
+</head>
+<body>
+
+	<script>
+	var nyc = []
+	var demand = []
+	
+	// choose data range to visualize
+	
+	//var range = d.length - 1 // all the data
+	var range = 24*7 // just the first week
+
+	d3.csv("NYC_US_Hourly_Demand.csv", function(d) {
+		nyc = d;
+		for (var i = 0; i <= range; i++) {
+			demand.push(
+				d[i].DM
+				)
+		};
+		draw(demand)
+	});
+
+	// d3.csv("NYC_US_Hourly_Demand.csv")
+	// 	.row(getDemand)
+	// 	.get(function(err, data) {draw(demand)})
+
+
+	// sanity check
+	// nyc[1].DM == demand[1] // true
+	
+	// print all the demand values in the console
+	// for (var i = 0; i < demand.length - 1; i++) {console.log(demand[i] ) } ;
+
+	
+	var w = 600;
+	var h = 300;
+	var barPadding = 1;
+	var margin = 40;
+	
+	var draw = function (demand){
+
+		var yScale = d3.scale.linear()
+			.domain([0, +d3.max(demand) ])
+			.range([h,0]);
+
+		var xScale = d3.scale.linear()
+			.domain([0, w])
+			.range([margin, w-margin]);
+
+		var svg = d3.select("body")
+			.append("svg")
+			.attr("width", w)
+			.attr("height", h);
+
+		svg.selectAll("rect")
+			.data(demand)
+			.enter()
+			.append("rect")
+			.attr({
+				x: function(d, i) {return xScale(i * (w/ demand.length)); }, // assign x coordinate as a function of data row index [i].
+				y: function(d) {return  yScale(+d); }, //grow down from the top.
+				width: (w / demand.length) - barPadding,
+				height: function(d) { return  h - yScale(+d); }, //puts "bottom" of the rect on the bottom of the svg.
+				fill: "blue"
+			});
+
+		var yAxis = d3.svg.axis()
+			.scale(yScale)
+			.orient("left");
+
+		var xAxis = d3.svg.axis()
+			.scale(xScale)
+			.orient("bottom");
+
+		svg.append("g")
+		.attr("class", "axis")
+		.attr("transform", "translate(" + margin + ",0)")
+		.call(yAxis);
+
+		svg.append("g")
+		.attr("class", "axis")
+		.attr("transform", "translate(0," + (h - margin) + ")")
+		.call(xAxis);
+	}
+	
+
+	// var getDate = function(d) {
+	// 	d.DATE = new Date (d.YR, d.M - 1, d.D, d.HR) 
+	// 	return d
+	// 	}; 
+
+
+
+// 			return {
+//     year: new Date(+d.Year, 0, 1), // convert "Year" column to Date
+//     make: d.Make,
+//     model: d.Model,
+//     length: +d.Length // convert "Length" column to number
+// };
+// }, function(error, d) {
+// 	console.log(data);
+// });
+
+	</script>
+</body>
+</html>
