@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>JavaScript data structures</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+
+<body>
+<!-- open this file in Chrome web browser > inspect element > console. You can see the output of console.log, and play with the various commands. -->
+<script type="text/javascript">
+
+//arrays
+var a = [1,2,3,4,5,6,7];
+console.log(a);
+a.length;  // length 7
+a.push(8); // add the number 8
+a.length;  // length 8
+a[0]       // first item in the array
+a[a.length-1] //penultimate item in the array
+
+//objects 
+var book = {
+topic: "javascript", 
+fat: true
+}
+
+book.topic
+book["fat"]
+book.author="Flanagan";
+
+// array of objects (akin to list of list in R)
+var points = [
+{x:0, y:0},
+{x:1, y:1}
+];
+
+points[[1]]  // evaluate the first object in the array
+
+var data = {
+	trial1: [[1,2], [3,4]],
+	trial2: [[2,3], [4,5]]
+};
+
+data.trial2  // evaluate the second object in the array
+
+// arithmetic operators
+3+2;
+3-2;
+3/2;
+
+// arithmetic operators handy in a loop
+var count = 0  // define a variable
+count++;       // increment by 1
+count--;       // decrement by 1
+count +=2;     // add 2. equivalent to count = count + 2
+count *=3;     //multiple by 3. equivalent to count = count*3
+
+// relational operators
+var x=2, y=3; // variable assignments
+x==y;         // equality test
+x!=y;		  // inequality test
+x<y;		  // is x less than y?
+x <= y; 	  // is x less than or equal to y?
+false==(x>y)// evaluates to true. False == False
+
+// logical operators combine or invert boolean values
+(x==2) && (y==3) // evaluates to true. both comparisons are true. && is AND.
+(x>3) || (y<3)  // evaluates to false. neither comparison is true. || is OR.
+!(x==y)         // evaluates to true. ! inverts a boolean value
+
+
+</script>
+
+</body>
+
+</html>

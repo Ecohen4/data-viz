@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.chart .legend {
+  fill: black;
+  font: 10px Georgia;
+  text-anchor: start;
+  font-size: 12px;
+}
+
+.chart text {
+  fill: white;
+  font: 10px Georgia;
+  text-anchor: end;
+}
+
+.chart .label {
+  fill: black;
+  font: 14px Georgia;
+  text-anchor: end;
+}
+
+.bar:hover {
+  fill: rgba(0,0,0,0.8);
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+
+</style>
+
+<body>
+<p class='Economics'>Economics</p>
+<p class='Political'>Political</p>
+<p class='Culture'>Culture</p>
+
+</body>
+
+<svg class="chart"></svg>
+
+<script src="http://d3js.org/d3.v3.min.js"></script> -->
+<script>
+var data = {
+  labels: [
+    '0-25k', '25k-50k', '50k-75k',
+    '75k-100k', '100k-150k', '150k-300k','300k+'
+  ],
+  series: [
+    {
+      label: 'junior school and below',
+      values: [-3.923058, -4.589231, -2.418269, -2.955556, -2.327731, -2.080460, -0.500000]
+    },
+    {
+      label: 'high school',
+      values: [-3.180667, -4.920047, -3.603261, -2.632682, -2.388563, -1.287640, -1.263033]
+    },
+    {
+      label: 'undergraduate',
+      values: [-2.8799940, -3.4736415, -2.3549726, -1.6871835, -0.8878622,  0.6328746,  0.8248676]
+    },
+    {
+      label: 'postgraduate',
+      values: [-1.7168500, -2.0568793, -1.6986997, -0.7814222, -0.2768110,  0.5833777,  1.1727380]
+    },]
+};
+
+var chartWidth       = 800,
+    barHeight        = 15,
+    groupHeight      = barHeight * data.series.length,
+    gapBetweenGroups = 10,
+    spaceForLabels   = 150,
+    spaceForLegend   = 150;
+
+var zippedData = [];
+for (var i=0; i<data.labels.length; i++) {
+  for (var j=0; j<data.series.length; j++) {
+    zippedData.push(data.series[j].values[i]);
+  }
+}
+
+
+var color = d3.scale.category10();
+var chartHeight = barHeight * zippedData.length + gapBetweenGroups * data.labels.length;
+
+var x = d3.scale.linear()
+          .domain([d3.min(zippedData)-1, d3.max(zippedData)+1])
+          .range([0, chartWidth]);
+
+var y = d3.scale.linear()
+    .range([chartHeight + gapBetweenGroups, 0]);
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .tickFormat('')
+    .tickSize(0)
+    .orient("left");
+
+var chart = d3.select(".chart")
+              .attr("width", spaceForLabels + chartWidth + spaceForLegend)
+              .attr("height", chartHeight);
+
+var bar = chart.selectAll("g")
+    .data(zippedData)
+    .enter()
+    .append("g")
+    .attr("transform", function(d, i) {
+      return "translate(" + spaceForLabels + "," + (i * barHeight + gapBetweenGroups * (0.5 + Math.floor(i/data.series.length))) + ")";
+    });
+
+bar.selectAll('rect')
+   .remove();
+bar.append("rect")
+    .attr("fill", function(d,i) { return color(i % data.series.length); })
+    .attr("class", "bar")
+    .attr("width", x)
+    .attr("height", barHeight - 1);
+
+bar.append("text")
+    .attr("x", function(d) { return x(d)-3; })
+    .attr("y", barHeight / 2)
+    .attr("fill", "red")
+    .attr("dy", ".35em")
+    .text(function(d) { return d; });
+
+bar.append("text")
+    .attr("class", "label")
+    .attr("x", function(d) { return - 10; })
+    .attr("y", groupHeight / 2)
+    .attr("dy", ".35em")
+    .text(function(d,i) {
+      if (i % data.series.length === 0)
+        return data.labels[Math.floor(i/data.series.length)];
+      else
+        return ""});
+
+chart.append("g")
+      .attr("class", "y axis")
+      .attr("transform", "translate(" + spaceForLabels + ", " + -gapBetweenGroups/2 + ")")
+      .call(yAxis);
+
+var legendRectSize = 18,
+    legendSpacing  = 4;
+
+var legend = chart.selectAll('.legend')
+    .data(data.series)
+    .enter()
+    .append('g')
+    .attr('transform', function (d, i) {
+        var height = legendRectSize + legendSpacing;
+        var offset = -gapBetweenGroups/2;
+        var horz = spaceForLabels + chartWidth + 10 - legendRectSize;
+        var vert = i * height - offset;
+        return 'translate(' + horz + ',' + vert + ')';
+    });
+
+legend.append('rect')
+    .attr('width', legendRectSize)
+    .attr('height', legendRectSize)
+    .style('fill', function (d, i) { return color(i); })
+    .style('stroke', function (d, i) { return color(i); });
+
+legend.append('text')
+    .attr('class', 'legend')
+    .attr('x', legendRectSize + legendSpacing)
+    .attr('y', legendRectSize - legendSpacing)
+    .text(function (d) { return d.label; });
+
+d3.select("p.Political")
+        .on("click", function() {
+
+           data = {
+  labels: [
+    '0-25k', '25k-50k', '50k-75k',
+    '75k-100k', '100k-150k', '150k-300k','300k+'
+  ],
+  series: [
+    {
+      label: 'junior school and below',
+      values: [-2.35774369, -2.70307692, -1.23557692, -1.76296296,  0.08403361,  0.06896552,  0.30833333]
+    },
+    {
+      label: 'high school',
+      values: [-1.2825240, -3.1872075, -1.4121377, -0.1675978, -0.4809384,  0.5730337,  0.4336493]
+    },
+    {
+      label: 'undergraduate',
+      values: [-1.19690441, -2.18057345, -0.93395696,  0.04440982,  1.30914898,  3.14537701,  3.12122156]
+    },
+    {
+      label: 'postgraduate',
+      values: [0.76896352, -0.09684858,  0.99016809,  1.82917869,  2.14002428,  3.00026638,  3.20094007]
+    },]
+};
+
+
+    chartWidth       = 800,
+    barHeight        = 15,
+    groupHeight      = barHeight * data.series.length,
+    gapBetweenGroups = 10,
+    spaceForLabels   = 150,
+    spaceForLegend   = 150;
+
+
+ zippedData = [];
+for (var i=0; i<data.labels.length; i++) {
+  for (var j=0; j<data.series.length; j++) {
+    zippedData.push(data.series[j].values[i]);
+  }
+}
+
+
+ color = d3.scale.category10();
+ chartHeight = barHeight * zippedData.length + gapBetweenGroups * data.labels.length;
+
+ x = d3.scale.linear()
+    .domain([d3.min(zippedData)-1, d3.max(zippedData)+1])
+    .range([0, chartWidth]);
+
+ y = d3.scale.linear()
+    .range([chartHeight + gapBetweenGroups, 0]);
+
+ yAxis = d3.svg.axis()
+    .scale(y)
+    .tickFormat('')
+    .tickSize(0)
+    .orient("left");
+
+
+ chart = d3.select(".chart")
+    .attr("width", spaceForLabels + chartWidth + spaceForLegend)
+    .attr("height", chartHeight);
+
+
+ bar = chart.selectAll("g")
+    .data(zippedData)
+    .attr("transform", function(d, i) {
+      return "translate(" + spaceForLabels + "," + (i * barHeight + gapBetweenGroups * (0.5 + Math.floor(i/data.series.length))) + ")";
+    });
+bar.selectAll('rect')
+   .remove();
+
+bar.append("rect")
+   .transition()
+   .delay(function(d, i) {
+               return i / zippedData.length * 1000;
+             })
+   .duration(1000)
+   .attr("fill", function(d,i) { return color(i % data.series.length); })
+    .attr("class", "bar")
+    .attr("width", x)
+    .attr("height", barHeight - 1);
+
+
+bar.append("text")
+    .attr("x", function(d) { return x(d)-3; })
+    .attr("y", barHeight / 2)
+    .attr("fill", "red")
+    .attr("dy", ".35em")
+    .text(function(d) { return d; });
+
+bar.append("text")
+    .attr("class", "label")
+    .attr("x", function(d) { return -10; })
+    .attr("y", groupHeight / 2)
+    .attr("dy", ".35em")
+    .text(function(d,i) {
+      if (i % data.series.length === 0)
+        return data.labels[Math.floor(i/data.series.length)];
+      else
+        return ""});
+
+chart.append("g")
+      .attr("class", "y axis")
+      .attr("transform", "translate(" + spaceForLabels + ", " + -gapBetweenGroups/2 + ")")
+      .call(yAxis);
+
+
+        });
+
+d3.select("p.Culture")
+        .on("click", function() {
+           data = {
+  labels: [
+    '0-25k', '25k-50k', '50k-75k',
+    '75k-100k', '100k-150k', '150k-300k','300k+'
+  ],
+  series: [
+    {
+      label: 'junior school and below',
+      values: [-1.700396, -2.480000, -2.514423, -1.918519, -1.957983, -1.482759, -0.825000]
+    },
+    {
+      label: 'high school',
+      values: [-1.314464, -2.303042, -1.972826, -1.416201, -1.195015, -1.035955, -0.521327]
+    },
+    {
+      label: 'undergraduate',
+      values: [-1.1521337, -1.6826964, -1.4929667, -1.3902415, -1.1846909, -0.7894941, -0.3293861]
+    },
+    {
+      label: 'postgraduate',
+      values: [-1.2890851, -1.4292852, -1.2343800, -1.1086329, -1.0026305, -0.7477357, -0.4274383]
+    },]
+};
+
+
+    chartWidth       = 800,
+    barHeight        = 15,
+    groupHeight      = barHeight * data.series.length,
+    gapBetweenGroups = 10,
+    spaceForLabels   = 150,
+    spaceForLegend   = 150;
+
+
+ zippedData = [];
+for (var i=0; i<data.labels.length; i++) {
+  for (var j=0; j<data.series.length; j++) {
+    zippedData.push(data.series[j].values[i]);
+  }
+}
+
+
+ color = d3.scale.category10();
+ chartHeight = barHeight * zippedData.length + gapBetweenGroups * data.labels.length;
+
+ x = d3.scale.linear()
+    .domain([d3.min(zippedData)-1, d3.max(zippedData)+1])
+    .range([0, chartWidth]);
+
+ y = d3.scale.linear()
+    .range([chartHeight + gapBetweenGroups, 0]);
+
+ yAxis = d3.svg.axis()
+    .scale(y)
+    .tickFormat('')
+    .tickSize(0)
+    .orient("left");
+
+
+ chart = d3.select(".chart")
+    .attr("width", spaceForLabels + chartWidth + spaceForLegend)
+    .attr("height", chartHeight);
+
+
+ bar = chart.selectAll("g")
+    .data(zippedData)
+    .attr("transform", function(d, i) {
+      return "translate(" + spaceForLabels + "," + (i * barHeight + gapBetweenGroups * (0.5 + Math.floor(i/data.series.length))) + ")";
+    });
+
+bar.selectAll('rect')
+   .remove();
+bar.append("rect")
+   .transition()
+   .delay(function(d, i) {
+               return i / zippedData.length * 1000;
+             })
+   .duration(1000)
+   .attr("fill", function(d,i) { return color(i % data.series.length); })
+    .attr("class", "bar")
+    .attr("width", x)
+    .attr("height", barHeight - 1);
+
+
+bar.append("text")
+    .attr("x", function(d) { return x(d) - 3; })
+    .attr("y", barHeight / 2)
+    .attr("fill", "red")
+    .attr("dy", ".35em")
+    .text(function(d) { return d; });
+
+bar.append("text")
+    .attr("class", "label")
+    .attr("x", function(d) { return - 10; })
+    .attr("y", groupHeight / 2)
+    .attr("dy", ".35em")
+    .text(function(d,i) {
+      if (i % data.series.length === 0)
+        return data.labels[Math.floor(i/data.series.length)];
+      else
+        return ""});
+
+chart.append("g")
+      .attr("class", "y axis")
+      .attr("transform", "translate(" + spaceForLabels + ", " + -gapBetweenGroups/2 + ")")
+      .call(yAxis);
+        });
+
+d3.select("p.Economics")
+        .on("click", function() {
+           data = {
+  labels: [
+    '0-25k', '25k-50k', '50k-75k',
+    '75k-100k', '100k-150k', '150k-300k','300k+'
+  ],
+  series: [
+    {
+      label: 'junior school and below',
+      values: [-3.923058, -4.589231, -2.418269, -2.955556, -2.327731, -2.080460, -0.500000]
+    },
+    {
+      label: 'high school',
+      values: [-3.180667, -4.920047, -3.603261, -2.632682, -2.388563, -1.287640, -1.263033]
+    },
+    {
+      label: 'undergraduate',
+      values: [-2.8799940, -3.4736415, -2.3549726, -1.6871835, -0.8878622,  0.6328746,  0.8248676]
+    },
+    {
+      label: 'postgraduate',
+      values: [-1.7168500, -2.0568793, -1.6986997, -0.7814222, -0.2768110,  0.5833777,  1.1727380]
+    },]
+};
+
+
+    chartWidth       = 800,
+    barHeight        = 15,
+    groupHeight      = barHeight * data.series.length,
+    gapBetweenGroups = 10,
+    spaceForLabels   = 150,
+    spaceForLegend   = 150;
+
+
+ zippedData = [];
+for (var i=0; i<data.labels.length; i++) {
+  for (var j=0; j<data.series.length; j++) {
+    zippedData.push(data.series[j].values[i]);
+  }
+}
+
+
+ color = d3.scale.category10();
+ chartHeight = barHeight * zippedData.length + gapBetweenGroups * data.labels.length;
+
+ x = d3.scale.linear()
+    .domain([d3.min(zippedData)-1, d3.max(zippedData)+1])
+    .range([0, chartWidth]);
+
+ y = d3.scale.linear()
+    .range([chartHeight + gapBetweenGroups, 0]);
+
+ yAxis = d3.svg.axis()
+    .scale(y)
+    .tickFormat('')
+    .tickSize(0)
+    .orient("left");
+
+
+ chart = d3.select(".chart")
+    .attr("width", spaceForLabels + chartWidth + spaceForLegend)
+    .attr("height", chartHeight);
+
+
+ bar = chart.selectAll("g")
+    .data(zippedData)
+    .attr("transform", function(d, i) {
+      return "translate(" + spaceForLabels + "," + (i * barHeight + gapBetweenGroups * (0.5 + Math.floor(i/data.series.length))) + ")";
+    });
+
+bar.selectAll('rect')
+   .remove();
+
+bar.append("rect")
+   .transition()
+   .delay(function(d, i) {
+               return i / zippedData.length * 1000;
+             })
+   .duration(1000)
+   .attr("fill", function(d,i) { return color(i % data.series.length); })
+    .attr("class", "bar")
+    .attr("width", x)
+    .attr("height", barHeight - 1);
+
+bar.append("text")
+    .attr("x", function(d) { return x(d) - 3; })
+    .attr("y", barHeight / 2)
+    .attr("fill", "red")
+    .attr("dy", ".35em")
+    .text(function(d) { return d; });
+
+bar.append("text")
+    .attr("class", "label")
+    .attr("x", function(d) { return - 10; })
+    .attr("y", groupHeight / 2)
+    .attr("dy", ".35em")
+    .text(function(d,i) {
+      if (i % data.series.length === 0)
+        return data.labels[Math.floor(i/data.series.length)];
+      else
+        return ""});
+
+chart.append("g")
+      .attr("class", "y axis")
+      .attr("transform", "translate(" + spaceForLabels + ", " + -gapBetweenGroups/2 + ")")
+      .call(yAxis);
+        });
+
+</script> 
+</body>

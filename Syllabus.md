@@ -50,7 +50,7 @@ Columbia University
 - Jan. 28 (W): `R` tutorial.
 - Feb. 02 (M): Quiz 1 (Tufte and Wilkinson Ch. 1-3). From Wilkinson's grammar of graphics to implementation with Hadley's __ggplot2__.
 - Feb. 04 (W): Meet your computer. Git and `github` tutorial.
-- Feb. 09 (M): Guest Lecture Michael Malecki - __Data Maps__. Reading due today: [value-by-alpha maps](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3173776/pdf/nihms322499.pdf) & [more on value-by-alpha maps](http://andywoodruff.com/blog/value-by-alpha-maps/)
+- Feb. 09 (M): Guest Lecture Michael Malecki - [Data Maps](http://datamaps.github.io/). Reading due today: [value-by-alpha maps](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3173776/pdf/nihms322499.pdf) & [more on value-by-alpha maps](http://andywoodruff.com/blog/value-by-alpha-maps/)
 - Feb. 11 (W): Guest Lecture Swupnil Sahai - `Tableau`.
 - Feb. 16 (M): Time Series: The Climate Hockey Stick (IPCC). WSJ and NYT Business Section graphics. [gapminder](http://www.gapminder.org/) 
 - Feb. 18 (W): Handling time series in `R` with _date()_ and _POSIX()_ objects. In-class assignment: Handling geophysical time series -- example from [wind energy analysis](http://ecohen4.github.io/ECREEE/#visually-inspect-the-data-with-respect-to-time).
@@ -61,7 +61,7 @@ Columbia University
 	- Narrative Graphics of Space and Time: Minard's narrative of Napoleon's Failed Conquest of Russia. [NYT Ebola Graphics](http://www.informationisbeautiful.net/visualizations/the-microbescope/). Ornithology and botany field guides. 
 	- Reading due today: Tufte chapters 4-9. Wilkinson chapters 4-7 (you can skim ch. 5). 
 	- HW2 due Monday Mar. 2nd: Re-Create Minard's Napolean Conquest _or_ Ebola/contagion graphic in `R`.
-- Feb. 25 (W):
+- Feb. 25 (W): R and git.
 	- `R` to the next level (review):
 		- Split-Apply-Combine with Hadley's [plyr](http://www.jstatsoft.org/v40/i01/paperre). 
 		- Reshape data with [reshape2](http://cran.r-project.org/web/packages/reshape2/index.html). 
@@ -79,7 +79,7 @@ Columbia University
 		install_github('ramnathv/rCharts@dev')
 		install_github('ramnathv/rMaps')
 
-- Mar. 11 (W): 
+- Mar. 11 (W): DOM
 	- Quiz 3. 
 	- Introduction to the Document Object Model (DOM) paradigm: `HTML` + `CSS` + `JavaScript` 
 	- Reading for next week: 
@@ -106,20 +106,27 @@ Columbia University
 	- Reading due today (YES READ BOTH): 
 		- Data Viz w. D3.js Cookbook (Zhu) Ch. 4-6: scales, axes, transitions.
 		- Interactive Data Viz for the Web (Murray) Ch. 7-9: scales, axes, transitions.
-- Apr. 01 (W): Putting together the DOM with JsFiddle, Plunkr or a local server.
+- Apr. 01 (W): Putting together the DOM with JsFiddle, Plunkr or local server.
 - Apr. 06 (M): D3 part I: setup, selections and data.
 - Apr. 08 (W): D3 practice
 - Apr. 13 (M): D3 part II: scales, axes, transitions.
 	- Reading due today: 
 		- Data Viz w. D3.js Cookbook (Zhu) Ch. 7-9: shapes, charts, layouts.
+		- [D3 on blocks](http://bl.ocks.org/mbostock)
+		- [D3 intro](http://d3js.org/#introduction)
 - Apr. 15 (W): Build a webpage on github.io
-- Apr. 20 (M): 
-	- Quiz 4 & quiz review. 
+- Apr. 20 (M): Exam! Covers all topics since Spring Break.
 	- Reading due today (YES READ BOTH): 
 		- Data Viz w. D3.js Cookbook (Zhu) Ch. 10: Interactivity.
 		- Interactive Data Viz for the Web (Murray) Ch. 10: Interactivity.
+		- Study!
 - Apr. 22 (W): TBD
-- Apr, 27 (M): TBD
-- Apr. 29 (W): First FULL draft of conference paper due! Instructor review.
+- Apr. 27 (M): Revisiting sage advice from Edward Tufte: Corruption in Evidence Presentation
+        - Effects without causes.  Actions without actors. Passive voice as obfuscation.
+        - Cherry-picking, overreaching, the rage to conclude.
+        - Chartjunk strikes back!
+        - Why PowerPoint insults your audience's intelligence.
+- Apr. 29 (W): First FULL draft of conference paper due! Instructor review. 
+        - In class introduce new data-viz libraries for R: [dygraphs](https://rstudio.github.io/dygraphs/), [plotly](https://plot.ly/ggplot2/getting-started/) and [leaflet](https://rstudio.github.io/leaflet/).
 - May  04 (M): First FULL draft of project website due! Peer code review.
-- FINAL EXAM WEEK: Present final project: conference paper with accompanying web-based visualizations.
+- May 11 (M): FINAL EXAM (1:10-4:00pm): Present final project: conference paper with accompanying web-based visualizations.

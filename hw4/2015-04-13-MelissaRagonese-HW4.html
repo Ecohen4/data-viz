@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Butts.</title>
+    <h1>Melissa's Wretched d3 Scatterplot</h1>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.js"></script>
+    <!-- Now running on an online d3.js thing! -->
+</head>
+
+<body>
+
+<style>
+
+.axis{fill: none;
+    stroke: maroon;}
+
+/*svg circle{
+    stroke: green;
+    fill: pink;
+    stroke-width: 3
+    }*/
+    
+h1 {color: maroon;
+    }
+
+
+</style>
+
+<script type="text/javascript">
+    var width = 600,
+        height = 500,
+        margin = 25;
+        
+    var svg = d3.select("body").append("svg");
+    
+     var data = [
+        [5, 20, 55],
+        [480, 90, 32],
+        [250, 50, 14],
+        [100, 33, 92],
+        [330, 95, 34],
+        [410, 12, 73],
+        [475, 44, 19],
+        [25, 67, 86],
+        [85, 21, 23],
+        [220, 88, 59]
+                    ];
+    
+    var xScale = d3.scale.linear()
+        .domain([0,d3.max(data, function(d){
+            return d[0]
+             })]).range([margin, width-margin]);
+             
+    var yScale = d3.scale.linear().domain([0,d3.max(data, function(d){
+            return d[1]
+             })]).range([height-margin, margin]);
+             
+    var colorScale = d3.scale.linear().domain([0,d3.max(data, function(d){
+            return d[2]
+             })]).range(["#add8e6", "blue"]);
+    
+    var xAxis = d3.svg.axis()
+            .scale(xScale)
+            .ticks(10)
+            .orient("bottom");
+    
+    var yAxis = d3.svg.axis()
+            .scale(yScale)
+            .ticks(20)
+            .orient("left");
+    
+    
+    svg.attr("height", height)
+        .attr("width", width);    
+        
+        
+    svg.selectAll("circle").data(data).enter().append("circle")
+        .attr("cx", function(d){return xScale(d[0]);})
+        .attr("cy", function(d){return yScale(d[1]);})
+        .attr("r", function(d){return Math.sqrt(d[0]^2 + d[1]^2);})
+        .style("fill", function(d){return colorScale(d[2])});
+        
+    svg.append("g")       
+            .attr("class", "axis")
+            .attr("transform", function(){return "translate(0,"+(height-margin)+")";})
+            .call(xAxis); 
+            
+    svg.append("g")       
+            .attr("class", "axis")
+            .attr("transform", function(){return "translate(" + margin + ")";})
+            .call(yAxis); 
+            
+
+</script>
+
+</body>
+
+</html>

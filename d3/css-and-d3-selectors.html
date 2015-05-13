@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<!-- Introductory examples of how to put HTML elements on a page and apply CSS dynamically with D3.js -->
+
+<head>
+	<meta charset="utf-8">
+	<title>D3 selectors</title>
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8">
+	</script>
+    	<!-- link to css 
+		<link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+	-->
+
+	<style type="text/css"> 
+
+		/* target p elements descendent of class "content" */
+		.content p{
+			color: red;
+			background-color: white;
+			font-size: 24px;
+		}
+
+		/* target all div of class "fluff" */
+		div.fluff {
+			color: blue;
+			font-size: 24px;
+		}
+
+	</style>
+
+</head>
+
+<body>
+
+	<!-- empty HTML body -->
+
+	<script>
+		d3.select("body").append("div").attr("class", "content").append("p").text("content paragraph");
+
+		d3.select("body").append("div").attr("class", "fluff");
+
+		d3.select("div.fluff").append("p").text("fluff paragraph");
+
+		d3.select("div.fluff").append("ul").append("li").text("fluffy list item appended to div of class fluff");
+	</script>
+
+
+</body>
+</html>
