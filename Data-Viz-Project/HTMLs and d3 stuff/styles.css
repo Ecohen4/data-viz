@@ -1,0 +1,29 @@
+#wrapper {
+  width:1200px;
+  clear:both;
+}
+
+#trans {
+  width:200px;
+  float:left;
+}
+
+#wide {
+    height:488px;
+    width:500px;
+    float:left;
+}
+
+
+img {
+    height:488px;
+    width:154px;
+}
+
+
+h5 {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-right: 125px;
+    margin-left: 50px;
+}
