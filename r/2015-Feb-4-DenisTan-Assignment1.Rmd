@@ -1,0 +1,115 @@
+---
+title: "Data Visualization Assignment 1"
+author: "Denis Tan, dwt2118, Columbia University"
+date: "February 4, 2015"
+output:
+  html_document:
+    number_sections: yes
+    theme: cosmo
+    toc: yes
+  pdf_document:
+    fig_width: 7
+    number_sections: yes
+    toc: yes
+    toc_depth: 4
+---
+
+Assignment 1
+=======================
+## Assignment Summary
+We are asked to handle data from the Nigeria MDG Information System (NMIS) to produce a data frame, with meta data, of all healthcare facilities located in the Southern zones of Nigeria. We are then asked to aggregate and compute the absolute and relative (on per capita and per area bases) number of healthcare workers by state.
+
+## Preset
+I begin the assignment by setting the working directory to the r folder within the local forked repo. Following which, I load the plyr and ggplot2 packages, both of which will be used subsequently.
+```{r preset, cache=TRUE}
+# Set directory
+setwd("~/data-viz/r")
+
+# Load packages
+if (!require(plyr)) install.packages("plyr")
+        library(plyr)
+if (!require(ggplot2)) install.packages("ggplot2")
+        library(ggplot2)
+```
+
+## Read Data
+After setting up the R environment, I load the 2 data sets downloaded from the provided website.
+```{r read data, cache=TRUE}
+# Read data
+lgas <- read.csv("lgas.csv")
+fac <- read.csv("Health_Mopup_and_Baseline_NMIS_Facility.csv")
+```
+
+## Merge Data
+Next, as requested by the assignment instructions, I used the merge function to combine the 2 data sets using the shared unique identifier for local govenrment areas (unique_lga).
+```{r merge data, cache=TRUE}
+# Combine data sets into single data.frame
+df <- merge(lgas, fac, by = "unique_lga")
+```
+
+## Keep Southern zone Data
+After that, I dropped non-Southern zone data by subsetting the data using logical expressions. I also write the data out as "southern_facilities_with_meta_data.csv".
+```{r keep data, cache=TRUE}
+# Keep only data in the Southern zone
+df <- df[df$zone == 'Southeast' | df$zone == 'South-South' | df$zone == 'Southwest',]
+write.csv(df, "southern_facilities_with_meta_data.csv")
+```
+
+## Aggregate by State
+Next, as required by the instructions, I use the aggregate function to aggregate 2 variables (number of nurses and number of doctors) at the state level. I do this using the sum function as an argument to the aggregate function. I also aggregate 2 other variables (population size and area) as they will be neede for further data manipulation. I named this data.frame df2 instead of df so that the original data.frame produced would not be altered.
+```{r aggregate by state, cache=TRUE}
+# Aggregate data by state
+df2 <- aggregate(cbind(num_nurses_fulltime, num_doctors_fulltime, pop_2006, area_sq_km) ~ state, df, sum, na.rm = TRUE)
+```
+
+## Create Variables
+After that, I create 4 new variables as required by the assignment guidelines. I do so by using the tranform function that calls various columns of the data set.
+```{r create new variables, cache=TRUE}
+# Create 4 new variables
+df2 <- transform(df2, per_capita_nurses = num_nurses_fulltime/pop_2006)
+df2 <- transform(df2, per_area_nurses = num_nurses_fulltime/area_sq_km)
+df2 <- transform(df2, per_capita_doctors = num_doctors_fulltime/pop_2006)
+df2 <- transform(df2, per_area_doctors = num_doctors_fulltime/area_sq_km)
+```
+
+## Sort Variables
+Immediately after, I sort the variables of each state in decreasing order of population using the arrange function. I also write this second data set out as "healtcare_workers_by_state.csv"
+```{r sort, cache=TRUE}
+# Sort in descending order of population
+df2 <- arrange(df2, desc(pop_2006))
+write.csv(df2, "healtcare_workers_by_state.csv")
+```
+
+## Visualize
+Finally, I present the data in 2 different forms. First, I present the sorted data set from above in its tabular form. The data is split into 4 datas for better viewing. Second, I visualize some of the variables in graphical form.
+```{r visualize, cache=TRUE, fig.width=15}
+# Visualize
+# Tabular
+df2[,c(1,4:5)]
+df2[,c(1,2:3)]
+df2[,c(1,6:7)]
+df2[,c(1,8:9)]
+# Absolute variables
+ggplot(data = df2, aes(x = state)) +
+        geom_point(data = df2, aes(y = num_nurses_fulltime), colour = 'blue', size = 3) +
+        geom_point(data = df2, aes(y = num_doctors_fulltime), colour = 'red', size = 3) +
+        ylab("Number of Health Care Workers") +
+        ggtitle("Plot of Total Number of Nurses (blue) and Doctors (red) by Southern Nigerian States")
+        
+# Relative variables (per population)       
+ggplot(data = df2, aes(x = state)) +        
+        geom_point(data = df2, aes(y = per_capita_nurses), colour = 'blue', size = 3) + 
+        geom_point(data = df2, aes(y = per_capita_doctors), colour = 'red', size = 3) +
+        ylab("Health Care Workers Per Capita") +
+        ggtitle("Plot of Number of Nurses (blue) and Doctors (red) Per Capita by Southern Nigerian States")
+
+# Relative variables (per area)       
+ggplot(data = df2, aes(x = state)) +        
+        geom_point(data = df2, aes(y = per_area_nurses), colour = 'blue', size = 3) + 
+        geom_point(data = df2, aes(y = per_area_doctors), colour = 'red', size = 3) +
+        ylab("Health Care Workers Per Unit Area (Square km)") +
+        ggtitle("Plot of Number of Nurses (blue) and Doctors (red) Per Unit Area (Square km) by Southern Nigerian States")
+```
+
+## End
+The assignment has come to an end. Thank you for your attention.
